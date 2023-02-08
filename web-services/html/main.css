@@ -1,0 +1,18 @@
+body {
+    background-color: lightyellow;
+    font-size: 18px;
+}
+
+h1 {
+    border: thin solid darkred;
+    background-color: #eee;
+    padding: 10px;
+}
+
+p {
+    font-size: 16px;
+}
+
+p.larger {
+    font-size: 24px;
+}

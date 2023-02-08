@@ -1,5 +1,7 @@
 """ner.py
+
 Run spaCy NER over an input string and insert XML tags for each entity.
+
 """
 
 import io
@@ -7,28 +9,34 @@ import spacy
 
 nlp = spacy.load("en_core_web_sm")
 
+class SpacyDocument:
 
-def get_entities(text: str) -> list:
-    doc = nlp(text)
-    entities = []
-    for e in doc.ents:
-        entities.append((e.start_char, e.end_char, e.label_, e.text))
-    return entities
+    def __init__(self, text: str):
+        self.text = text
+        self.doc = nlp(text)
 
+    def get_tokens(self):
+        return [token.lemma_ for token in self.doc]
 
-def get_entities_with_markup(text: str) -> str:
-    entities = nlp(text).ents
-    starts = {e.start_char: e.label_ for e in entities}
-    ends = {e.end_char: True for e in entities}
-    buffer = io.StringIO()
-    for p, char in enumerate(text):
-        if p in ends:
-            buffer.write('</entity>')
-        if p in starts:
-            buffer.write('<entity class="%s">' % starts[p])
-        buffer.write(char)
-    markup = buffer.getvalue()
-    return '<markup>%s</markup>' % markup
+    def get_entities(self):
+        entities = []
+        for e in self.doc.ents:
+            entities.append((e.start_char, e.end_char, e.label_, e.text))
+        return entities
+
+    def get_entities_with_markup(self):
+        entities = self.doc.ents
+        starts = {e.start_char: e.label_ for e in entities}
+        ends = {e.end_char: True for e in entities}
+        buffer = io.StringIO()
+        for p, char in enumerate(self.text):
+            if p in ends:
+                buffer.write('</entity>')
+            if p in starts:
+                buffer.write('<entity class="%s">' % starts[p])
+            buffer.write(char)
+        markup = buffer.getvalue()
+        return '<markup>%s</markup>' % markup
 
 
 if __name__ == '__main__':
@@ -41,6 +49,8 @@ if __name__ == '__main__':
         "worth talking to,” said Thrun, in an interview with Recode earlier "
         "this week.")
 
-    for entity in get_entities(example):
+    doc = SpacyDocument(example)
+    print(doc.get_tokens())
+    for entity in doc.get_entities():
         print(entity)
-    print(get_entities_with_markup(example))
+    print(doc.get_entities_with_markup())
