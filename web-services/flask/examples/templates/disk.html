@@ -1,0 +1,39 @@
+<html>
+
+  <body>
+
+    <h3>Directory access</h3>
+    <table cellpadding="10" cellspacing="0" border="1">
+    {% for directory in directories %}
+    <tr>
+    	<td>{{ directory}}</td>
+    	<td>{{ directory_action(directory)}}</td>
+    </tr>
+    {% endfor %}
+	</table>
+
+	<h3>Reading files</h3>
+    <table cellpadding="10" cellspacing="0" border="1">
+    {% for fname in infiles %}
+    <tr valign="top">
+    	<td>{{ fname }}</td>
+    	<td><pre>{{ infile_action(fname) }}</pre></td>
+    </tr>
+    {% endfor %}
+	</table>
+
+	<h3>Writing files</h3>
+    <table cellpadding="10" cellspacing="0" border="1">
+    {% for fname in outfiles %}
+    <tr valign="top">
+    	<td>{{ fname }}</td>
+    	<td>{{ outfile_action(fname) }}</td>
+    </tr>
+    {% endfor %}
+	</table>
+
+
+
+  </body>
+
+</html>

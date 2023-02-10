@@ -1,0 +1,19 @@
+
+<h2>Images?</h1>
+
+<p>Does an image exist according to Python and according to Flask image serving?</p>
+
+<table cellpadding="10" cellspacing="0" border="1" valign="top">
+	<tr>
+		<td>&nbsp;</td>
+		<td>python</td>
+		<td>flask server</td>
+	</tr>
+    {% for image in images %}
+    <tr valign="top">
+        <td>{{ image }}</td>
+        <td>{{ image_action(image) }}</td>
+        <td><img src="{{image}}" width="175" height="50"></td>
+    </tr>
+    {% endfor %}
+</table>

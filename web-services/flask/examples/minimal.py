@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask
 
 # This tells the application that it is running from where this script is
 # located. This is all you need for simple web services.

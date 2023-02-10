@@ -21,7 +21,7 @@ if minimum_age != 0 or maximum_age != 100:
 if gender in ('male', 'female'):
     df = df.loc[df['Sex'] == gender]
 if survived != 'no selection':
-    df = df.loc[df['Survived'] == 1] if survived == 'yes' else df.loc[df['Survived']]
+    df = df.loc[df['Survived'] == 1] if survived == 'yes' else df.loc[df['Survived'] == 0]
 if pclass != 'no selection':
     mappings = {'first': 1, 'second': 2, 'third': 3}
     df = df.loc[df['Pclass'] == mappings[pclass]]

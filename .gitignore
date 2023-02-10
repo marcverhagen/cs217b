@@ -2,4 +2,6 @@
 *pyc
 .DS_Store
 .venv
+venv
 .idea
+web-services/flask/examples/images/client-server*.png
