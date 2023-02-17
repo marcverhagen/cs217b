@@ -5,14 +5,14 @@ app = Flask(__name__)
 
 @app.get("/")
 def main():
-    return render_template('disk.html',
+    return render_template(
+        'disk.html',
         directories=('/', '/Users/marc', '/Users/marc/Desktop'),
         infiles=('/private/etc/profile', 'input/message.json'),
         outfiles=("/Users/marc/Desktop/tmp.txt", "/tmp.txt"),
         directory_action=list_directory,
         infile_action=read_file,
         outfile_action=write_file)
-    return html.getvalue()
 
 def list_directory(directory):
     return list(sorted(os.listdir(directory)))[:5]

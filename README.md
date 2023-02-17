@@ -7,16 +7,13 @@ Code examples and assignments for CS217B.
 Requirements if you want to run all code in here:
 
 ```bash
+$ pip install --upgrade pip
+$ pip install jupyter
 $ pip install spacy
 $ python -m spacy download en_core_web_sm
 $ pip install flask
 $ pip install flask-restful
+$ pip install flask-sqlalchemy
 $ pip install streamlit
 $ pip install graphviz
-```
-
-Or you can just do:
-
-```bash
-$ pip install -r requirements.txt
 ```

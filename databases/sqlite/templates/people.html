@@ -1,0 +1,13 @@
+<html>
+  <body>
+    <h1>All database rows</h1>
+    <table cellpadding=5 cellspacing=0 border=1>
+      {% for person in people %}
+      <tr>
+	<td>{{ person[0] }}</td>
+	<td>{{ person[1] }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+  </body>
+</html>
