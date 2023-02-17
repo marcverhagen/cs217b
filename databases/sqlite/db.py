@@ -1,9 +1,8 @@
-import sqlite3
+import sys, sqlite3
 
-CREATE_TABLE = "CREATE TABLE people (name TEXT PRIMARY KEY, food TEXT)"
-SELECT_WHERE = "SELECT * FROM people WHERE name=?"
-SELECT = "SELECT * FROM people"
-INSERT = "INSERT INTO people VALUES (?, ?)"
+SQL_CREATE = "CREATE TABLE people (name TEXT PRIMARY KEY, food TEXT)"
+SQL_SELECT = "SELECT * FROM people"
+SQL_INSERT = "INSERT INTO people VALUES (?, ?)"
 
 
 class DatabaseConnection(object):
@@ -13,18 +12,18 @@ class DatabaseConnection(object):
 
     def create_schema(self):
         try:
-            self.connection.execute(CREATE_TABLE)
+            self.connection.execute(SQL_CREATE)
         except sqlite3.OperationalError:
             print("Warning: 'people' table was already created, ignoring...")
 
     def get(self, name=None):
-        cursor = (self.connection.execute(SELECT_WHERE, (name,))
-                  if name is not None else self.connection.execute(SELECT))
+        cursor = (self.connection.execute(f'{SQL_SELECT} WHERE name="{name}"')
+                  if name is not None else self.connection.execute(SQL_SELECT))
         return cursor.fetchall()
 
     def add(self, name, food):
         try:
-            self.connection.execute(INSERT, (name, food))
+            self.connection.execute(SQL_INSERT, (name, food))
             self.connection.commit()
         except sqlite3.IntegrityError:
             print("Warning: '%s' is already in the database, ignoring..." % name)
@@ -32,7 +31,8 @@ class DatabaseConnection(object):
 
 
 if __name__ == '__main__':
-    connection = DatabaseConnection('tmp.sqlite')
+    dbname = sys.argv[1] if len(sys.argv) > 1 else 'tmp'
+    connection = DatabaseConnection(f'{dbname}.sqlite')
     connection.create_schema()
     connection.add('jane', 'paella')
     connection.add('john', 'wonton')

@@ -17,23 +17,23 @@ class User(db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
 
     def __repr__(self):
-        return f"User('{self.username}', '{self.email}')"
+        return f"User(id={self.id} username={self.username} email={self.email})"
 
 
 with app.app_context():
     db.create_all()
 
 
-@app.route('/')
+@app.get('/')
 def index():
     return f'{User.query.all()}\n'
 
-@app.route('/<string:name>')
+@app.get('/<string:name>')
 def get_user(name):
     user = User.query.filter_by(username=name).first()
     return f'{user}\n'
 
-@app.route('/<string:name>/<string:email>', methods=['POST'])
+@app.post('/<string:name>/<string:email>')
 def add_user(name, email):
     user = User(username=name, email=email)
     db.session.add(user)

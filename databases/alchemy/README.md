@@ -10,7 +10,7 @@ $ pip install Flask
 $ pip install Flask-SQLAlchemy
 ```
 
-The blog examples below are partially based on [https://flask-sqlalchemy.palletsprojects.com/en/2.x/quickstart/#a-minimal-application](https://flask-sqlalchemy.palletsprojects.com/en/2.x/quickstart/#a-minimal-application), but mostly on tutorials from Corey Shafer's channel on Youtube at [https://www.youtube.com/c/Coreyms/videos](https://www.youtube.com/c/Coreyms/videos), which has excellent tutorials on Flask and other Python topics. Search for "Flask" or "Full-Featured Web App".
+The blog examples below are partially based on [https://flask-sqlalchemy.palletsprojects.com/en/2.x/quickstart/#a-minimal-application](https://flask-sqlalchemy.palletsprojects.com/en/2.x/quickstart/#a-minimal-application), but mostly on tutorials from [Corey Shafer's channel](https://www.youtube.com/c/Coreyms/videos) on Youtube, which has excellent tutorials on Flask and other Python topics. In particular, check out [Part 4](https://www.youtube.com/watch?v=cYWiDiIUxQc) and [Part 5](https://www.youtube.com/watch?v=44PvX0Yv368) of the Flask series. However, these use older version of Flask and some things just don't work as they used to anymore.
 
 
 ## First blog: users, but no posts
@@ -35,6 +35,10 @@ class User(db.Model):
 
     def __repr__(self):
         return '<User %r %r>' % (self.username, self.email)
+
+
+with app.app_context():
+    db.create_all()
 
 
 @app.route('/')
@@ -68,7 +72,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 ```
 
-Handing in the name of the current module makes sure that the application can find all templates and static files, but in this application we are really not using those static files. The first configuration setting is for security, use the `secrets` module to generate a key and paste it in.
+Handing in the name of the current module makes sure that the application can find all templates and static files, but in this very simple application we are actually not using those static files. The first configuration setting is for security, use the `secrets` module to generate a key and paste it in.
 
 ```python
 >>> import secrets
@@ -76,7 +80,7 @@ Handing in the name of the current module makes sure that the application can fi
 'fc3bb2a43ff1103895a4ee315ee27740'
 ```
 
-The second configuration setting defines a local path for the database. The prefix `sqlite:` specifies we use an SQLite database and the three slashes indicate a relative path so `db_users.sqlite` is assumed to be in the working directory, but at this point it does not exist yet. The third setting is added because without it you get a depreciation warning, set it to True if you want to use the Flask-SQLAlchemy event system, which is unlikely. The last line creates a database object, but still does not create anything on disk.
+The second configuration setting defines a local path for the database. The prefix `sqlite:` specifies we use an SQLite database and the three slashes indicate a relative path so `db_users.sqlite` is assumed to be in a directory named `instances`, but at this point the database does not exist yet. The third setting is added because without it you get a depreciation warning, set it to True if you want to use the Flask-SQLAlchemy event system, which is unlikely. The last line creates a database object, but still does not create anything on disk.
 
 When you print the `db` variable you will see something like:
 

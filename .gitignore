@@ -7,5 +7,5 @@ venv
 python/.ipynb_checkpoints/
 web-services/flask/examples/images/client-server*.png
 databases/sqlite/*.sqlite
-databases/alchemy/*.sqlite
+databases/alchemy/instance
 
