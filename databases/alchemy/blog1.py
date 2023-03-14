@@ -20,8 +20,11 @@ class User(db.Model):
         return f"User(id={self.id} username={self.username} email={self.email})"
 
 
-with app.app_context():
-    db.create_all()
+def create_all():
+    with app.app_context():
+        db.create_all()
+
+create_all()
 
 
 @app.get('/')
@@ -48,6 +51,7 @@ if __name__ == '__main__':
 """
 
 curl 127.0.0.1:5000
+curl 127.0.0.1:5000/admin
 curl 127.0.0.1:5000/admin/admin@example.com -X POST
 curl 127.0.0.1:5000/guest/guest@example.com -X POST
 

@@ -10,7 +10,7 @@ There are two parts to this assignment:
 
 You can do this using your previous code for the Flask web server or the example solution that I will have handed out, but if you want you can do this with Streamlit. The instructions below are focused on using a Flask server.
 
-The Flask webserver should have three pages: one that presents a form that you can use to send a request to spaCy, one that shows the result, and one that list all results so far. The first page is a starter page that could look as follows.
+The Flask webserver should have three pages: one that presents a form that you can use to send a request to spaCy, one that shows the result, and one that lists all results so far. The first page is a starter page that could look as follows.
 
 <img src="images/main-page.png" width="600">
 
@@ -25,7 +25,7 @@ The page with results so far is a simple table with counts for each entity ever 
 
 All the user should have to do to access the website is to point a browser at [http://127.0.0.1:5000](http://127.0.0.1:5000).
 
-To access spaCy you can again use the code in `ner.py`. To get the entities out of the markkup string you should use Python library for XML parsing. One that is relatively easy to use is BeautifulSoup ([https://pypi.org/project/beautifulsoup4/](https://pypi.org/project/beautifulsoup4/).
+To access spaCy you can again use the code in `ner.py`. To get the entities out of the markkup string you should use a Python library for XML parsing. One that is relatively easy to use is BeautifulSoup ([https://pypi.org/project/beautifulsoup4/](https://pypi.org/project/beautifulsoup4/).
 
 
 ## Dockerizing the application

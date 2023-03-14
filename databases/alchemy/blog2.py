@@ -20,6 +20,10 @@ class User(db.Model):
     def __repr__(self):
         return f"User(id={self.id} username={self.username} email={self.email} posts={self.posts})"
 
+    def pp(self):
+        posts = '\n    '.join([str(p) for p in self.posts])
+        return f"User(id={self.id} username={self.username} email={self.email})\n    {posts})"
+
 
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -31,8 +35,11 @@ class Post(db.Model):
         return f"Post(title={self.title} content={self.content}')"
 
 
-with app.app_context():
-    db.create_all()
+def create_all():
+    with app.app_context():
+        db.create_all()
+
+create_all()
 
 
 @app.get('/')
@@ -42,7 +49,7 @@ def index():
 @app.get('/<string:name>')
 def get_user(name):
     user = User.query.filter_by(username=name).first()
-    return f'{user}\n'
+    return f'{user.pp()}\n'
 
 @app.post('/<string:name>/<string:email>')
 def add_user(name, email):
@@ -55,9 +62,12 @@ def add_user(name, email):
 def add_post(name, post_title, post_content):
     user = User.query.filter_by(username=name).first()
     post = Post(title=post_title, content=post_content, user_id=user.id)
+    print('>>>', post.author)
     db.session.add(post)
+    print('>>>', post.author)
     db.session.commit()
-    return f'{user}'
+    print('>>>', post.author)
+    return f'{user.pp()}\n'
 
 
 if __name__ == '__main__':
@@ -66,7 +76,10 @@ if __name__ == '__main__':
 
 """
 
+curl http://127.0.0.1:5000/
+curl http://127.0.0.1:5000/john
 curl -X POST http://127.0.0.1:5000/john/john@example.com
 curl -X POST http://127.0.0.1:5000/john/hello/world
+curl -X POST http://127.0.0.1:5000/john/byebye/country
 
 """

@@ -15,7 +15,7 @@ The blog examples below are partially based on [https://flask-sqlalchemy.pallets
 
 ## First blog: users, but no posts
 
-We have a script named `blog_user.py` that defines the ultra-simplistic beginnings of a blog application with just a list of users and a database for it. We can get a list of users, get the information of one user, or add a user, that's all. To focus at the basics of how to tie in a database there is no attempt to produce any nice html, we just dump out print strings.
+There is a script named `blog`.py` that defines the ultra-simplistic beginnings of a blog application with just a list of users and a database for it. We can get a list of users, get the information of one user, or add a user, that's all. To focus at the basics of how to tie in a database there is no attempt to produce any nice html, we just dump out print strings.
 
  ```python
 from flask import Flask
@@ -27,7 +27,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db_users.sqlite'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
-
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
@@ -36,10 +35,11 @@ class User(db.Model):
     def __repr__(self):
         return '<User %r %r>' % (self.username, self.email)
 
+def create_all():
+    with app.app_context():
+        db.create_all()
 
-with app.app_context():
-    db.create_all()
-
+create_all()
 
 @app.route('/')
 def index():
@@ -56,7 +56,6 @@ def add_user(name, email):
     db.session.add(user)
     db.session.commit()
     return f'{user}\n'
-
 
 if __name__ == '__main__':
     app.run(debug=True)
@@ -109,8 +108,8 @@ This connects the `User` class to a table in `db_users.sqlite` named `user`. The
 At this moment we still do not have a database, all we have is the definition of a Python class that models a database table. From the Python prompt, you can load your database object and then initialize the actual SQLite database:
 
 ```python
->>> from blog_users import db
->>> db.create_all()
+>>> from blog1 import create_all()
+>>> create_all()
 ```
 
 At this point there is a database on disk and you can access it from a terminal with the `sqlite3 db_users.sqlite` command and then print the schema.
@@ -129,8 +128,10 @@ CREATE TABLE user (
 
 The database is still empty. You can add records from the SQLite prompt but you will typically do that in Python, first by creating `User` objects and then putting them into the database.
 
+NOTE: THIS DOES NOT SEEM TO WORK ANYMORE
+
 ```python
->>> from blog_users import User
+>>> from blog1 import User
 >>> admin = User(username='admin', email='admin@example.com')
 >>> guest = User(username='guest', email='guest@example.com')
 >>> admin.id, admin.username, admin.email
