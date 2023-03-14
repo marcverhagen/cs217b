@@ -1,0 +1,72 @@
+/* Some of these styles are adapted from displacy.
+ *
+ * These are the categories from the regular en_core_web_sm model:
+ *
+ * CARDINAL, DATE, EVENT, FAC, GPE, LANGUAGE, LAW, LOC, MONEY, NORP, ORDINAL,
+ * ORG, PERCENT, PERSON, PRODUCT, QUANTITY, TIME, WORK_OF_ART
+ *
+ */
+
+div {
+    border: thin solid black;
+    padding: 8px;
+}
+
+markup {
+    line-height: 2.0;
+    direction: ltr
+}
+
+entity {
+    background: lightblue;
+    padding: 0.15em 0.4em;
+    margin: 0 0.25em;
+    line-height: 1;
+    border-radius: 0.35em;
+}
+
+entity::after {
+    content: " " attr(class);
+    font-weight: bold;
+}
+
+/*
+entity[class="TIME"]::after { content: " TIME"; font-weight: bold; }
+entity[class="DATE"]::after { content: " DATE"; font-weight: bold; }
+*/
+
+entity.PERSON { background: #aa9cfc; }
+
+entity.ORG { background: #7aecec; }
+
+entity.GPE { background: #feca74; }
+entity.LOC { background: #ff9561; }
+
+entity.FAC { background: #ddd; }
+entity.NORP { background: #c887fb; }
+
+entity.EVENT { background: #ffeb80; }
+
+entity.DATE { background: #bfe1d9; }
+entity.TIME { background: #bfe1d9; }
+
+entity.CARDINAL { background: #e4e7d2; }
+entity.ORDINAL { background: #e4e7d2; }
+entity.QUANTITY { background: #e4e7d2; }
+entity.PERCENT { background: #e4e7d2; }
+entity.MONEY { background: #e4e7d2; }
+
+entity.LANGUAGE { background: #ff8197; }
+entity.PRODUCT { background: #bfeeb7; }
+entity.WORK_OF_ART { background: #f0d0ff; }
+/* entity.LAW { background: #; } */
+
+
+span.category {
+    font-size: 0.8em;
+    font-weight: bold;
+    line-height: 1;
+    border-radius: 0.35em;
+    vertical-align: middle;
+    margin-left: 0.5rem;
+}
