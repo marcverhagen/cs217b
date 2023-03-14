@@ -1,7 +1,3 @@
-<head>
-<style>img { border: thin solid lightgrey; }</style>
-</head>
-
 # Assignment 2 - Adding a Database and Dockerize
 
 There are two parts to this assignment:
