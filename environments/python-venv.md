@@ -19,7 +19,7 @@ $ python3 -m venv /Applications/environments/packaging
 
 At this point your environment is created and the top-level looks as follows.
 
-<img src="venv-directory.png" alt="venv-directory" style="zoom:40%;" />
+<img src="venv-directory.png" alt="venv-directory" width="300" />
 
 You can see the symbolic links, the space for the site packages, some scripts, and a configuration file. The `site-packages` has some internal structure, mostly for pip and some setup tools.
 
