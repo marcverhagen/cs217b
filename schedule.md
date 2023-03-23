@@ -87,7 +87,7 @@
 <tr>
   <td>Mar 3</td>
   <td>Unix</td>
-  <td>assignment 1 due, assignment 2</td>
+  <td>assignment 1 due</td>
 </tr>
 
 <tr>
@@ -104,43 +104,43 @@
 
 <tr>
   <td>Mar 14</td>
-  <td>Assignment 1, Docker</td>
-  <td>assignment 2</td>
+  <td>-</td>
+  <td>(snow day)</td>
 </tr>
 
 <tr>
   <td>Mar 17</td>
   <td>Docker</td>
-  <td></td>
+  <td>assignment 2</td>
 </tr>
 
 <tr>
   <td>Mar 21</td>
-  <td>Packaging, CI/CD</td>
+  <td>Docker</td>
   <td></td>
 </tr>
 
 <tr>
   <td>Mar 24</td>
-  <td>CLAMS</td>
-  <td>start final project</td>
+  <td>Git, Packaging, CI/CD</td>
+  <td></td>
 </tr>
 
 <tr>
   <td>Mar 28</td>
   <td>CLAMS</td>
-  <td>assignment 2 due</td>
+  <td>start final project</td>
 </tr>
 
 <tr>
   <td>Mar 31</td>
-  <td>Python topics</td>
-  <td></td>
+  <td>CLAMS</td>
+  <td>assignment 2 due</td>
 </tr>
 
 <tr>
   <td>Apr 4</td>
-  <td>Project workshops</td>
+  <td>Python topics</td>
   <td></td>
 </tr>
 
@@ -158,13 +158,13 @@
 
 <tr>
   <td>Apr 14</td>
-  <td>MapReduce and Hadoop</td>
+  <td>Project workshops</td>
   <td></td>
 </tr>
 
 <tr>
   <td>Apr 18</td>
-  <td>Unicode</td>
+  <td>Document databases, MapReduce and Hadoop</td>
   <td></td>
 </tr>
 
@@ -193,3 +193,4 @@
 </tr>
 
 </table>
+
