@@ -1,19 +1,20 @@
-# cs217b
+# COSI 217b - NLP Systems
 
-Code examples and assignments for CS217B.
+Code examples for CS217B.
 
+- Mini tutorial on [virtual environments](environments/python-venv.md)
 - [Flask examples](web-services/flask/README.md)
+- [Flask examples with a database backend](databases/alchemy/README.md)
+- [Python code examples](python/examples)
+- [Notes on Raymond Hettinger's pep8 talk](python/pep8-and-beyond/)
 
 Requirements if you want to run all code in here:
 
 ```bash
-$ pip install --upgrade pip
 $ pip install jupyter
 $ pip install spacy
 $ python -m spacy download en_core_web_sm
-$ pip install flask
-$ pip install flask-restful
-$ pip install flask-sqlalchemy
-$ pip install streamlit
-$ pip install graphviz
+$ pip install flask flask-restful flask-sqlalchemy
+$ pip install streamlit graphviz
+$ pip install mypy
 ```
