@@ -19,6 +19,7 @@ def example3():
     print('>>> example3()')
     try:
         fh = open('errors.py')
+        raise Exception
         print(f'Line 1 of errors.py: {fh.readlines()[0]}')
     except ZeroDivisionError as e:
         print('Ignored zero division error')
@@ -31,6 +32,6 @@ def example3():
 
 if __name__ == '__main__':
 
-    example1()
-    example2()
+    #example1()
+    #example2()
     example3()

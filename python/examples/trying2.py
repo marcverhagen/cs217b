@@ -13,17 +13,20 @@ def divide(x, y):
     try:
         result = x / y
     except ZeroDivisionError:
+        # handling errors
         print("division by zero!")
     else:
+        # if there are no errors
         print("result is", result)
     finally:
+        # always do this
         print("executing finally clause")
 
 def example4():
     print('\n>>> example4()')
     try:
         fh = open('errors.py')
-        #raise Exception
+        raise Exception
         1/0
     except ZeroDivisionError as e:
         print(type(e).__name__, e)
@@ -35,5 +38,6 @@ def example4():
 
 if __name__ == '__main__':
 
+    #example3()
     example4()
 

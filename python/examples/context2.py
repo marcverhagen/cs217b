@@ -25,6 +25,6 @@ def example6():
 
 if __name__ == '__main__':
 
-    example4()
-    example5()
+    #example4()
+    #example5()
     example6()

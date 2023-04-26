@@ -1,0 +1,6 @@
+{"name": "jane doe", "age": 26, "interests": ["rap music"]}
+{"name": "judy doe", "age": 27, "interests": ["rap", "music"]}
+{"name": "june doe", "age": 65, "hobbies": ["forestry"]}
+{"name": "jill doe", "age": 28, "hobbies": null}
+{"name": "jill doe", "age": 29, "hobbies": 20}
+{"name": {"first": "june", "last": "doe"}, "age": 65}
