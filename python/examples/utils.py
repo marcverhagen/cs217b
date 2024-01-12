@@ -1,5 +1,5 @@
 
-DEBUG = False
+DEBUG = True
 
 # Context managers have in common that they set up some resource and then close it
 # down after all work with the resource is done, even after something went wrong.

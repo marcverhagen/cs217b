@@ -1,4 +1,5 @@
 
-from food import dinner
+from food import dinner, eat
 
 dinner()
+eat('paella')
