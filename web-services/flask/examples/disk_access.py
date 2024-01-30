@@ -33,6 +33,7 @@ def write_file(fname):
 @app.get('/image')
 def image():
     images = [
+        "/Users/marc/Documents/brandeis/courses/cs217/code/cs217b/web-services/flask/examples/images/bob-bert.png",
         "/Users/marc/Documents/git/courses/cs217b/web-services/flask/examples/images/bob-bert.png",
         "images/bob-bert.png",
         "/images/bob-bert.png",
