@@ -6,20 +6,17 @@ app = Flask(__name__)
 def index():
     return ('<html>\n'
             '  <body>\n'
-            '    <form action="/multiply/3" method="post">\n'
-            '      <input type="text" name="number /">\n'
+            '    <form action="/multiply" method="post">\n'
+            '      <input type="text" name="number" />\n'
             '      <input type="submit" value="Submit">\n'
             '    </form>\n'
             '  </body>\n'
             '</html>\n')
 
-@app.route('/multiply/<int:num>', methods=['POST'])
-def multiply(num):
-    # Note how this gets the multiplicand and multiplier from the resource path
-    # and the attached JSON respectively, this is probably not how you would do
-    # this in real life.
-    some_json = request.get_json()
-    result = num * some_json['number']
+@app.route('/multiply', methods=['POST'])
+def multiply():
+    num = request.form.get('number', type=int)
+    result = num * 10
     return render_template('result.html', result=result)
 
 if __name__ == '__main__':
