@@ -6,7 +6,7 @@ There old assignment had three parts:
 2. Create a Flask webserver to access spacy NER
 3. Create a Streamlit application to access spacy
 
-Due to a problem between my head and the keyboard, the solution is now the sample code to work from. You may totally ignore the sample code, but since it does do many of the things you need, you may want to take large chunks from it.
+Due to a problem between my head and the keyboard, the example solution is now the sample code to start from. You may totally ignore the sample code, but since it does do many of the things you need, you may want to take chunks from it.
 
 The assignment is now reframed as follows:
 
@@ -49,20 +49,23 @@ $ curl http://127.0.0.1:8000/dep?pretty=true -H "Content-Type: application/json"
 
 The sample code implements a Flask webserver that provides two pages: one that presents a form that you can use to send a request to spaCy and one that shows the result.
 
-All the user should have to do to access the website is to point a browser at [http://127.0.0.1:5000](http://127.0.0.1:5000). After you send a request you should see something like this:
+All the user needs to do to access the website is to point a browser at [http://127.0.0.1:5000](http://127.0.0.1:5000). After you send a request you should see something like this for the named entity part:
 
-<img src="images/ner-result.png" width="600">
+> <img src="images/ner-result.png" width="600">
 
-If you want you can use the stylesheet in [main.css](main.css), which was adapted from the styles that spaCy uses for its displaCy visualization.
+For the new assignment you should also present the results of the dependency parse and for each sentence you should see something like:
 
-For the new assignment you should also present the results of the dependency parse.
+> <img src="images/dep-result.png" width="450">
 
 
 ### Streamlit
 
 The sample code implements a small Streamlit application that you can access at [http://localhost:8501/](http://localhost:8501/). It shows the result of spaCy NER in a table and a bar chart of word frequencies.
 
-You need to add some code that shows the result of the dependency parser in a table and some other form.
+You need to add some code that shows the result of the dependency parser for each sentence, both in a table and as a graph.
+
+> <img src="images/streamlit-result.png" width="700">
+
 
 The main goal here is to play around with Streamlit a bit.
 

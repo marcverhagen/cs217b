@@ -1,5 +1,9 @@
 # COSI 217b - NLP Systems
 
+Assignments:
+
+- [Assignment 1 - FastAPI, Flask and Streamlit](assignments/a1/README.md)
+
 Code examples for CS217B.
 
 - Mini tutorial on [virtual environments](environments/python-venv.md)
