@@ -1,34 +1,53 @@
 # Assignment 1 - Web Services
 
-There are three parts to this assignment:
+There old assignment had three parts:
 
 1. Create a RESTful API to access spaCy NER
 2. Create a Flask webserver to access spacy NER
 3. Create a Streamlit application to access spacy
 
+Due to a problem between my head and the keyboard, the solution is now the sample code to work from. You may totally ignore the sample code, but since it does do many of the things you need, you may want to take large chunks from it.
+
+The assignment is now reframed as follows:
+
+1. Create a RESTful API to access spaCy NER and spaCy dependency parsing
+2. Create a Flask webserver to access spacy NER  and spaCy dependency parsing
+3. Create a Streamlit application to access and spaCy dependency parsing
+
 
 ### RESTful API with FastAPI
 
-The API needs to respond to both a GET and a POST request at the same URL:
+The sample code responds to both a GET and a POST request at the same URL:
 
 ```bash
 $ curl http://127.0.0.1:8000
 $ curl http://127.0.0.1:8000 -H "Content-Type: application/json" -d@input.txt
 ```
 
-The GET request should return something informative about the service and the post request should return the result of processing, basically a list of entities with the start and end offset, the label and the text. In both cases what comes back should be JSON.
+The GET request was to return something informative about the service and the post request the result of processing, basically a list of entities with the start and end offset, the label and the text. In both cases what came back was JSON.
+
+For the new assignment we want to use three URLs:
+
+```bash
+$ curl http://127.0.0.1:8000
+$ curl http://127.0.0.1:8000/ner -H "Content-Type: application/json" -d@input.txt
+$ curl http://127.0.0.1:8000/dep -H "Content-Type: application/json" -d@input.txt
+```
+
+The first returns a short description, the second the named entities, and the third the dependencies.
 
 Your API should also accept a pretty parameter:
 
 ```bash
 $ curl http://127.0.0.1:8000?pretty=true
-$ curl http://127.0.0.1:8000?pretty=true -H "Content-Type: application/json" -d@input.json
+$ curl http://127.0.0.1:8000/ner?pretty=true -H "Content-Type: application/json" -d@input.json
+$ curl http://127.0.0.1:8000/dep?pretty=true -H "Content-Type: application/json" -d@input.json
 ```
 
 
 ### Flask webserver
 
-Create a Flask webserver that provides two pages: one that presents a form that you can use to send a request to spaCy and one that shows the result.
+The sample code implements a Flask webserver that provides two pages: one that presents a form that you can use to send a request to spaCy and one that shows the result.
 
 All the user should have to do to access the website is to point a browser at [http://127.0.0.1:5000](http://127.0.0.1:5000). After you send a request you should see something like this:
 
@@ -36,10 +55,14 @@ All the user should have to do to access the website is to point a browser at [h
 
 If you want you can use the stylesheet in [main.css](main.css), which was adapted from the styles that spaCy uses for its displaCy visualization.
 
+For the new assignment you should also present the results of the dependency parse.
+
 
 ### Streamlit
 
-Create a small Streamlit application that you can access at [http://localhost:8501/](http://localhost:8501/). It should show the result of spaCy processing in any way you see fit, but you should use at least two ways of visualizing the result, for example, you could show a simple table of all named entities and a bar chart of word frequencies.
+The sample code implements a small Streamlit application that you can access at [http://localhost:8501/](http://localhost:8501/). It shows the result of spaCy NER in a table and a bar chart of word frequencies.
+
+You need to add some code that shows the result of the dependency parser in a table and some other form.
 
 The main goal here is to play around with Streamlit a bit.
 
