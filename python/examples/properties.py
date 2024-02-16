@@ -5,7 +5,6 @@ Dealing with properties.
 """
 
 
-
 class Horse:
 
     """The least effort, good for simple code. Just access the property directly."""
@@ -51,7 +50,7 @@ class Cat:
 
     """Best way is to use properties. You can still use code in the methods for
     computation and validation, but you still use the same simple mechanism for
-    all access. You couldof course go directly to the _breed variable, but you
+    all access. You could of course go directly to the _breed variable, but you
     know you should not do that because the leading underscore indicates that
     _breed is supposed to be private."""
 

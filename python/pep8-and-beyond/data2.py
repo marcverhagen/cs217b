@@ -6,7 +6,7 @@ Using a named tuple instantly makes the code from data1.py more readable.
 
 from collections import namedtuple
 
-Color = namedtuple('Color', ['heu', 'saturation', 'luminosity'])
+Color = namedtuple('Color', ['hue', 'saturation', 'luminosity'])
 
 p = Color(170, 0.1, 0.6)
 
