@@ -31,6 +31,7 @@ class DatabaseConnection(object):
 
 
 if __name__ == '__main__':
+
     dbname = sys.argv[1] if len(sys.argv) > 1 else 'tmp'
     connection = DatabaseConnection(f'{dbname}.sqlite')
     connection.create_schema()
