@@ -25,7 +25,7 @@ You should hand in a link to the same Git repository as you used for assignment 
 
 Make the `assignment2` directory self-contained, that is, everything needed to run your code should be in there, if you reuse code from `assignment1` than it should be copied over.
 
-You should use Flask SQLAlchemy to access an SQLite database, which means that you will be working with an Object Relational Model.
+You should use Flask SQLAlchemy to access an SQLite database, which means that you will be working with an Object Relational Mapper.
 
 
 ### How will this be graded?

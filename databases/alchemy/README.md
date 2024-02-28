@@ -219,7 +219,7 @@ For the User table we define another variable named `posts`.
 posts = db.relationship('Post', backref='author', lazy=True)
 ```
 
-This is NOT a column and it will not be in the database. But it does add a relation between a user and their posts. In the user model 'Post' references the name of the model class. The actual value of `posts` will be the list of posts for a user, that is, a list of instances of Post. The relation also adds a back reference from the `Post` instance to the user, that is, when you have a `Post` instance you can access the `author` variable and get the user. But there is no `author` column in the posts table. With `lazy=True` all we say is that the information will only be extracted if you ask for it (when you first access the variable).
+This is NOT a column and it will not be in the database. But it does add a relation between a user and their posts. In the user model, 'Post' references the name of the model class. The actual value of `posts` will be the list of posts for a user, that is, a list of instances of Post. The relation also adds a back reference from the Post instance to the user, that is, when you have a Post instance you can access the `author` variable and get the user. But there is no `author` column in the posts table. With `lazy=True` all we say is that the information will only be extracted if you ask for it (when you first access the variable).
 
 On the posts side we have a foreign key column.
 
@@ -331,7 +331,7 @@ db = SQLAlchemy(app)
 from blog import routes
 ```
 
-Note that when you create the `db` variable you do not have defined any tables yet, that happens when importing the `routes` module, which imports the definition of the user table in the `model.User` class. Having the import at the bottom is somewhat funky, but it is the only way to avoid circular imports.
+Note that when you create the `db` variable you do not have defined any tables yet, that happens when importing the `routes` module, which imports the definition of the user table in the `model.User` class. Having the import at the bottom is somewhat funky, but if you put it with the other imports you will get circular imports. Also note that you are not doing that last import to make the name of the package available in the name space, instead, you are doing it for the side-effect of registering the routes on the application.
 
 Finally, all you need to do in the startup script `run.py` is to import the application and the database model and then create the database and start the application.
 
