@@ -3,19 +3,20 @@
 
 Flask SQLAlchemy is a Flask version of the SQLAlchemy Python toolkit [https://www.sqlalchemy.org/](https://www.sqlalchemy.org/). Rather than messing around directly with SQLite or another database you should strongly consider using SQLAlchemy. One advantage is that you can experiment with an SQLite database and then update to PostgreSQL without major code changes.
 
-The following pip commands install Flask, SQLAlchemy and Flask SQLAlchemy.
+The following pip command install Flask, SQLAlchemy and Flask SQLAlchemy.
 
 ```bash
-$ pip install Flask
-$ pip install Flask-SQLAlchemy
+$ pip install Flask==3.0.1
+$ pip install Flask-SQLAlchemy==3.1.1
 ```
 
 The blog examples below are partially based on [https://flask-sqlalchemy.palletsprojects.com/en/2.x/quickstart/#a-minimal-application](https://flask-sqlalchemy.palletsprojects.com/en/2.x/quickstart/#a-minimal-application), but mostly on tutorials from [Corey Shafer's channel](https://www.youtube.com/c/Coreyms/videos) on Youtube, which has excellent tutorials on Flask and other Python topics. In particular, check out [Part 4](https://www.youtube.com/watch?v=cYWiDiIUxQc) and [Part 5](https://www.youtube.com/watch?v=44PvX0Yv368) of the Flask series. However, these use older version of Flask and some things just don't work as they used to anymore.
 
+This turorial assumes some basic knowledge of Flask.
 
 ## First blog: users, but no posts
 
-There is a script named `blog`.py` that defines the ultra-simplistic beginnings of a blog application with just a list of users and a database for it. We can get a list of users, get the information of one user, or add a user, that's all. To focus at the basics of how to tie in a database there is no attempt to produce any nice html, we just dump out print strings.
+In the same directory as this readme file, there is a script named `blog1.py` that defines the ultra-simplistic beginnings of a blog application with just a list of users and a database for it. We can get a list of users, get the information of one user, or add a user, that's all. To focus at the basics of how to tie in a database there is no attempt to produce any nice html, we just dump out print strings.
 
  ```python
 from flask import Flask
@@ -35,22 +36,17 @@ class User(db.Model):
     def __repr__(self):
         return '<User %r %r>' % (self.username, self.email)
 
-def create_all():
-    with app.app_context():
-        db.create_all()
-
-create_all()
-
-@app.route('/')
+@app.get('/')
 def index():
-    return f'{User.query.all()}\n'
+    users = User.query.all()
+    return f'{users}\n'
 
-@app.route('/<string:name>')
+@app.get('/<string:name>')
 def get_user(name):
     user = User.query.filter_by(username=name).first()
     return f'{user}\n'
 
-@app.route('/<string:name>/<string:email>', methods=['POST'])
+@app.post('/<string:name>/<string:email>')
 def add_user(name, email):
     user = User(username=name, email=email)
     db.session.add(user)
@@ -58,10 +54,12 @@ def add_user(name, email):
     return f'{user}\n'
 
 if __name__ == '__main__':
+    with app.app_context():
+        db.create_all()
     app.run(debug=True)
  ```
 
-Let's look at this in batches. After the imports you create your Flask application, set up some database configurations and initialize an empty database.
+Let's look at this in bits and pieces. After the imports you create your Flask application, set up some database configurations and initialize an empty database.
 
 ```python
 app = Flask(__name__)
@@ -79,7 +77,7 @@ Handing in the name of the current module makes sure that the application can fi
 'fc3bb2a43ff1103895a4ee315ee27740'
 ```
 
-The second configuration setting defines a local path for the database. The prefix `sqlite:` specifies we use an SQLite database and the three slashes indicate a relative path so `db_users.sqlite` is assumed to be in a directory named `instances`, but at this point the database does not exist yet. The third setting is added because without it you get a depreciation warning, set it to True if you want to use the Flask-SQLAlchemy event system, which is unlikely. The last line creates a database object, but still does not create anything on disk.
+The second configuration setting defines a local path for the database. The prefix `sqlite:` specifies we use an SQLite database and the three slashes indicate a relative path so `db_users.sqlite` is assumed to be in a directory named `instances`, but at this point the database does not yet exist. The third setting is added because without it you get a depreciation warning, set it to True if you want to use the Flask-SQLAlchemy event system, which is unlikely. The last line creates a database object, but still does not create anything on disk.
 
 When you print the `db` variable you will see something like:
 
@@ -87,7 +85,7 @@ When you print the `db` variable you will see something like:
 <SQLAlchemy engine=sqlite:////Users/marc/Documents/flask/blog/db_users.sqlite>
 ```
 
-An instance of `Model` associates a user-defined Python class with a database table and you can use the instance to add, delete and update records in the database. Note that `Model` is a class that is stored on an `SQLAlchemy` instance.
+Next up is the definition of table classes. An instance of `Model` associates a user-defined Python class with a database table and you can use an instance of the class to interact with the database. Note that `Model` is a class that is stored on an `SQLAlchemy` instance.
 
 ```python
 class User(db.Model):
@@ -103,16 +101,20 @@ class User(db.Model):
 This connects the `User` class to a table in `db_users.sqlite` named `user`. There is a default mapping from class name to table name, converting names like `TableName` into `table_name`, you can use the `__tablename__` class attribute to override the default. As we will see later you can create instances of the class and insert them into the database, or retrieve records from the database as class instances, change the instance and then save the results to the database.
 
 
-### The view from the Python command line
+### Database creation
 
-At this moment we still do not have a database, all we have is the definition of a Python class that models a database table. From the Python prompt, you can load your database object and then initialize the actual SQLite database:
+At this moment we still do not have a database, all we have is the definition of a Python class that models a database table. When running the script from the command line the if statement at the end takes care of this:
 
 ```python
->>> from blog1 import create_all()
->>> create_all()
+if __name__ == '__main__':
+    with app.app_context():
+        db.create_all()
+    app.run(debug=True)
 ```
 
-At this point there is a database on disk and you can access it from a terminal with the `sqlite3 db_users.sqlite` command and then print the schema.
+The `db.create_all()` method creates the schema if they don't exist. This needs to be done before you start the application the first time. Note that creating the databse is done inside an application context. The fine points of this are not quite clear to me, what is clear that there is a lot of documentation out there where the context is not used, which used to work but not anymore.
+
+We now do have a database on disk and you can access it from a terminal with the `sqlite3 db_users.sqlite` command and then print the schema.
 
 ```sql
 sqlite> .schema
@@ -126,56 +128,13 @@ CREATE TABLE user (
 );
 ```
 
-The database is still empty. You can add records from the SQLite prompt but you will typically do that in Python, first by creating `User` objects and then putting them into the database.
 
-NOTE: THIS DOES NOT SEEM TO WORK ANYMORE
+### Database access and manippulation
 
-```python
->>> from blog1 import User
->>> admin = User(username='admin', email='admin@example.com')
->>> guest = User(username='guest', email='guest@example.com')
->>> admin.id, admin.username, admin.email
-(None, 'admin', 'admin@example.com')
->>> db.session.add(admin)
->>> db.session.add(guest)
->>> db.session.commit()
->>> admin.id, admin.username, admin.email
-(1, 'admin', 'admin@example.com')
-```
-
-There will be nothing in the `user` table until you do the commit. Note how there at first was no value for `admin.id`, this is because the database creates a unique primary key when you do the insert. After the commit, that value is also available on the `User` instance. It is simple to access the table in the database with the `User.query` object.
+The database is still empty. To add records you use the `/name/email` endpoint:
 
 ```python
->>> User.query.all()
-[<User 'admin' 'admin@example.com'>, <User 'guest' 'guest@example.com'>]
-```
-
-The `filter_by()` method is the equivalent of a select query with a where clause. Each element of the return set is an instance of the `User` class and acts like a regular python object.
-
-```python
->>> result = User.query.filter_by(username='admin').first()
->>> admin == result
-True
-```
-
-One thing to keep in mind is that `all()` returns a list, but `filter_by()` a list-like object. You can take the index on either of them, but you can use `first()` only on the result of the latter.
-
-
-### Back to the script
-
-The same kind of Python commands that we used while in the Python prompt we can use for the routes.
-
-```python
-@app.route('/')
-def index():
-    return f'{User.query.all()}\n'
-
-@app.route('/<string:name>')
-def get_user(name):
-    user = User.query.filter_by(username=name).first()
-    return f'{user}\n'
-
-@app.route('/<string:name>/<string:email>', methods=['POST'])
+@app.post('/<string:name>/<string:email>')
 def add_user(name, email):
     user = User(username=name, email=email)
     db.session.add(user)
@@ -183,15 +142,39 @@ def add_user(name, email):
     return f'{user}\n'
 ```
 
-There is some database logic lurking in the `add_user()` method, in a larger application this would be delegated to a database module.
+You can use a cURL command to add a user:
+
+```bash
+$ curl 127.0.0.1:5000/admin/admin@example.com -X POST
+```
+
+Adding a record includes creating an instance of User, then adding it to the database using the session object and finally commit the change. There will be nothing in the `user` table until you do the commit. What is interesting to note is that the User instance does not have an identifier at first since class initialization does not do that. It is not until after the commit that the identifier created by the database will be added to the User object.
+
+As you see there is some database logic lurking in the `add_user()` method, in a larger application this would probably be delegated to a database module.
+
+With some data entered it finally makes sense to query the database.
+
+```python
+@app.route('/')
+def index():
+    users = User.query.all()
+    return f'{users}\n'
+
+@app.route('/<string:name>')
+def get_user(name):
+    user = User.query.filter_by(username=name).first()
+    return f'{user}\n'
+```
+
+The `User.query.all()` method returns a list of User objects and `User.query.filter_by()` returns a list-like object. You can access an index on either of them, but you can use `first()` only on the result of the latter. Note how the `User.query.filter_by()` is the equivalent of a select query with a where clause.
 
 
 ### Running the service
 
-Assuming you have created a database you can start the script from a terminal.
+You can start the script from a terminal.
 
 ```bash
-$ python blog_users.py
+$ python blog1.py
 ```
 
 And from another terminal you can ping the service.
@@ -203,6 +186,8 @@ $ curl -X POST http://127.0.0.1:5000/sue/sue@example.com
 ```
 
 These URLs are all connected to routes defined in the application. In the first case we get a listing of all users, in the second we get the information from just one user and in the third we add a user with her email.
+
+<span style="color:darkred">Warning: the prose below is awaiting some serious editing</span>.
 
 
 ## Second blog: adding posts

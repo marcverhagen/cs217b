@@ -20,16 +20,10 @@ class User(db.Model):
         return f"User(id={self.id} username={self.username} email={self.email})"
 
 
-def create_all():
-    with app.app_context():
-        db.create_all()
-
-create_all()
-
-
 @app.get('/')
 def index():
-    return f'{User.query.all()}\n'
+    users = User.query.all()
+    return f'{users}\n'
 
 @app.get('/<string:name>')
 def get_user(name):
@@ -45,6 +39,9 @@ def add_user(name, email):
 
 
 if __name__ == '__main__':
+
+    with app.app_context():
+        db.create_all()
     app.run(debug=True)
 
 
