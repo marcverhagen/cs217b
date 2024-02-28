@@ -15,7 +15,6 @@ class User(db.Model):
     def add(cls, name, email):
         try:
             user = User(username=name, email=email)
-            print(user)
             db.session.add(user)
             db.session.commit()
             return str(user)

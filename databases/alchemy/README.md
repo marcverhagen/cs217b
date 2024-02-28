@@ -16,7 +16,7 @@ This turorial assumes some basic knowledge of Flask.
 
 ## First blog: users, but no posts
 
-In the same directory as this readme file, there is a script named `blog1.py` that defines the ultra-simplistic beginnings of a blog application with just a list of users and a database for it. We can get a list of users, get the information of one user, or add a user, that's all. To focus at the basics of how to tie in a database there is no attempt to produce any nice html, we just dump out print strings.
+In the same directory as this readme file, there is a script named `blog1.py` that defines the ultra-simplistic beginnings of a blog application with just a list of users and a database for it. We can get a list of users, get the information of one user, or add a user, that's all. To focus at the basics of how to tie in a database there is no attempt to produce any nice html, we just dump out print strings. Here is the file in its entirity.
 
  ```python
 from flask import Flask
@@ -142,13 +142,11 @@ def add_user(name, email):
     return f'{user}\n'
 ```
 
-You can use a cURL command to add a user:
-
 ```bash
 $ curl 127.0.0.1:5000/admin/admin@example.com -X POST
 ```
 
-Adding a record includes creating an instance of User, then adding it to the database using the session object and finally commit the change. There will be nothing in the `user` table until you do the commit. What is interesting to note is that the User instance does not have an identifier at first since class initialization does not do that. It is not until after the commit that the identifier created by the database will be added to the User object.
+The method associated with the resource creates an instance of User, adds it to the database using the session object and commits the change. There will be nothing in the `user` table until you do the commit. What is interesting to note is that the User instance does not have an identifier at first since initialization on the Python end does not do that. It is not until after the commit that the identifier created by the database will be added to the User object.
 
 As you see there is some database logic lurking in the `add_user()` method, in a larger application this would probably be delegated to a database module.
 
@@ -187,24 +185,12 @@ $ curl -X POST http://127.0.0.1:5000/sue/sue@example.com
 
 These URLs are all connected to routes defined in the application. In the first case we get a listing of all users, in the second we get the information from just one user and in the third we add a user with her email.
 
-<span style="color:darkred">Warning: the prose below is awaiting some serious editing</span>.
-
 
 ## Second blog: adding posts
 
-In this section we create another mini-blog application in `blog_users_posts.py` that adds posts to the blog. We only look at the database aspect and forget about the routes (and therefore you should not try to use curl to interact with the database).
+In this section we create another mini-blog application in `blog2.py`, which is the same as `blog`.py` except that it adds posts to the blog. This application has a lot of overlap with the previous one and here we only look at the differences. The biggest change is in the definition of the databse model.
 
 ```python
-from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
-
-app = Flask(__name__)
-app.config['SECRET_KEY'] = 'fc3bb2a43ff1103895a4ee315ee27740'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db_users_posts.sqlite'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db = SQLAlchemy(app)
-
-
 class User(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
@@ -213,8 +199,7 @@ class User(db.Model):
     posts = db.relationship('Post', backref='author', lazy=True)
 
     def __repr__(self):
-        return f"User('{self.username}', '{self.email}' posts={self.posts})"
-
+        return f"User(id={self.id} name={self.username} email={self.email} posts={self.posts})"
 
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -223,18 +208,18 @@ class Post(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
     def __repr__(self):
-        return f"Post('{self.title}', '{self.content}')"
+        return f"Post(title={self.title} content={self.content}')"
 ```
 
-We add a table of posts and a one-to-many relation between users and posts. The posts table is a mostly unsurprising new table model, but there are two new things here: (1) a relation is added to the user table, and (2) one of the columns for the posts table is a foreign key. Let's look at these.
+We add a table of posts and a one-to-many relation between users and posts. The users and posts tables are mostly unsurprising new table models, but there are two new things here: (1) a relation is added to the user table, and (2) one of the columns for the posts table is a foreign key. Let's look at these.
 
-For the user table we define another variable named `posts`.
+For the User table we define another variable named `posts`.
 
 ```python
 posts = db.relationship('Post', backref='author', lazy=True)
 ```
 
-This is NOT a column and it will not be in the database. But it does add a relation between a user and his/her posts. In the user model 'Post' references the name of the model class. The actual value of `posts` will be the list of posts for a user. The relation also adds a back reference from the `Post` instance to the user, that is, when you have a `Post` instance you can access the `author` variable and get the user. But there is no `author` column in the posts table. With `lazy=True` all we say is that the information will only be extracted if you ask for it (when you first access the variable).
+This is NOT a column and it will not be in the database. But it does add a relation between a user and their posts. In the user model 'Post' references the name of the model class. The actual value of `posts` will be the list of posts for a user, that is, a list of instances of Post. The relation also adds a back reference from the `Post` instance to the user, that is, when you have a `Post` instance you can access the `author` variable and get the user. But there is no `author` column in the posts table. With `lazy=True` all we say is that the information will only be extracted if you ask for it (when you first access the variable).
 
 On the posts side we have a foreign key column.
 
@@ -242,40 +227,31 @@ On the posts side we have a foreign key column.
 user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 ```
 
-In the foreign key `user.id` references the table name and column name in the database (the foreign key is a database notion while the relation is a Python object notion).
+In the foreign key `user.id` references the table name and column name in the database. As noticed before, Flask-SQLAlchemy will automatically map the camel-cased class name to lower-cased table name. Note that the foreign key is a database notion while the relation is a Python object.
 
-Let's go into Python to illustrate all this. First we import what we need and create the database.
-
-```python
->>> from blog_users_posts import db, User, Post
->>> db.create_all()
-```
-
-We can now add a user.
+With the new objects in place we can add posts with a new Flask resource:
 
 ```python
->>> sue = User(username='sue', email="sue@example.com")
->>> db.session.add(sue)
->>> db.session.commit()
->>> sue
-User('sue', 'sue@example.com' posts=[])
+@app.post('/<string:name>/<string:post_title>/<string:post_content>')
+def add_post(name, post_title, post_content):
+    user = User.query.filter_by(username=name).first()
+    post = Post(title=post_title, content=post_content, user_id=user.id)
+    db.session.add(post)
+    db.session.commit()
+    return f'{user}\n'
 ```
 
-There are no posts for the new user, but there will be after we add some, and they will be available directly on the `User` instance via the `posts` instance variable.
-
-```python
->>> post1 = Post(title="p1", content="stuff1", user_id=sue.id)
->>> post2 = Post(title="p2", content="stuff2", user_id=sue.id)
->>> db.session.add_all([post1, post2])
->>> db.session.commit()
->>> sue
-User('sue', 'sue@example.com' posts=[Post('p1', 'stuff1'), Post('p2', 'stuff2')])
+```bash
+$ curl -X POST http://127.0.0.1:5000/john/john@example.com
+$ curl -X POST http://127.0.0.1:5000/john/byebye/country
 ```
+
+There is no decent error handling in this so if you do something unexpected, like adding a post to a non-existing user, you get a nasty error.
 
 
 ## Third blog: like the first blog, but now as a package
 
-So far the code has been all put together in one file, but for larger applications you want the model and routes separated out to their own modules. We do that here and add some error handling. Separating the code into logical parts is not trivial since some are tightly integrated and it takes some work to avoid circular imports, and using a package is your best option. The structure of the application is as follows.
+So far the code has been all put together in one file, but for larger applications you want the model and routes separated out to their own modules. We do that here for `blog1.py` and for good measure throw in some error handling. Separating the code into logical parts is not trivial since there is some tight integration in the code above and it takes some work to avoid circular imports. Using a package is your best option, here is its structure:
 
 ```bash
 .
@@ -287,22 +263,11 @@ So far the code has been all put together in one file, but for larger applicatio
 └── run.py
 ```
 
-First we go in to Python to create the database if it does not exist yet.
-
-```python
->>> from blog import db
->>> from blog.model import User
->>> db.create_all()
->>> db.session.add(User(username='admin', email='admin@example.com'))
->>> db.session.add(User(username='guest', email='guest@example.com'))
->>> db.session.commit()
-```
-
-We now have the modules really focused on their main charge. In `blog/model.py` all we do is defining database model. Since this is a user-defined class we can add methods that take care of all database-related issues.
+We now have two modules in the package that are really focused on their main charge. In `blog/model.py` all we do is defining the database model. Since this is a user-defined class we can add methods that take care of all database-related issues.
 
 ```python
 from blog import db
-
+from sqlalchemy.exc import IntegrityError
 
 class User(db.Model):
 
@@ -317,7 +282,6 @@ class User(db.Model):
     def add(cls, name, email):
         try:
             user = User(username=name, email=email)
-            print(user)
             db.session.add(user)
             db.session.commit()
             return str(user)
@@ -326,12 +290,11 @@ class User(db.Model):
             return e
 ```
 
-As before, the `blog/routes.py` has just the routes and all database related functionality is delegated to the model.
+And `blog/routes.py` has just the routes with all database-related functionality delegated to the model.
 
 ```python
 from blog import app
 from blog.model import User
-
 
 @app.route('/')
 def select_all():
@@ -348,7 +311,9 @@ def insert(name, email):
     return f'{result}\n'
 ```
 
-The `blog/__init__.py` file ties this all together. It creates the application, defines all its configuration settings, creates the database for the application and sets up all the routes.
+This simple application does not use any static files and templates, but if it did we would be adding directories `blog/static` and `blog/templates`.
+
+The `blog/__init__.py` file ties everything together. It creates the application, defines all its configuration settings, creates the database for the application and sets up all the routes.
 
 ```python
 from flask import Flask
@@ -366,16 +331,20 @@ db = SQLAlchemy(app)
 from blog import routes
 ```
 
-Note that when you create the `db` variable you do not have defined any tables yet, that happens when importing `app.routes` which imports the definition of the user table in the `app.model.User` class.
+Note that when you create the `db` variable you do not have defined any tables yet, that happens when importing the `routes` module, which imports the definition of the user table in the `model.User` class. Having the import at the bottom is somewhat funky, but it is the only way to avoid circular imports.
 
-Finally, all you need to do in `run.py` is a simple import and then invoke the `run()` command.
+Finally, all you need to do in the startup script `run.py` is to import the application and the database model and then create the database and start the application.
 
 ```python
-from blog import app
+from blog import app, db
 
 if __name__ == '__main__':
+    with app.app_context():
+        db.create_all()
     app.run(debug=True)
 ```
+
+Using the application is exactly the same as for `blog1.py`.
 
 This simple application does not use any static files and templates, but if it did we would be adding directories `blog/static` and `blog/templates`.
 

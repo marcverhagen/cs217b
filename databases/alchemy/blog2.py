@@ -18,11 +18,11 @@ class User(db.Model):
     posts = db.relationship('Post', backref='author', lazy=True)
 
     def __repr__(self):
-        return f"User(id={self.id} username={self.username} email={self.email} posts={self.posts})"
+        return f"User(id={self.id} name={self.username} email={self.email} posts={self.posts})"
 
     def pp(self):
         posts = '\n    '.join([str(p) for p in self.posts])
-        return f"User(id={self.id} username={self.username} email={self.email})\n    {posts})"
+        return f"User(id={self.id} name={self.username} email={self.email})\n    {posts})"
 
 
 class Post(db.Model):
@@ -32,19 +32,13 @@ class Post(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
     def __repr__(self):
-        return f"Post(title={self.title} content={self.content}')"
-
-
-def create_all():
-    with app.app_context():
-        db.create_all()
-
-create_all()
+        return f"Post(title={self.title} content='{self.content}')"
 
 
 @app.get('/')
 def index():
-    return f'{User.query.all()}\n'
+    users = User.query.all()
+    return f'{users}\n'
 
 @app.get('/<string:name>')
 def get_user(name):
@@ -71,6 +65,9 @@ def add_post(name, post_title, post_content):
 
 
 if __name__ == '__main__':
+
+    with app.app_context():
+        db.create_all()
     app.run(debug=True)
 
 
