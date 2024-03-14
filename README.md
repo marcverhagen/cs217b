@@ -4,6 +4,7 @@ Assignments:
 
 - [Assignment 1 - FastAPI, Flask and Streamlit](assignments/a1/README.md)
 - [Assignment 2 - Flask and FlaskAlchemy](assignments/a2/README.md)
+- [Assignment 3 - Docker](assignments/a3/README.md)
 
 Code examples for CS217B.
 
