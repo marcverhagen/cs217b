@@ -1,5 +1,10 @@
 # CLASSES AS DECORATORS
 
+# When a class name is given as a decorator, then you want the class to have a
+# __call__ method. The function to be decorated is handed in as the argument to
+# the __init__ method. The decorated function is actually not a function, but a
+# class instance that acts as a function because of its __call__ method.
+
 import time
 
 
@@ -27,13 +32,14 @@ class Timer:
 
 
 @Timer
-def slow_function():
-    import time
+def slow_function(*args):
     time.sleep(1)
 
-slow_function()
+
+print()
+print(slow_function)
+
+print()
+slow_function(1,2,3)
 slow_function()
 Timer.report()
-
-
-
