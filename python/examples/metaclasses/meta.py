@@ -160,18 +160,6 @@ calc.mul(2, 3)
 
 # https://flexiple.com/python/metaprogramming-with-metaclasses-python
 
-class Meta(type):
-    def __new__(cls, name, bases, dct):
-        dct['custom_attribute'] = 'Value added by metaclass'
-        return super().__new__(cls, name, bases, dct)
-
-class MyClass(metaclass=Meta):
-    pass
-
-
-print(MyClass.custom_attribute)
-
-
 class SingletonMeta(type):
     _instances = {}
     def __call__(cls, *args, **kwargs):
@@ -191,8 +179,31 @@ print()
 print(instance1 is instance2)
 
 ################
-class newtype(type): pass
 
-class NewHuman(metaclass=newtype): pass
 
-class NewHuman(Human, metaclass=newtype): pass
+#https://www.pythontutorial.net/python-oop/python-metaclass/
+
+from pprint import pprint
+
+
+class Human2(type):
+    def __new__(mcs, name, bases, class_dict, **kwargs):
+        class_ = super().__new__(mcs, name, bases, class_dict)
+        class_.species = "Homo sapiens"
+        if kwargs:
+            for name, value in kwargs.items():
+                setattr(class_, name, value)
+        return class_
+
+class Person2(object, metaclass=Human2, country='USA'):
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+print()
+pprint(Person2.__dict__)
+person = Person2("sue", 12)
+pprint(person.__dict__)
+print(person.species)
+print(person.country)
+
