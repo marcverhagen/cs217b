@@ -19,7 +19,7 @@ app = Flask(__name__)
 
 app.config['SECRET_KEY'] = 'fc3bb2a43ff1103895a4ee315ee27740'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///ner.db'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////Users/marc/Desktop/ner.db'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////Users/marc/Desktop/ner.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
