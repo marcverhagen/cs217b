@@ -1,0 +1,26 @@
+<html>
+
+  <head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}"/>
+  </head>
+  
+  <body>
+
+    <h2>spaCy entity parsing</h2>
+
+    <p>[<a href="/">ner</a> | <a href="/entities">list</a>]</p>
+    
+    <p>All entities seen so far:</p>
+    
+    <table cellpadding=5 cellspacing=0 border=1>
+	  {% for e in entities %}
+	  <tr>
+	    <td>{{ e.name }}</td>
+	    <td>{{ e.count }}</td>
+	  </tr>
+	  {% endfor %}
+    </table>
+
+  </body>
+
+</html>
