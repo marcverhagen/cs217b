@@ -6,6 +6,11 @@ Assignments:
 - [Assignment 2 - Flask and FlaskAlchemy](assignments/a2/README.md)
 - [Assignment 3 - Docker](assignments/a3/README.md)
 
+Final project:
+
+- [The PDF that was presented in class](assignments/final/final-project.pdf)
+- [Last minute notes and instructions](assignments/final/README.md)
+ 
 Code examples for CS217B.
 
 - Mini tutorial on [virtual environments](environments/python-venv.md)

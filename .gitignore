@@ -5,6 +5,7 @@
 venv
 .idea
 .ipynb_checkpoints/
+__pycache__
 web-services/flask/examples/images/client-server*.png
 databases/sqlite/*.sqlite
 databases/alchemy/instance
