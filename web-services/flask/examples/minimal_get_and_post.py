@@ -76,8 +76,8 @@ if __name__ == '__main__':
 
 Two ways of sending the content of the POST request:
 
-$ curl -H "Content-Type: application/json" -X POST -d '{"name": "sue"}'  http://127.0.0.1:5000/
-$ curl -H "Content-Type: application/json" -X POST -d @input/message.json http://127.0.0.1:5000/
+$ curl http://127.0.0.1:5000/ -H "Content-Type: application/json" -X POST -d '{"name": "sue"}'
+$ curl http://127.0.0.1:5000/ -H "Content-Type: application/json" -X POST -d @input/message.json
 
 When you use -d the POST method is implied so you can shorten this a bit:
 
