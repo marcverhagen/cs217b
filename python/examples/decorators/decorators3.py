@@ -1,4 +1,4 @@
-# SYNRACTIC SUGAR
+# SYNTACTIC SUGAR
 
 # With the code in decorators2.py we use the name "say_whee" three times (function
 # definition, embedding in the decorator and reassigning to the variable). We can

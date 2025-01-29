@@ -21,10 +21,3 @@ def multiply():
 
 if __name__ == '__main__':
     app.run(debug=True)
-
-
-'''
-
-$ curl http://127.0.0.1:5000/multiply/5 -H "Content-Type: application/json" -d '{"number": 10}'
-
-'''
