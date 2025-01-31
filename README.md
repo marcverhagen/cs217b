@@ -2,9 +2,9 @@
 
 Code examples for CS217B.
 
-- [Code fragements from lecture notes](python/lecture_notes/)
-- [Closure example](python/examples/closures/)
-- [Functional programming examples](python/examples/functional/)
+- [Code fragements from lecture notes](code/lecture_notes/)
+- [Closure example](code/python-examples/closures/)
+- [Functional programming examples](code/python-examples/functional/)
 
 <!--
 - Mini tutorial on [virtual environments](environments/python-venv.md)
