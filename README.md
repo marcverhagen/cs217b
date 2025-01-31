@@ -5,6 +5,7 @@ Code examples for CS217B.
 - [Code fragements from lecture notes](code/lecture_notes/)
 - [Closure example](code/python-examples/closures/)
 - [Functional programming examples](code/python-examples/functional/)
+- [Fast API examples](code/web-services/fastapi)
 
 <!--
 - Mini tutorial on [virtual environments](environments/python-venv.md)
