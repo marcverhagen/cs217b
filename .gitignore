@@ -6,8 +6,6 @@ venv
 .idea
 .ipynb_checkpoints/
 __pycache__
-web-services/flask/examples/images/client-server*.png
-databases/sqlite/*.sqlite
-databases/alchemy/instance
-assignments/a1/solution
+code/databases/sqlite/*.sqlite
+code/databases/alchemy/instance
 docker/getting-started
