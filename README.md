@@ -1,5 +1,9 @@
 # COSI 217b - NLP Systems
 
+Assignments.
+
+- [Assignment 1](docs/assignments/assignment1.md)
+
 Code examples for CS217B.
 
 - [Code fragements from lecture notes](code/lecture_notes/)
