@@ -31,7 +31,7 @@ if __name__ == '__main__':
     app.run(debug=True)
 ```
 
-This code is in `web-services/flask/examples/minimal.py`, which has a few comments added. You run this by typing the following on the command line:
+This code is in [examples/minimal.py](examples/minimal.py), which has a few comments added. You run this by typing the following on the command line:
 
 ```bash
 $ python minimal.py
@@ -48,7 +48,7 @@ When you add the `-v` flag to curl you will notice that the content type return 
 
 ## Returning JSON and adding POST requests
 
-See `web-services/flask/examples/minimal_get_and_post.py` for commented code.
+See [examples/minimal\_get_and\_post.py](examples/minimal_get_and_post.py) for commented code.
 
 When you import `request` from the Flask package you have access to all goodies associated with the request. For example, you can (1) get the HTTP verb from the request and use it to determine what action to follow, and (2) retrieve the JSON that was associated with a POST request:
 
@@ -122,7 +122,7 @@ def bounce():
 
 ## Using the RESTful API
 
-The above example mix a couple of things together, in particular, the location of the resource is closely associated with the function that does the work. Using the Flask RESTful API decouples these. This is shown in file `web-services/flask/examples/minimal_restful_api.py`.
+The above example mix a couple of things together, in particular, the location of the resource is closely associated with the function that does the work. Using the Flask RESTful API decouples these. This is shown in file [examples/minimal\_restful\_api.py](examples/minimal_restful_api.py).
 
 ```python
 from flask import Flask, request
@@ -151,3 +151,71 @@ if __name__ == '__main__':
 
 Note how the resources themselves have no idea where they live, that is determined later, when they are added to the API.
 
+
+## Rendering HTML
+
+You can return an HTML string from the method that is attached to a resource, but that gets unwieldy quickly. It is better to use the `render_template()` method. See [examples/minimal\_render\_template.py](examples/minimal_render_template.py) for the main code, [templates/result.html](templates/result.html) for the Jinja template and [static/css/main.css](static/css/main.css) for the style sheet.
+
+```python
+from flask import Flask, request, render_template
+
+app = Flask(__name__)
+
+@app.route('/multiply/<int:num>', methods=['POST'])
+def multiply(num):
+    some_json = request.get_json()
+    result = num * some_json['number']
+    return render_template('result.html', result=result)
+
+if __name__ == '__main__':
+    app.run(debug=True)
+```
+
+When you ping this with a number, you get the following (although in real life there would be some more whitespace in the result):
+
+```bash
+$ curl http://127.0.0.1:5000/multiply/5 -H "Content-Type: application/json" -d '{"number": 10}'
+```
+
+```html
+<html>
+  <head>
+    <link rel="stylesheet" href="/static/css/main.css"/>
+  </head>
+  <body>
+    <h2>Result</h2>
+    <div>
+      50
+    </div>
+  </body>
+</html>
+```
+
+This is all by virtue of the `render_template()` method, which takes an Jinja template named `result.html` that is expected to live in the `templates` directory. Jinja is a mixture of HTML and some code that can be used to insert variables into the code. In this case we handed in a variable named `result` and the template checks for its existence before printing it:
+
+```php
+<html>
+  <head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}"/>
+  </head>
+  <body>
+    <h2>Result</h2>
+    {% if result %}
+    <div>
+      {{ result }}
+    </div>
+    {% endif %}
+  </body>
+</html>
+
+```
+
+Also note the style sheet, which is supposed to live in the static directory. In this case it is not doing anything because we ping the server from curl. The line `url_for('static', filename='css/main.css')` is boilerplate code and helps the server find the style sheet.
+
+Not surpisingly, `render_template()` returns a string. You can also use the Flask Response class to return HTML string wrapped in a response object, which also let's you set headers:
+
+```python
+return Response(
+    render_template('result.html', result='Howdy'),
+    headers={'Content-Type': 'text/html'})
+```

@@ -1,11 +1,17 @@
 # COSI 217b - NLP Systems
 
-Code examples for CS217B.
+Assignments:
+
+- [Assignment 1](docs/assignments/assignment1.md)
+
+Code examples:
 
 - [Code fragements from lecture notes](code/lecture_notes/)
-- [Closure example](code/python-examples/closures/)
-- [Functional programming examples](code/python-examples/functional/)
-- [Fast API examples](code/web-services/fastapi)
+- [Closure](code/python-examples/closures/)
+- [Functional programming](code/python-examples/functional/)
+- [FastAPI](code/web-services/fastapi)
+- [Flask](code/web-services/flask)
+- [Streamlit](code/web-services/streamlit)
 
 <!--
 - Mini tutorial on [virtual environments](environments/python-venv.md)

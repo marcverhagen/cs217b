@@ -4,6 +4,9 @@ import numpy as np
 
 from model import graph
 
+if not 'count' in st.session_state:
+    st.session_state.count = 0
+
 st.sidebar.markdown('# Letters')
 letter = st.sidebar.radio('Pick a letter', ['a', 'b', 'c'])
 st.sidebar.info(f'Selected: {letter}')
@@ -11,9 +14,10 @@ st.sidebar.info(f'Selected: {letter}')
 st.markdown('### Text and Animals')
 
 text  = "Nothing was going on at auntie Bibby's house and then... Ding Dong."
-txt = st.text_area('Text to analyze', text)
+txt = st.text_area('Text to process', text)
 if st.button('run'):
     st.info(txt.lower())
+    st.session_state.count += 1
 
 '---'
 
@@ -28,3 +32,4 @@ if st.button('Show Animals'):
     right.write('And here is an unrelated graph')
     right.graphviz_chart(graph)
 
+st.session_state

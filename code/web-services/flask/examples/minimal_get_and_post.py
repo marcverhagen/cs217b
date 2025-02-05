@@ -60,11 +60,14 @@ def multiply4():
     return jsonify({'result': some_json['number'] * 10})
 
 # curl http://127.0.0.1:5000/bounce -H "Content-Type: text/plain" -d 'Number 5'
+# curl http://127.0.0.1:5000/bounce -H "Content-Type: application/json" -d '{"Number": 5}'
 # The request object also gives access to the raw data of the POST request
 @app.route('/bounce', methods=['POST'])
 def bounce():
-    answer = '\nContent-Type: %s\n\n' % request.headers['Content-Type']
-    answer += str(request.data) + '\n\n'
+    r = request
+    answer = (
+        f'{r.method} {r.path} {r.environ.get("SERVER_PROTOCOL")}\n'
+        + f'{r.headers}{r.json}\n')
     return answer
 
 
