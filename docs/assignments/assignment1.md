@@ -61,7 +61,7 @@ $ curl http://127.0.0.1:8000/note/Wensleydale
 Isn't the moon made out of this?
 ```
 
-The above are all GET requests. You also have the API respond to a POST request which allows adding a note either by handing in a dictionary or a file:
+The above are all GET requests. You also need the API to respond to a POST request which allows adding a note by handing in a dictionary or a file:
 
 ```
 curl -X 'POST' \
@@ -79,14 +79,13 @@ curl -X 'POST' \
   'http://127.0.0.1:8000/add' \
   -H 'accept: application/json' \
   -H 'Content-Type: application/json' \
-  -d @note1.json
+  -d @note.json
 ```
 
 These should return some kind of note indicating success or failure.
 
 
-
-## The mini website
+## The mini Flask website
 
 This should be a website with two or three pages (the one I wrote has two). In my case, the main page shows a list of all notes, a box for a search term, and an option to add a note:
 
@@ -113,7 +112,6 @@ As with the Flask site, you may make this look any way you want, as long as the 
 <img src="images/streamlit.png" width="800" />
 
 
-
 ## What and how to submit?
 
 You submit by sending me an email with a link to a GitHub repository. That repository should have a standard structure, an description of that structure is at [https://github.com/marcverhagen/cs217-assignments](https://github.com/marcverhagen/cs217-assignments).
@@ -134,3 +132,5 @@ streamlit run stream.py
 In general, you do not need to worry about error handling unless where noted otherwise. You also do not need to do any unit test, but we do expect that your code runs so you will at least need to do some informal testing.
 
 Try to make your code follow general Python coding standards (but never blindly follow standards), the easier it is to understand your code the better.
+
+Finally, use a virtual environment and assume that people using your code will do so too.
