@@ -11,7 +11,8 @@ def say_bye(name):
 def greet(name, greeter_func):
     return greeter_func(name)
 
-print()
+print(f'\n{"="*80}\ndecorators1()\n{"="*80}\n')
+
 print(greet('Bob', say_hello))
 print(greet('Bob', say_bye))
 
@@ -30,13 +31,14 @@ def parent():
     first_child()
 
 print()
+
 parent()
 
 
 # You can return a function object from a function
 
 def parent():
-    print("Turning a parent function into a child function")
+    print("Returning a child function from a parent function")
     def child():
         print("Running child function")
     return child
@@ -45,3 +47,4 @@ print()
 fun = parent()
 print(fun)
 fun()
+print()

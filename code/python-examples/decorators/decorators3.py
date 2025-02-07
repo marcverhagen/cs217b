@@ -22,7 +22,8 @@ def say_whee():
     print("Whee!")
 
 
-print()
+print(f'\n{"="*80}\ndecorators3()\n{"="*80}\n')
+
 print(decorator)
 print(say_whee)
 

@@ -1,7 +1,7 @@
 # DECORATORS
 
-# A decorator is a function that takes another function, then creates a new function
-# that wraps around the other function and returns the new function.
+# A decorator is a function that takes another function as an argument, then creates
+# a new function that wraps around the argument function and returns the new function.
 
 def decorator(func):
     def wrapper():
@@ -17,17 +17,20 @@ def decorator(func):
 def say_whee():
     print("Whee!")
 
-print()
+
+# And decorate it
+
+decorated_say_whee = decorator(say_whee)
+
+
+print(f'\n{"="*80}\ndecorators2()\n{"="*80}\n')
+
 print(decorator)
 print(say_whee)
-
-# Do the actual decoration
-
-say_whee = decorator(say_whee)
-
-print()
-print(decorator)
-print(say_whee)
+print(decorated_say_whee)
 
 print()
 say_whee()
+print()
+decorated_say_whee()
+print()

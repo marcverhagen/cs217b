@@ -2,7 +2,7 @@
 
 # One problem with the decorators is that it is hard to inspect the function
 # that you are decorating. For example, if you want to print the function
-# say_whee and it document string, what you get is the document string from
+# say_whee and its document string, what you get is the document string from
 # the embedded function.
 
 def decorator(func):
@@ -17,13 +17,15 @@ def say_whee():
     print("Whee!")
 
 
-print()
+print(f'\n{"="*80}\ndecorators5()\n{"="*80}\n')
+
 print(say_whee)
 print(say_whee.__doc__)
 
+
 # So let's try that again. The functools module has functions that can be used as
-# decorators and that give some aspects of the decorated function, for example the
-# doc string to the wrapped function that is returned by the decorator.
+# decorators and that give access to some aspects of the decorated function, for
+# example the doc string to the wrapped function.
 
 import functools
 
@@ -44,4 +46,4 @@ def say_whee2():
 print()
 print(say_whee2)
 print(say_whee2.__doc__)
-
+print()

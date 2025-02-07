@@ -16,7 +16,8 @@ def argument_passing_decorator1(func):
 def say(text: str):
     return text
 
-print()
+print(f'\n{"="*80}\ndecorators4()\n{"="*80}\n')
+
 print(say('Hi'))
 
 
@@ -35,3 +36,4 @@ def function_with_args(arg1, arg2, arg3=None, arg4=1):
 
 print()
 print(function_with_args(1, 2, arg3=4, arg4=5))
+print()
