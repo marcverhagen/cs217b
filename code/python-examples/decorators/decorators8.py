@@ -34,7 +34,7 @@ class Timer:
 @Timer
 def slow_function(*args):
     time.sleep(1)
-    print('Ran slow_function()')
+    print(f'Ran slow_function() over {args}')
     return True
 
 

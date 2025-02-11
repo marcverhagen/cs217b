@@ -1,4 +1,4 @@
-# HIGHER ORDER FUNCTION
+# HIGHER ORDER DECORATOR
 
 # The decorator can be given an argument. This is needed to make functools.wrap
 # from decorators5.py work. It also aligns with the Flask route decorators:
