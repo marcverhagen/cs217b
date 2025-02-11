@@ -7,5 +7,7 @@ venv
 .ipynb_checkpoints/
 __pycache__
 code/databases/sqlite/*.sqlite
+code/databases/sqlite/people/*.sqlite
 code/databases/alchemy/instance
 docker/getting-started
+backup.sh
