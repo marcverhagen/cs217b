@@ -12,7 +12,7 @@ class File:
 
     def __init__(self, file_name: str, method='r'):
         if DEBUG:
-            print('>>> initializing...')
+            print('--- initializing...')
         self.name = file_name
         self.method = method
 
@@ -20,23 +20,23 @@ class File:
         return f'<File name="{self.name}'
 
     def __enter__(self):
-        # this happens after initialization, we just open the file and save the
-        # file handle, which we return
+        # This happens after initialization, we just open the file and save the
+        # file handle, which we return.
         if DEBUG:
-            print('>>> entering...')
-        self.file = open(self.name, self.method)
-        return self.file
+            print('--- entering...')
+        self.fh = open(self.name, self.method)
+        return self.fh
 
     def __exit__(self, exception, message, traceback):
-        # this will always run, unless an error occured above
+        # This will always run, unless an error occured in __init__ or __enter__.
         if DEBUG:
-            print(f'>>> closing {self.name}')
-        self.file.close()
-        # when cleaning up you can also deal with errors
+            print(f'--- closing {self.name}')
+        self.fh.close()
+        # When cleaning up you can also deal with errors
         if exception is ZeroDivisionError:
-            print('Ignored zero division error')
+            print('--- Ignored zero division error')
             return True
         elif exception is not None:
-            print('Other error, not ignoring it')
+            print('--- Other error, not ignoring it')
             print(exception, message)
             return False

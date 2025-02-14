@@ -1,0 +1,3 @@
+From Kevlin Henney’s “Python Advanced” slides
+
+https://www.slideshare.net/Kevlin?utm_campaign=profiletracking&utm_medium=sssite&utm_source=ssslideview
