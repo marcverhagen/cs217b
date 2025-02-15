@@ -34,12 +34,18 @@ class Timer:
 @Timer
 def slow_function(*args):
     time.sleep(1)
+    print(f'Ran slow_function() over {args}')
+    return True
 
 
-print()
+print(f'\n{"="*80}\ndecorators8()\n{"="*80}\n')
+
 print(slow_function)
-
 print()
-slow_function(1,2,3)
-slow_function()
+r1 = slow_function(1,2,3)
+print(r1)
+r2 = slow_function()
+print(r2)
+
 Timer.report()
+print()

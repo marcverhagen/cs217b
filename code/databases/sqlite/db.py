@@ -8,7 +8,7 @@ SQL_INSERT = "INSERT INTO people VALUES (?, ?)"
 class DatabaseConnection(object):
 
     def __init__(self, filename):
-        self.connection = sqlite3.connect(filename, check_same_thread=False)
+        self.connection = sqlite3.connect(filename)#, check_same_thread=False)
 
     def create_schema(self):
         try:
@@ -25,9 +25,11 @@ class DatabaseConnection(object):
         try:
             self.connection.execute(SQL_INSERT, (name, food))
             self.connection.commit()
+            return True
         except sqlite3.IntegrityError:
             print("Warning: '%s' is already in the database, ignoring..." % name)
             self.connection.rollback()
+            return False
 
 
 if __name__ == '__main__':

@@ -16,9 +16,11 @@ def person(name):
 
 @app.post('/<string:name>/<string:food>')
 def add_person(name, food):
-    connection.add(name, food)
-    rows = connection.get(name)
-    return f'{rows}\n'
+    success = connection.add(name, food)
+    if success:
+        return f"Added ('{name}', '{food}')\n"
+    else:
+        return f"Did not add ('{name}', '{food}')\n"
 
 @app.get('/nasty/<string:name>/<string:food>')
 def add_person_in_a_nasty_way(name, food):
