@@ -10,9 +10,15 @@ Web services:
 - [Flask](code/web-services/flask)
 - [Streamlit](code/web-services/streamlit)
 
+Databases:
+
+- [SQLite people](code/databases/sqlite/people)
+- [SQLite flights](code/databases/sqlite/flights)
+- [MongoDB](code/databases/mongodb/mongodb.md)
+
 Packaging:
 
-- Mini tutorial on [virtual environments](environments/python-venv.md)
+- Mini tutorial on [virtual environments](code/environments/python-venv.md)
 
 Code examples:
 
@@ -20,8 +26,5 @@ Code examples:
 - [Closure](code/python-examples/closures/)
 - [Functional programming](code/python-examples/functional/)
 - [Decorators](code/python-examples/functional/)
+- [Context Managers](code/python-examples/contextmanagers/)
 
-<!--
-- [Flask examples](web-services/flask/README.md)
-- [Flask examples with a database backend](databases/alchemy/README.md)
--->
