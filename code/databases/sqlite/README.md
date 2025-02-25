@@ -1,10 +1,19 @@
 # Databases in Flask - Straight up SQLite
 
-Beyond in stalling Flask this has no extra requirements since SQLite support is part of the Python standard library.
+Beyond installing Flask this has no extra requirements since SQLite support is part of the Python standard library.
 
 ```bash
 $ pip install Flask
 ```
+
+This document describes a basic barebones approach to using SQLite in Flask, following four steps:
+
+1. Command line SQLite.
+2. SQLite through a standalone Python script.
+3. Using the standalone script in a Flask application.
+4. Adding a template.
+
+See the code in [app.py](app.py), [db.py](db.py) and [templates/people.html](templates/people.html) for the end result.
 
 
 ## Using SQLite with the Python command line
@@ -77,7 +86,7 @@ INSERT = "INSERT INTO people VALUES (?, ?)"
 class DatabaseConnection(object):
 
     def __init__(self, filename):
-        self.connection = sqlite3.connect(filename, check_same_thread=False)
+        self.connection = sqlite3.connect(filename)
 
     def create_schema(self):
         try:
@@ -124,7 +133,7 @@ We assume that we have a database with schema, but no data, in `people.sqlite`.
 >>> connection.create_schema()
 ```
 
-With all the database code in place it is easy to write the application.
+With the database in place it is easy to write an application.
 
 ```python
 from flask import Flask
@@ -184,7 +193,7 @@ $ curl http://127.0.0.1:5000/
 [('jane', 'paella'),  ('john', 'pizza')]
 ```
 
-It should be noted that once you are using multiple threads with the same connection you may get concurrency issues. In particular, writing operations may need to be serialized to avoid data corruption. On the other hand, the locking mechanism that kicks in when there is a journal file may prevent this. The fact is, for larger multi-user applications where users can add and update records you will probably not be using SQLite.
+It should be noted that once you are using multiple threads with the same connection you may get concurrency issues. In particular, writing operations may need to be serialized to avoid data corruption. On the other hand, the locking mechanism that kicks in when there is a journal file may prevent this. But the fact is that for larger multi-user applications where users can add and update records you will probably not be using SQLite.
 
 
 ## Using Flask templates

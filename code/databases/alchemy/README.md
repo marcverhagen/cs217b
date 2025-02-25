@@ -10,7 +10,7 @@ $ pip install Flask==3.0.1
 $ pip install Flask-SQLAlchemy==3.1.1
 ```
 
-The blog examples below are partially based on [https://flask-sqlalchemy.palletsprojects.com/en/2.x/quickstart/#a-minimal-application](https://flask-sqlalchemy.palletsprojects.com/en/2.x/quickstart/#a-minimal-application), but mostly on tutorials from [Corey Shafer's channel](https://www.youtube.com/c/Coreyms/videos) on Youtube, which has excellent tutorials on Flask and other Python topics. In particular, check out [Part 4](https://www.youtube.com/watch?v=cYWiDiIUxQc) and [Part 5](https://www.youtube.com/watch?v=44PvX0Yv368) of the Flask series. However, these use older version of Flask and some things just don't work as they used to anymore.
+The blog examples below are partially based on [https://flask-sqlalchemy.palletsprojects.com/en/2.x/quickstart/#a-minimal-application](https://flask-sqlalchemy.palletsprojects.com/en/2.x/quickstart/#a-minimal-application), but mostly on tutorials from [Corey Shafer's channel](https://www.youtube.com/c/Coreyms/videos) on Youtube, which has excellent tutorials on Flask and other Python topics. In particular, check out [Part 4](https://www.youtube.com/watch?v=cYWiDiIUxQc) and [Part 5](https://www.youtube.com/watch?v=44PvX0Yv368) of the Flask series. However, these use older version of Flask and some things just don't work as they used to anymore. A more recent tutorial is at [https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world](https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world), which also uses a couple of Flask extensions.
 
 This turorial assumes some basic knowledge of Flask.
 
@@ -112,7 +112,7 @@ if __name__ == '__main__':
     app.run(debug=True)
 ```
 
-The `db.create_all()` method creates the schema if they don't exist. This needs to be done before you start the application the first time. Note that creating the databse is done inside an application context. The fine points of this are not quite clear to me, what is clear that there is a lot of documentation out there where the context is not used, which used to work but not anymore.
+The `db.create_all()` method creates the schema if they don't exist. This needs to be done before you start the application the first time. Note that creating the database is done inside an application context. The fine points of this are not quite clear to me, what is clear is that there is a lot of documentation out there where the context is not used, which used to work but not anymore.
 
 We now do have a database on disk and you can access it from a terminal with the `sqlite3 db_users.sqlite` command and then print the schema.
 
