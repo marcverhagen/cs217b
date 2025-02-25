@@ -1,0 +1,1 @@
+DATA = 'module a'
