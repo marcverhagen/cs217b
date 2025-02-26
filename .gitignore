@@ -11,5 +11,6 @@ code/databases/sqlite/*.sqlite
 code/databases/sqlite/people/*.sqlite
 code/databases/sqlite/flights/flights.db
 code/databases/alchemy/instance
+code/databases/alchemy/circular/instance
 docker/getting-started
 backup.sh

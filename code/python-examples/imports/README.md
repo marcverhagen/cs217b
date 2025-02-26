@@ -2,11 +2,13 @@
 
 A circular dependency occurs when two or more modules depend on each other. In general, circular dependencies indicate suboptimal design, usually a reshuffling of the modules fixes the problem and makes the code less tightly couple and easier to maintain.
 
-But sometimes sometimes circular references are needed, for example when creating a Flask application, so it is a good idea to understand them better. This document shows two examples of cirecular dependencies, one that breaks the code and one that actually works, even though it does not present a good use case.
+But sometimes circular references are needed, for example when creating a Flask application, so it is a good idea to understand them better. This document shows two examples of cirecular dependencies, one that breaks the code and one that actually works, even though it does not present a good use case.
 
 Let's assume three files (`main.py`, `module_a.py` and `module_b.py`), where the main script imports one of the modules and the two modules import each other:
 
 <img src="images/dependencies.png" height=200>
+
+For a more involved example of a failed circular import, see the [Flask example](../../databases/alchemy/circular/README.md) in the database section. That example also shows visually how the execution flow progresses and where it all goes wrong.
 
 
 ## A circular import that fails

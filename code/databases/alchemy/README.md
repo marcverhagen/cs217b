@@ -14,6 +14,7 @@ The blog examples below are partially based on [https://flask-sqlalchemy.pallets
 
 This turorial assumes some basic knowledge of Flask.
 
+
 ## First blog: users, but no posts
 
 In the same directory as this readme file, there is a script named `blog1.py` that defines the ultra-simplistic beginnings of a blog application with just a list of users and a database for it. We can get a list of users, get the information of one user, or add a user, that's all. To focus at the basics of how to tie in a database there is no attempt to produce any nice html, we just dump out print strings. Here is the file in its entirity.
@@ -251,7 +252,9 @@ There is no decent error handling in this so if you do something unexpected, lik
 
 ## Third blog: like the first blog, but now as a package
 
-So far the code has been all put together in one file, but for larger applications you want the model and routes separated out to their own modules. We do that here for `blog1.py` and for good measure throw in some error handling. Separating the code into logical parts is not trivial since there is some tight integration in the code above and it takes some work to avoid circular imports. Using a package is your best option, here is its structure:
+So far the code has been all put together in one file, but for larger applications you want the model and routes separated out to their own modules. We do that here for `blog1.py` and for good measure throw in some error handling. Separating the code into logical parts is not trivial since there is some tight integration in the code above and it takes some work to avoid problems with circular imports. See [circular/README.md](circular/README.md) to see what can go wrong when separating out the routes without doing the imports right.
+
+Using a package is your best option, here is its structure:
 
 ```bash
 .
