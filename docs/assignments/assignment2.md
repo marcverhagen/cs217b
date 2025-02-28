@@ -38,9 +38,7 @@ The index page shows a list of all notes, a search box to filter the list, and a
 
 The page for a note has a link back to the main page, the note's title and its content (with a timestamp), a list of comments, if any, a delete button and a button to add a comment. For that last button I want you to use some JavaScript where clicking the button adds exposes a form to add a comment: 
 
-<img src="images/a2-add-comment1.png" border=1 width=600>
-
-<img src="images/a2-add-comment2.png" border=1 width=600>
+<img src="images/a2-add-comment.png" width=600>
 
 The way I did it involved two pages, but you don't have to do it that way. You could use one page for everything, or use three pages with a dedicated page to add a note. As long as it makes sense it is fine.
 
