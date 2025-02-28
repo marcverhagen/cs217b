@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+
+    <title>Changing color and font-size example</title>
+
+    <script>
+      function changeText() {
+        const p = document.getElementById("pid");
+        p.style.color = "blue";
+        p.style.fontSize = "18pt";
+      }
+
+      function changeTextBack() {
+        const p = document.getElementById("pid");
+        p.style.color = "black";
+        p.style.fontSize = "14pt";
+      }
+    </script>
+  
+  </head>
+
+  <body>
+
+    <p id="pid" onclick="window.location.href = 'http://example.com/';">
+      linker
+    </p>
+
+    <form>
+      <p><input value="Change color and size" type="button" onclick="changeText();" /></p>
+    </form>
+
+    <div onclick="changeTextBack()">Change back</div>
+
+  </body>
+
+</html>
+
+
+<!-- 
+
+Based on
+
+https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Examples
+
+-->

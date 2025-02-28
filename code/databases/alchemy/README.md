@@ -10,9 +10,10 @@ $ pip install Flask==3.0.1
 $ pip install Flask-SQLAlchemy==3.1.1
 ```
 
-The blog examples below are partially based on [https://flask-sqlalchemy.palletsprojects.com/en/2.x/quickstart/#a-minimal-application](https://flask-sqlalchemy.palletsprojects.com/en/2.x/quickstart/#a-minimal-application), but mostly on tutorials from [Corey Shafer's channel](https://www.youtube.com/c/Coreyms/videos) on Youtube, which has excellent tutorials on Flask and other Python topics. In particular, check out [Part 4](https://www.youtube.com/watch?v=cYWiDiIUxQc) and [Part 5](https://www.youtube.com/watch?v=44PvX0Yv368) of the Flask series. However, these use older version of Flask and some things just don't work as they used to anymore.
+The blog examples below are partially based on [https://flask-sqlalchemy.palletsprojects.com/en/2.x/quickstart/#a-minimal-application](https://flask-sqlalchemy.palletsprojects.com/en/2.x/quickstart/#a-minimal-application), but mostly on tutorials from [Corey Shafer's channel](https://www.youtube.com/c/Coreyms/videos) on Youtube, which has excellent tutorials on Flask and other Python topics. In particular, check out [Part 4](https://www.youtube.com/watch?v=cYWiDiIUxQc) and [Part 5](https://www.youtube.com/watch?v=44PvX0Yv368) of the Flask series. However, these use older version of Flask and some things just don't work as they used to anymore. A more recent tutorial is at [https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world](https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world), which also uses a couple of Flask extensions.
 
 This turorial assumes some basic knowledge of Flask.
+
 
 ## First blog: users, but no posts
 
@@ -112,7 +113,7 @@ if __name__ == '__main__':
     app.run(debug=True)
 ```
 
-The `db.create_all()` method creates the schema if they don't exist. This needs to be done before you start the application the first time. Note that creating the databse is done inside an application context. The fine points of this are not quite clear to me, what is clear that there is a lot of documentation out there where the context is not used, which used to work but not anymore.
+The `db.create_all()` method creates the schema if they don't exist. This needs to be done before you start the application the first time. Note that creating the database is done inside an application context. The fine points of this are not quite clear to me, what is clear is that there is a lot of documentation out there where the context is not used, which used to work but not anymore.
 
 We now do have a database on disk and you can access it from a terminal with the `sqlite3 db_users.sqlite` command and then print the schema.
 
@@ -251,7 +252,9 @@ There is no decent error handling in this so if you do something unexpected, lik
 
 ## Third blog: like the first blog, but now as a package
 
-So far the code has been all put together in one file, but for larger applications you want the model and routes separated out to their own modules. We do that here for `blog1.py` and for good measure throw in some error handling. Separating the code into logical parts is not trivial since there is some tight integration in the code above and it takes some work to avoid circular imports. Using a package is your best option, here is its structure:
+So far the code has been all put together in one file, but for larger applications you want the model and routes separated out to their own modules. We do that here for `blog1.py` and for good measure throw in some error handling. Separating the code into logical parts is not trivial since there is some tight integration in the code above and it takes some work to avoid problems with circular imports. See [circular/README.md](circular/README.md) to see what can go wrong when separating out the routes without doing the imports right.
+
+Using a package is your best option, here is its structure:
 
 ```bash
 .

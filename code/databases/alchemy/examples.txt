@@ -1,0 +1,60 @@
+
+
+=== 1
+
+from blog_users import User, app, db
+
+admin = User(username='admin', email='admin@example.com')
+guest = User(username='guest', email='guest@example.com')
+
+admin.id, admin.username, admin.email
+(None, 'admin', 'admin@example.com')
+
+with app.app_context():
+    print(User.query.filter_by(username='admin').first())
+
+None
+
+
+with app.app_context():
+     db.session.add(admin)
+     print(User.query.filter_by(username='admin').first())
+
+None
+
+with app.app_context():
+    db.session.commit()
+    print(User.query.filter_by(username='admin').first())
+
+None
+
+with app.app_context():
+    db.session.add(admin)
+    db.session.commit()
+    print(User.query.filter_by(username='admin').first())
+
+
+
+
+=== 2
+
+from blog_users_posts import db, User, Post
+db.create_all()
+sue = User(username='sue', email="sue@example.com")
+db.session.add(sue)
+db.session.commit()
+
+post1 = Post(title="p1", content="stuff1", user_id=sue.id)
+post2 = Post(title="p2", content="stuff2", user_id=sue.id)
+db.session.add_all([post1, post2])
+db.session.commit()
+
+=== 3
+
+from blog import db
+from blog.model import User
+db.create_all()
+db.session.add(User(username='admin', email='admin@example.com'))
+db.session.add(User(username='guest', email='guest@example.com'))
+db.session.commit()
+

@@ -3,6 +3,7 @@
 Assignments:
 
 - [Assignment 1](docs/assignments/assignment1.md)
+- [Assignment 2](docs/assignments/assignment2.md)
 
 Web services:
 
@@ -15,6 +16,8 @@ Databases:
 - [SQLite people](code/databases/sqlite/people)
 - [SQLite flights](code/databases/sqlite/flights)
 - [MongoDB](code/databases/mongodb/mongodb.md)
+- [Flask-SQLAlchemy](code/databases/alchemy)
+- [Flask-SQLAlchemy circular import](code/databases/alchemy/circular)
 
 Packaging:
 
@@ -27,4 +30,4 @@ Code examples:
 - [Functional programming](code/python-examples/functional/)
 - [Decorators](code/python-examples/functional/)
 - [Context Managers](code/python-examples/contextmanagers/)
-
+- [Circular imports](code/python-examples/imports/)
