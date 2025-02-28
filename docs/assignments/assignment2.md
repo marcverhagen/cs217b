@@ -36,7 +36,7 @@ The index page shows a list of all notes, a search box to filter the list, and a
 
 <img src="images/a2-notebook2.png">
 
-The page for a note has a link back to the main page, the note's title and its content (with a timestamp), a list of comments, if any, a delete button and a button to add a comment. For that last button I want you to use some JavaScript where clicking the button adds exposes a form to add a comment: 
+The page for a note has a link back to the main page, the note's title and its content (with a timestamp), a list of comments, if any, a delete button and a button to add a comment. For that last button I want you to use some JavaScript where clicking the button exposes a form to add a comment: 
 
 <img src="images/a2-add-comment.png" width=600>
 
@@ -70,10 +70,10 @@ You submit by sending me an email with a link to a GitHub repository. That repos
 $ python run.py
 ```
 
-You do not need to worry about error handling unless where noted otherwise, but you do not want your side to carsh all the time so some error handling would be good. You also do not need to do any unit tests, but we do expect that your code runs so you will at least need to do some informal testing.
+You do not need to worry about error handling unless where noted otherwise, but you do not want your side to crash all the time so some error handling would be good. You also do not need to do any unit tests, but we do expect that your code runs so you will at least need to do some informal testing.
 
 Try to make your code follow general Python coding standards (but never blindly follow standards), the easier it is to understand your code the better. Unlike with assignment 1, we will pay some attention to this.
 
 Finally, use a virtual environment and assume that people using your code will do so too.
 
-Deadline: probably not March 7th (which was on one of the schedules that I had up on the screen), but a bit later.
+Deadline: March 14th
