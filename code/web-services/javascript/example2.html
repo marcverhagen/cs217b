@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<script>
+function loadDoc() {
+  const xhttp = new XMLHttpRequest();
+  xhttp.onload = function() {
+    lines = JSON.parse(this.responseText);
+    html_lines = []
+    for (l in lines) {
+      html_lines.push('<p>' + lines[l] + '</p>\n');
+    }
+    html = html_lines.join('\n') + '<img src=pic_ajax.gif>\n'
+    document.getElementById("demo").innerHTML = html;
+  }
+  xhttp.open("GET", "ajax_info.json");
+  xhttp.send();
+}
+</script>
+
+<body>
+<div>
+  <h2>The XMLHttpRequest Object</h2>
+  <button type="button" onclick="loadDoc()">What is AJAX?</button>
+</div>
+<div id="demo"></div>
+</body>
+
+</html>
