@@ -24,4 +24,6 @@ Yours may vary on many small points, the main requirement was that you have a no
 
 You may do a test file, but you don't have to.
 
+Once you are done submit and push your changes and send an email to Yifan and me. Do this by April 4th anywhere on earth.
+
 When we run your container, we should be able to point our browser at [http://127.0.0.1:5000/](http://127.0.0.1:5000/) and see the Flask site that runs in the container.	
