@@ -1,8 +1,8 @@
 # Assignment 3
 
-In assignment 2 you extended the note-taking application from assignment 1, adapted its Flask interface and added a database back end using Flask-SQLAlchemy. For this assignment you will create a Docker image for the assignment and make sure that this image can be run in such a way that changes to the database are preserved outside the Docker container.
+In assignment 2 you extended the note-taking application from assignment 1, adapted its Flask interface and added a database back end using Flask-SQLAlchemy. For this assignment you will create a Docker image and make sure that this image can be run in such a way that changes to the database are preserved outside the Docker container.
 
-This assignment is simpler than what I mentioned before, when I hinted that you may have to include the API and Streamlit applications or add unit tests. when you get the hang of simple Dockerization then this should be fairly simple.
+This assignment is simpler than what I had mentioned before, when I hinted that you may have to include the API and Streamlit applications or add unit tests. Let's not do that and take it easy here. When you get the hang of simple Dockerization then this should be fairly simple.
 
 Due: April 4th
 
