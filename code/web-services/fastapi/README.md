@@ -2,6 +2,7 @@
 
 This directory may exhausts all the FastAPI that you need for this course.
 
+
 ## Getting started
 
 Mostly taken from [https://refine.dev/blog/introduction-to-fast-api/#introduction](https://refine.dev/blog/introduction-to-fast-api/#introduction).

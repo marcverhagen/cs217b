@@ -4,6 +4,7 @@ Assignments:
 
 - [Assignment 1](docs/assignments/assignment1.md)
 - [Assignment 2](docs/assignments/assignment2.md)
+- [Assignment 3](docs/assignments/assignment3.md)
 
 Web services:
 
@@ -26,7 +27,7 @@ Packaging:
 Code examples:
 
 - [Code fragements from lecture notes](code/lecture_notes/)
-- [Closure](code/python-examples/closures/)
+- [Closures](code/python-examples/closures/)
 - [Functional programming](code/python-examples/functional/)
 - [Decorators](code/python-examples/functional/)
 - [Context Managers](code/python-examples/contextmanagers/)
