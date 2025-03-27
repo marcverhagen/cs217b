@@ -14,31 +14,31 @@ It did help me build and use my first GraphQL Server with Flask though.
 
 ## Preliminaries
 
-I was using Python 3.11.6 and installed the following dependencies:
+I used Python 3.11.6 and installed Flask, Flask SQLAlchemy and the Ariadne library for GraphQL-Python integration:
 
 ```bash
 pip install flask ariadne flask-sqlalchemy
 ```
 
-This uses the Ariadne library for GraphQL-Python integration.
-
-Then create and populate the database:
+First create and populate the database:
 
 ```bash
 python setup.py
 ```
 The basic structure of the application is as follows:
 
-<img src="images/structure.png" width="200">
+<img src="images/structure.png" width="175">
 
-This uses an api package where the init file defines the configuration settings, the Flask application, the SQLAlchemy database and a route for just the index page (which is not the GraphQL endpoint), the other files define the databse model and the GraphQL resolvers.
+This uses an api package where the initialization file defines the configuration settings, the Flask application, the SQLAlchemy database, and loads the routes. The core of the GraphQL application is in the routes module, which loads the resolvers for the queries and mutations. The resolvers use the database module. Finally, the type schema are in `schema.graphql` and the run script starts everything off.
 
-The core of the GraphQL application is in `app.py` and the type schema are in `schema.graphql`. Personally I would like most of the GraphQL code in `app.py` to be moved to the package, but that is a oncern for another day.
+This is shown schematically below.
+
+<img src="images/modules.png" width="700">
 
 
 ## Explaining the code
 
-Let's now explain the code, starting with the database. This explanation assumes that you know your Flask and Flask-SQLAlchemy basics.
+Let's now explain the code bit by bit. This explanation assumes that you are good with your Flask and SQLAlchemy basics.
 
 
 ### Defining the database model
@@ -53,12 +53,12 @@ class Post(db.Model):
     created_at = db.Column(db.Date)
 ```
 
-There is also a method to create a dictionary from a Post.
+The *db* variable was generated in the API's initialization file and contains a Flask-aware SQLAlchemy instance. The Post class also has method to create a dictionary from a Post.
 
 
 ### The package's initialization file
 
-Also simple, just some settings and defining the top-level route, which refers to the GraphQL endpoint. 
+Also simple, [api/\_\_init\_\_.py](api/__init__.py) just contains some familiar settings and imports the routes module, which refers to the GraphQL endpoint. 
 
 ```python
 app = Flask(__name__)
@@ -66,9 +66,7 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///posts.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app)
 
-@app.route('/')
-def hello():
-    return '<html>Use the <a href="graphql">Ariadne GrapiQL endpoint</a></html>'
+from api import routes
 ```
 
 
@@ -127,7 +125,7 @@ type Mutation {
 
 ### The query resolvers
 
-Resolvers:
+Some background on resolvers:
 
 - [https://www.tutorialspoint.com/graphql/graphql_resolver.htm](https://www.tutorialspoint.com/graphql/graphql_resolver.htm)
 - [https://graphql.org/learn/execution/](https://graphql.org/learn/execution/)
@@ -186,11 +184,9 @@ The ide is the same as with the query resolvers. The "title" and "description" a
 > I tried bundeling all of these in with the query resolvers by getting rid of the Mutation type and extending the query type. That did not work. There is in general a distinction beween queries and mutations, but I cannot see what it is in the example code.
 
 
-### The application
+### The routes module
 
-This is where everything is tied together. Like I said before, I would like this to be in the package, but for now it serves fine to explain how Flask and GraphQL are intergrated.
-
-The file [app.py](app.py) highlights the use of Ariadne, a Python library for implement GraphQL servers ([https://pypi.org/project/ariadne/](https://pypi.org/project/ariadne/)). In the first part of the file we create Query and Mutation objects, and fields to them and associate the field with resolvers:
+This is where everything is tied together. The file [api/routes.py](api/routes.py) highlights the use of Ariadne, a Python library for implement GraphQL servers ([https://pypi.org/project/ariadne/](https://pypi.org/project/ariadne/)). In the first part of the file we create Query and Mutation objects, add fields to them and associate the field with resolvers:
 
 
 ```python
@@ -205,7 +201,7 @@ mutation.set_field("updatePost", mutations.update_post_resolver)
 mutation.set_field("deletePost", mutations.delete_post_resolver)
 ```
 
-Ariadne ObjectTypes are created for the Query and Mutation types from the schema and each field from the schema is instantiated as a field on the object and linked to the resolver.
+Ariadne ObjectTypes are created for the Query and Mutation types from the schema and each field from the schema is instantiated as a field on the object and linked to its resolver.
 
 Next we load the schema using the following boilerplate.
 
@@ -215,12 +211,12 @@ schema = make_executable_schema(
     type_defs, query, mutation, snake_case_fallback_resolvers)
 ```
 
-Now we can set up the endpoint. Unlike with REST there is only one endpoint for which we define a GET and the POST method. For the GET, which is technically not required, we typically use a standard explorer that allows you to query the GraphQL server:
+Now we can set up the endpoint. Unlike with your typical REST application there is only one endpoint for which we define a GET and the POST method. For the GET, which is technically not required, we typically use a standard explorer that allows you to query the GraphQL server:
 
 ```python
 explorer_html = ExplorerGraphiQL().html(None)
 
-@app.route("/graphql", methods=["GET"])
+@app.get("/graphql")
 def graphql_playground():
     return explorer_html, 200
 ```
@@ -230,7 +226,7 @@ Examples for this will be shown below.
 The server itself is sitting at the endpoint listening to POST requests:
 
 ```python
-@app.route("/graphql", methods=["POST"])
+@app.post("/graphql")
 def graphql_server():
     data = request.get_json()
     success, result = graphql_sync(
@@ -242,7 +238,9 @@ def graphql_server():
     return jsonify(result), status_code
 ```
 
-This is the actual GraphQL server. It starts by using the Flask request to get the data and then hands it to the GraphQL function that executes a query against the schema. Normally you would use "graphql" to execute the query asynchronously, but you cannot do that on Flask.
+This is the actual GraphQL server. It starts by using the Flask request to get the data and then hands it to the GraphQL function that executes a query against the schema. Normally you would use "graphql" to execute the query asynchronously, but you cannot do that with Flask.
+
+Finally, it should be noted that the routes mnodule also includes a standard GET resources to the site's root, all it does is expose a link to the GraphQL playground.
 
 
 ## Accessing the server
@@ -252,7 +250,7 @@ The two options described here are (1) to use the explorer and (2) to use cURL o
 
 ###  ExplorerGraphiQL
 
-To be written.
+<img src="images/graphiql.png">
 
 
 ### Command line access
@@ -294,4 +292,4 @@ And run
 curl 127.0.0.1:5000/graphql -H 'content-type: application/json' -X POST -d@query-SelectPost.json
 ```
 
-Which will have the sam eresult as above.
+Which will have the same result as above.

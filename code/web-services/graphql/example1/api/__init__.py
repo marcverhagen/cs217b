@@ -8,6 +8,4 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app)
 
 
-@app.route('/')
-def hello():
-    return '<html>Use the <a href="graphql">Ariadne GrapiQL endpoint</a></html>'
+from api import routes

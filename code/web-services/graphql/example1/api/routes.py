@@ -1,4 +1,3 @@
-
 from flask import request, jsonify
 
 from ariadne import load_schema_from_path, make_executable_schema
@@ -25,12 +24,17 @@ schema = make_executable_schema(
 explorer_html = ExplorerGraphiQL().html(None)
 
 
-@app.route("/graphql", methods=["GET"])
+@app.get('/')
+def hello():
+    return '<html>Use the <a href="graphql">Ariadne GrapiQL endpoint</a></html>'
+
+
+@app.get("/graphql")
 def graphql_playground():
     return explorer_html, 200
 
 
-@app.route("/graphql", methods=["POST"])
+@app.post("/graphql")
 def graphql_server():
     data = request.get_json()
     success, result = graphql_sync(
@@ -40,8 +44,3 @@ def graphql_server():
         debug=app.debug)
     status_code = 200 if success else 400
     return jsonify(result), status_code
-
-    
-if __name__ == '__main__':
-
-    app.run(debug=True)
