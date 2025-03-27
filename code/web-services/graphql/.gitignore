@@ -1,0 +1,7 @@
+# the sqlite databases
+example1/instance
+
+# the repository with a Flask GrapQL example
+flask-graphql
+
+find.sh

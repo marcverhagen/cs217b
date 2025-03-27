@@ -1,0 +1,3 @@
+{
+  "query": "query SelectPost { getPost (id: 1) { post { title } } }"
+}

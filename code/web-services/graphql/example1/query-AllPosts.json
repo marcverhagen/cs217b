@@ -1,0 +1,3 @@
+{
+  "query": "query AllPosts { listPosts { posts { title }}}"
+}
