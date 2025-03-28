@@ -29,17 +29,16 @@ The basic structure of the application is as follows:
 
 <img src="images/structure.png" width="175">
 
-This uses an api package where the initialization file defines the configuration settings, the Flask application, the SQLAlchemy database, and loads the routes. The core of the GraphQL application is in the routes module, which loads the resolvers for the queries and mutations. The resolvers use the database module. Finally, the type schema are in `schema.graphql` and the run script starts everything off.
-
-This is shown schematically below.
-
-<img src="images/modules.png" width="700">
+This uses an api package where the initialization file defines the configuration settings, the Flask application and the SQLAlchemy database, and then loads the routes. The core of the GraphQL application is in the routes module, which loads the resolvers for the queries and mutations. The resolvers use the database module. Finally, the type schema are in `schema.graphql` and the run script loads the api package and starts everything off.
 
 
 ## Explaining the code
 
-Let's now explain the code bit by bit. This explanation assumes that you are good with your Flask and SQLAlchemy basics.
+Let's now explain the code bit by bit. This explanation assumes that you are good with your Flask and SQLAlchemy basics. As an initial overview, here is an image that shows the relations between the main components:
 
+<img src="images/modules.png" width="700">
+
+Python imports are denoted by arrows, code modules have dark red borders and schema have dark green borders.
 
 ### Defining the database model
 
@@ -53,7 +52,7 @@ class Post(db.Model):
     created_at = db.Column(db.Date)
 ```
 
-The *db* variable was generated in the API's initialization file and contains a Flask-aware SQLAlchemy instance. The Post class also has method to create a dictionary from a Post.
+The *db* variable was generated in the API's initialization file and contains a Flask-aware SQLAlchemy instance. The Post class also has a method to create a dictionary from a Post.
 
 
 ### The package's initialization file
@@ -73,9 +72,9 @@ from api import routes
 ### The GraphQL schema
 
 GrapQL schema are written in the schema definition language (SDL, see
-[https://graphql.org/learn/schema/](https://graphql.org/learn/schema/). Some GraphQL libraries let you construct schema types, fields, and resolver functions (see later) together using the same programming language that was used to write the GraphQL implementation.
+[https://graphql.org/learn/schema/](https://graphql.org/learn/schema/)). Some GraphQL libraries let you construct schema types, fields, and resolver functions together using the same programming language that was used to write the GraphQL implementation, but here we use SDL.
 
-The schema definitions are in [schema.graphql](schema.graphql). This first one for "schema" determines what type of operations clients can perform. In this case, clients can perform Query operations and Mutation operations. The names are not fixed to be "Query" and "Mutation" (but if you change them you also need to change tham in the application). In this case we go with SDL.
+The schema definitions are in [schema.graphql](schema.graphql). This first one for "schema" determines what type of operations clients can perform. In this case, clients can perform Query operations and Mutation operations. The names are not fixed to be "Query" and "Mutation" (but if you change them you also need to change tham in the application).
 
 ```
 schema {
@@ -84,7 +83,7 @@ schema {
 }
 ```
 
-Next we have some data types. The Post type's structure is identical to the Post model defined for the database.  The name does not have to be the same as the class name of the model, but it sure make sense to do that. The PostsResult type defines the structure of the response object when we query for all the posts in the database and PostResult represents the response when we query for one post in the database. The exclamation mark indicates a required value, lists (angled brackets) are lists of certain types and can be empty.
+Next we have some data types. The Post type's structure is identical to the Post model defined for the database.  The name does not have to be the same as the class name of the model, but it sure make sense to do that. The PostsResult type defines the structure of the response object when we query for all the posts in the database and PostResult represents the response when we query for one post in the database. The exclamation mark indicates a required value, lists (square brackets) are lists of certain types and can be empty.
 
 
 ```
@@ -108,7 +107,7 @@ type PostsResult {
 }
 ```
 
-The type Query defines the query operations that our clients can perform. Here, we have two queries: a listPosts query to grab all the posts from the database, and a getPost query to get a particular post by its id. And the type Mutation defines three operations: createPost, updatePost and deletePost. All these aperations will be accessed bu the application.
+The type Query defines the query operations that our clients can perform. Here, we have two queries: a listPosts query to grab all the posts from the database and a getPost query to get a particular post by its id. And the type Mutation defines three operations: createPost, updatePost and deletePost. All these aperations will be accessed bu the application.
 
 ```
 type Query {
@@ -130,7 +129,7 @@ Some background on resolvers:
 - [https://www.tutorialspoint.com/graphql/graphql_resolver.htm](https://www.tutorialspoint.com/graphql/graphql_resolver.htm)
 - [https://graphql.org/learn/execution/](https://graphql.org/learn/execution/)
 
-A resolver is a collection of functions that generate response for a GraphQL query. In simple terms, a resolver acts as a GraphQL query handler. In our case we have one resolver per query and there are two query resolvers. This is the resolver for the "listPosts" query from the SDL above.
+A resolver is a collection of functions that generate the response for a GraphQL query. In simple terms, a resolver acts as a GraphQL query handler. In our case we have one resolver per query and there are two query resolvers. This is the resolver for the "listPosts" query from the SDL above.
 
 ```python
 def listPosts_resolver(obj, info):
@@ -141,7 +140,7 @@ def listPosts_resolver(obj, info):
         return {"success": False,"errors": [str(error)]}
 ```
 
-The resolver is really a bridge between the schema and the return value. This one uses the Post model to get the results from the database and then wraps it in exactly the way that the schema expect, if you leave out "success" for example you will get an error. Note the "obj" and "info", they are two of the arguments that are always handed in to and they contain the object that contains the result returned from the resolver on the parent field and information about the execution state of the query, including the field name, path to the field from the root. These are not used here.
+The resolver is really a bridge between the schema and the return value. This one uses the Post model to get the results from the database and then wraps it in exactly the way that the schema expect, if you leave out "success" for example you will get an error. Note the "obj" and "info" arguments, these are always handed in to the resolver and they contain the object with the result returned from the resolver on the parent field and information about the execution state of the query, including the field name and path to the field from the root. These are not used here.
 
 > Add something about the args and context arguments
 
@@ -164,7 +163,7 @@ There are two differences here. One is the added argument, which is licensed by 
 
 ### The mutation resolvers
 
-In a way this is more of the same with the main difference with the query resolvers being that we actually commit changes to the databse. We look at one of the three resolvers here.
+In a way this is more of the same with the main difference with the query resolvers being that we actually commit changes to the database. We look at one of the three resolvers here.
 
 ```python
 @convert_kwargs_to_snake_case
@@ -179,14 +178,14 @@ def create_post_resolver(obj, info, title, description):
         return { "success": False, "errors": [f"{type(e)}: {e}"] }
 ```
 
-The ide is the same as with the query resolvers. The "title" and "description" arguments are licensed by the schema, these arguments are used to create a new post and update the database and then a response is generated that matches the specifications in the schema.
+The idea is the same as with the query resolvers. The "title" and "description" arguments are licensed by the schema, these arguments are used to create a new post and update the database and then a response is generated that matches the specifications in the schema.
 
 > I tried bundeling all of these in with the query resolvers by getting rid of the Mutation type and extending the query type. That did not work. There is in general a distinction beween queries and mutations, but I cannot see what it is in the example code.
 
 
 ### The routes module
 
-This is where everything is tied together. The file [api/routes.py](api/routes.py) highlights the use of Ariadne, a Python library for implement GraphQL servers ([https://pypi.org/project/ariadne/](https://pypi.org/project/ariadne/)). In the first part of the file we create Query and Mutation objects, add fields to them and associate the field with resolvers:
+This is where everything is tied together. The file [api/routes.py](api/routes.py) highlights the use of Ariadne, a Python library for implementing GraphQL servers ([https://pypi.org/project/ariadne/](https://pypi.org/project/ariadne/)). In the first part of the file we create Query and Mutation objects, add fields to them and associate the field with resolvers:
 
 
 ```python
@@ -245,11 +244,18 @@ Finally, it should be noted that the routes mnodule also includes a standard GET
 
 ## Accessing the server
 
-The two options described here are (1) to use the explorer and (2) to use cURL on the command line.
+First start the server with
+
+```bash
+python run.py
+```
+
+You can now access the server in several ways, here we describe (1) using the explorer and (2) using cURL on the command line.
 
 
-###  ExplorerGraphiQL
+###  GraphiQL
 
+The explorer runs on [http://127.0.0.1:5000/graphql](http://127.0.0.1:5000/graphql):
 <img src="images/graphiql.png">
 
 
