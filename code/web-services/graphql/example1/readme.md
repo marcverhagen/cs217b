@@ -40,9 +40,24 @@ Let's now explain the code bit by bit. This explanation assumes that you are goo
 
 Python imports are denoted by arrows, code modules have dark red borders and schema have dark green borders.
 
+
+### The package's initialization file
+
+This is simple, [api/\_\_init\_\_.py](api/__init__.py) just contains some familiar settings and imports the routes module, which refers to the GraphQL endpoint. 
+
+```python
+app = Flask(__name__)
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///posts.db"
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+db = SQLAlchemy(app)
+
+from api import routes
+```
+
+
 ### Defining the database model
 
-This is simple, the [api/models.py](api/models.py) module contains a simple and generic definition of a model:
+Also simple, the [api/models.py](api/models.py) module contains a simple and generic definition of a model:
 
 ```python
 class Post(db.Model):
@@ -55,26 +70,13 @@ class Post(db.Model):
 The *db* variable was generated in the API's initialization file and contains a Flask-aware SQLAlchemy instance. The Post class also has a method to create a dictionary from a Post.
 
 
-### The package's initialization file
-
-Also simple, [api/\_\_init\_\_.py](api/__init__.py) just contains some familiar settings and imports the routes module, which refers to the GraphQL endpoint. 
-
-```python
-app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///posts.db"
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-db = SQLAlchemy(app)
-
-from api import routes
-```
-
 
 ### The GraphQL schema
 
 GrapQL schema are written in the schema definition language (SDL, see
 [https://graphql.org/learn/schema/](https://graphql.org/learn/schema/)). Some GraphQL libraries let you construct schema types, fields, and resolver functions together using the same programming language that was used to write the GraphQL implementation, but here we use SDL.
 
-The schema definitions are in [schema.graphql](schema.graphql). This first one for "schema" determines what type of operations clients can perform. In this case, clients can perform Query operations and Mutation operations. The names are not fixed to be "Query" and "Mutation" (but if you change them you also need to change tham in the application).
+The schema definitions are in [schema.graphql](schema.graphql). This first fragment with "schema" determines what type of operations clients can perform. In this case, clients can perform Query operations and Mutation operations. The names are not fixed to be "Query" and "Mutation" (but if you change them you also need to change tham in the application).
 
 ```
 schema {
@@ -107,7 +109,7 @@ type PostsResult {
 }
 ```
 
-The type Query defines the query operations that our clients can perform. Here, we have two queries: a listPosts query to grab all the posts from the database and a getPost query to get a particular post by its id. And the type Mutation defines three operations: createPost, updatePost and deletePost. All these aperations will be accessed bu the application.
+The type Query defines the query operations that our clients can perform. Here, we have two queries: a listPosts query to grab all the posts from the database and a getPost query to get a particular post by its id. And the type Mutation defines three operations: createPost, updatePost and deletePost. All these aperations will be accessed by the application.
 
 ```
 type Query {
@@ -160,6 +162,8 @@ There are two differences here. One is the added argument, which is licensed by 
 
 > TODO: come up with a use case for this 
 
+There is no explicit link between the queries and the resolvers yet, this happens in another module.
+
 
 ### The mutation resolvers
 
@@ -180,7 +184,7 @@ def create_post_resolver(obj, info, title, description):
 
 The idea is the same as with the query resolvers. The "title" and "description" arguments are licensed by the schema, these arguments are used to create a new post and update the database and then a response is generated that matches the specifications in the schema.
 
-> I tried bundeling all of these in with the query resolvers by getting rid of the Mutation type and extending the query type. That did not work. There is in general a distinction beween queries and mutations, but I cannot see what it is in the example code.
+> I tried bundeling all of these in with the query resolvers by getting rid of the Mutation type and extending the query type. That did not work. There is in general a distinction beween queries and mutations, and it extends to this grouping.
 
 
 ### The routes module
@@ -237,9 +241,9 @@ def graphql_server():
     return jsonify(result), status_code
 ```
 
-This is the actual GraphQL server. It starts by using the Flask request to get the data and then hands it to the GraphQL function that executes a query against the schema. Normally you would use "graphql" to execute the query asynchronously, but you cannot do that with Flask.
+This is the actual GraphQL server. It starts by using the Flask request to get the data and then hands it to the GraphQL function that executes a query against the schema. Normally you would use "graphql" to execute the query asynchronously, but you cannot do that with Flask when you use the built-in server (but you can if you use gunicorn).
 
-Finally, it should be noted that the routes mnodule also includes a standard GET resources to the site's root, all it does is expose a link to the GraphQL playground.
+Finally, it should be noted that the routes module also includes a standard GET resources for the site's root, all it does is expose a link to the GraphQL playground.
 
 
 ## Accessing the server
@@ -250,7 +254,7 @@ First start the server with
 python run.py
 ```
 
-You can now access the server in several ways, here we describe (1) using the explorer and (2) using cURL on the command line.
+You can now access the server in several ways, here we describe (1) using the explorer, (2) using a third-party Python package, and (3) using cURL on the command line.
 
 
 ###  GraphiQL
@@ -273,7 +277,6 @@ import json
 from gql import gql, Client
 from gql.transport.aiohttp import AIOHTTPTransport
 
-
 # Select your transport with a defined url endpoint
 transport = AIOHTTPTransport(url="http://127.0.0.1:5000/graphql")
 
@@ -288,6 +291,7 @@ result = client.execute(query)
 print(json.dumps(result))
 ```
 
+When you run the above you get something like this:
 
 ```json
 {

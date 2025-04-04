@@ -11,6 +11,7 @@ Web services:
 - [FastAPI](code/web-services/fastapi)
 - [Flask](code/web-services/flask)
 - [Streamlit](code/web-services/streamlit)
+- [GraphQL](code/web-services/graphql/example1)
 
 Databases:
 
