@@ -1,0 +1,3 @@
+{
+    "query": "mutation CreateNewPost { createPost( title: \"New Blog Post\", description: \"Some Description\") { post { id title description created_at } success errors } }"
+}
