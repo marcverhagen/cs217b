@@ -253,6 +253,54 @@ The two options described here are (1) to use the explorer and (2) to use cURL o
 <img src="images/graphiql.png">
 
 
+### GQL
+
+One of the libraries you can use to create a Python client.
+
+```bash
+pip install gql[all]
+```
+
+```python
+import json
+
+from gql import gql, Client
+from gql.transport.aiohttp import AIOHTTPTransport
+
+
+# Select your transport with a defined url endpoint
+transport = AIOHTTPTransport(url="http://127.0.0.1:5000/graphql")
+
+# Create a GraphQL client using the defined transport
+client = Client(transport=transport, fetch_schema_from_transport=True)
+
+# Provide a simple GraphQL query, just listing the titles
+query = gql('query AllPosts { listPosts { posts { title } } }')
+
+# Execute the query on the transport
+result = client.execute(query)
+print(json.dumps(result))
+```
+
+
+```json
+{
+  "listPosts": {
+    "errors": null,
+    "posts": [
+      {
+        "title": "A new morning"
+      },
+      {
+        "title": "Another one"
+      }
+    ],
+    "success": true
+  }
+}
+```
+
+
 ### Command line access
 
 To select a post use cURL as follows:
@@ -293,3 +341,12 @@ curl 127.0.0.1:5000/graphql -H 'content-type: application/json' -X POST -d@query
 ```
 
 Which will have the same result as above.
+
+This works for mutations as well, but with longer queries it gets a bit cumbersome so you are better off with doing this programatically.
+
+```bash
+curl 127.0.0.1:5000/graphql -H 'content-type: application/json' -X POST -d '
+{ 
+  "query": "mutation CreateNewPost { createPost( title: \"New Blog Post\", description: \"Some Description\") { post { id title description created_at } success errors } }"
+}'
+```

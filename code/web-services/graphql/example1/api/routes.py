@@ -19,7 +19,7 @@ mutation.set_field("deletePost", mutations.delete_post_resolver)
 
 type_defs = load_schema_from_path("schema.graphql")
 schema = make_executable_schema(
-    type_defs, query, mutation, snake_case_fallback_resolvers)
+    type_defs, query, mutation)#, snake_case_fallback_resolvers)
 
 explorer_html = ExplorerGraphiQL().html(None)
 
