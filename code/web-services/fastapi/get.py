@@ -6,6 +6,7 @@ uvicorn get:app --reload
 http://127.0.0.1:8000
 http://127.0.0.1:8000/repeat/12
 http://127.0.0.1:8000/repeat/12?double=True
+http://127.0.0.1:8000/repeat/twelve
 http://127.0.0.1:8000/iterate?count=2
 http://127.0.0.1:8000/iterate?count=2&double=true
 http://127.0.0.1:8000/docs

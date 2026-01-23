@@ -1,10 +1,8 @@
 # COSI 217b - NLP Systems
 
-Assignments:
+Current:
 
-- [Assignment 1](docs/assignments/assignment1.md)
-- [Assignment 2](docs/assignments/assignment2.md)
-- [Assignment 3](docs/assignments/assignment3.md)
+- [link to FastAPI example](code/web-services/fastapi/get.py)
 
 Web services:
 
