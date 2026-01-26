@@ -1,11 +1,11 @@
 # FastAPI
 
-This directory may exhausts all the FastAPI that you need for this course.
+This directory may exhaust all the FastAPI that you need for this course.
+
+Some of the following examples and prose were taken from [https://fastapi.tiangolo.com/tutorial/](https://fastapi.tiangolo.com/tutorial/) and [https://refine.dev/blog/introduction-to-fast-api/](https://refine.dev/blog/introduction-to-fast-api/#introduction).
 
 
 ## Getting started
-
-Mostly taken from [https://refine.dev/blog/introduction-to-fast-api/#introduction](https://refine.dev/blog/introduction-to-fast-api/#introduction).
 
 Installation:
 
@@ -13,36 +13,50 @@ Installation:
 $ pip install fastapi uvicorn
 ```
 
-Simple file (named `main.py`):
+Create a simple file named `hello.py` with the following content:
 
 ```python
 from fastapi import FastAPI
 
-fastapi = FastAPI()
+app = FastAPI()
 
-@fastapi.get("/")
-async def home():
+@app.get("/")
+def home():
     return {"data": "Hello World"}
 ```
 
-Running:
+Start the FastAPI server from the directory that contains the script with:
 
 ```bash
-$ uvicorn main:app --reload
+$ uvicorn hello:app --reload
 ```
 
+Then access the server at [http:/127.0.0.1:8000](http:/127.0.0.1:8000).
 
-## More
 
-With [get.py](get.py) we already get some very bare-bones type checking. When you run it (with `uvicorn main:app --reload`) you will notice that the type hints are actually doing more than documenting the code:
+## GET and POST examples
+
+In [get.py](get.py) there are some examples of using path parameters and query parameters. When you run it with `uvicorn get:app --reload` you will notice that for FastAPI the type hints are doing more than documenting the code.
+
+Try these URLs:
 
 - [http://127.0.0.1:8000/repeat/2](http://127.0.0.1:8000/repeat/2)
 - [http://127.0.0.1:8000/repeat/two](http://127.0.0.1:8000/repeat/two)
 
-The second one will fail.
+Or alternatively these curl commands from a terminal:
 
-Also, I had a brain fart in class when I said that the `double` parameter in `repeat()` is ignored. Wrong, you can access it with [http://127.0.0.1:8000/repeat/12?double=True](http://127.0.0.1:8000/repeat/12?double=True).
+```bash
+curl http://127.0.0.1:8000/repeat/2
+curl http://127.0.0.1:8000/repeat/two
+```
+The second request will fail. This is because under the hood the Pydantic data valication library is used and the definition of the resource requires that the count variable is an integer.
 
-And in [post.py](post.py) we take that one step further by using the pydantic library. With that FastAPI performs meaningful type checks on the JSON that you hand into a post request. Try some of the Curl POST requests from a terminal and notice how some of them will fail.
+```python
+@app.get("/repeat/{count}")
+def repeat(count: int, double: bool = False):
+    return again(count, double)
+```
 
-For both APIs you can get the Swagger UI at [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs).
+In [post.py](post.py) we take that one step further by using the Pydantic library explicitly. With that FastAPI performs type checks on the JSON object that you hand in to a post request.
+
+For both APIs you can get the Swagger UI at [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs). This UI can be very helpful especially when getting an idea on how to create the body to be sent via a POST request.
