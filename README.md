@@ -1,8 +1,11 @@
 # COSI 217b - NLP Systems
 
-Current:
+**Current**:
 
-- [link to FastAPI example](code/web-services/fastapi/get.py)
+- [Link to FastAPI example](code/web-services/fastapi/get.py)
+- [Assignment 1a](docs/assignments/2026/assignment1a.md)
+
+--
 
 Web services:
 

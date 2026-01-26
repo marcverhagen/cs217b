@@ -18,10 +18,12 @@ app = FastAPI()
 
 @app.get("/")
 def howdy():
+    """Return a basic Howdy message."""
     return {"message": "Howdy"}
 
 @app.get("/repeat/{count}")
 def repeat(count: int, double: bool = False):
+    """Repeat "Howdy" a number of times, doubling the total if requested."""
     return again(count, double)
 
 @app.get("/iterate")
