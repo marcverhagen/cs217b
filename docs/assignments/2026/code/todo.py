@@ -1,9 +1,20 @@
+"""
+
+Simple (and simplistic) implementation of a TODO list.
+
+"""
+
 from datetime import date
 from pathlib import Path
 
 
 class TodoList:
 
+	"""Class that stores the items and actis as an interface to the items stored
+	on disk."""
+
+	# This variable stores the current number of items in the list. It's used when
+	# generating the identifier of a new Item.
 	count = 0
 
 	@classmethod
@@ -26,11 +37,15 @@ class TodoList:
 		return f'<TodoList with {TodoList.count} items>'
 
 	def add(self, note: str, priority: int = 0, due: str = None):
+		"""Add an item by handing in the description, the priority and the due
+		date. Note that no identifier is needed here. Also, this only changes the
+		in-memory items list.""" 
 		item = TodoItem(note=note, priority=priority, due=due)
 		self.items.append(item)
 		return item
 
 	def load(self):
+		"""Empty the current list of items and load items from disk."""
 		self.items = []
 		with open(self.db) as fh:
 			for line in fh:
@@ -43,6 +58,7 @@ class TodoList:
 		return [item.as_json() for item in self if item.matches(term)]
 
 	def save(self):
+		"""Save the items, overwriting what was on the disk previously."""
 		with open(self.db, 'w') as fh:
 			for item in self:
 				fh.write(item.as_csv())
@@ -77,6 +93,7 @@ class TodoItem:
 		return f'<TodoItem id={self.identifier} note="{self.note}">'
 
 	def update(self, field: str, value):
+		"""Update the item, does not change the item saved on disk."""
 		setatr(self, field, value)
 
 	def matches(self, term: str):
