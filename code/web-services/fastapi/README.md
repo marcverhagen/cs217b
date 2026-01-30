@@ -36,7 +36,7 @@ Then access the server at [http:/127.0.0.1:8000](http:/127.0.0.1:8000).
 
 ## GET and POST examples
 
-In [get.py](get.py) there are some examples of using path parameters and query parameters. When you run it with `uvicorn get:app --reload` you will notice that for FastAPI the type hints are doing more than documenting the code.
+In [get.py](get.py) there are some examples of using path parameters and query parameters. When you run it with `uvicorn get:app --reload` and send off some requests you will notice that for FastAPI the type hints are doing more than documenting the code.
 
 Try these URLs:
 
@@ -49,7 +49,7 @@ Or alternatively these curl commands from a terminal:
 curl http://127.0.0.1:8000/repeat/2
 curl http://127.0.0.1:8000/repeat/two
 ```
-The second request will fail. This is because under the hood the Pydantic data valication library is used and the definition of the resource requires that the count variable is an integer.
+The second request will fail. This is because under the hood the Pydantic data valication library is used and the definition of the resource requires that the count variable is an integer. So with the following code fragement FastAPI/Pydantic will convert the input string from the path parameter *count* into an integer, or raise an error when that fails.
 
 ```python
 @app.get("/repeat/{count}")
@@ -57,6 +57,6 @@ def repeat(count: int, double: bool = False):
     return again(count, double)
 ```
 
-In [post.py](post.py) we take that one step further by using the Pydantic library explicitly. With that FastAPI performs type checks on the JSON object that you hand in to a post request.
+In [post.py](post.py) we take that one step further by using the Pydantic library explicitly. With that, FastAPI performs type checks on the JSON object that you have in the body of the post request.
 
 For both APIs you can get the Swagger UI at [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs). This UI can be very helpful especially when getting an idea on how to create the body to be sent via a POST request.

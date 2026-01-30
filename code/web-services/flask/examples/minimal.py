@@ -9,7 +9,7 @@ app = Flask(__name__)
 # the GET request.
 @app.route("/")
 def howdy():
-    return 'Howdy'
+    return 'Howdy!'
 
 # When you run this a server will be available at http://127.0.0.1:5000/,
 # running on Flask's default port 5000, you can change the port using the "port"
