@@ -4,8 +4,9 @@
 
 - [Link to FastAPI example](code/web-services/fastapi/get.py)
 - [Assignment 1a](docs/assignments/2026/assignment1a.md)
+- [In-class Flask exercise](code/lecture_notes/2-web-services/flask/README.md)
 
---
+---
 
 Web services:
 

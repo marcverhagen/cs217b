@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, make_response
 
 app = Flask(__name__)
 
@@ -60,15 +60,18 @@ def multiply4():
     return jsonify({'result': some_json['number'] * 10})
 
 # curl http://127.0.0.1:5000/bounce -H "Content-Type: text/plain" -d 'Number 5'
-# curl http://127.0.0.1:5000/bounce -H "Content-Type: application/json" -d '{"Number": 5}'
-# The request object also gives access to the raw data of the POST request
+# curl http://127.0.0.1:5000/bounce -H "Content-Type: application/json" -d '{"ole": 5}'
+# The request object also gives access to the raw data of the POST request, here used
+# in case the input is not json
 @app.route('/bounce', methods=['POST'])
 def bounce():
-    r = request
-    answer = (
-        f'{r.method} {r.path} {r.environ.get("SERVER_PROTOCOL")}\n'
-        + f'{r.headers}{r.json}\n')
-    return answer
+    content_type = request.headers['Content-Type']
+    if content_type == 'application/json':
+        response = make_response(jsonify(request.get_json()), 200)
+    else:
+        response = make_response(request.data, 200)
+    response.headers['Content-Type'] = content_type
+    return response
 
 
 if __name__ == '__main__':
@@ -79,18 +82,18 @@ if __name__ == '__main__':
 
 Two ways of sending the content of the POST request:
 
-$ curl http://127.0.0.1:5000/ -H "Content-Type: application/json" -X POST -d '{"name": "sue"}'
-$ curl http://127.0.0.1:5000/ -H "Content-Type: application/json" -X POST -d @input/message.json
+  curl http://127.0.0.1:5000/ -H "Content-Type: application/json" -X POST -d '{"name": "sue"}'
+  curl http://127.0.0.1:5000/ -H "Content-Type: application/json" -X POST -d @input/message.json
 
 When you use -d the POST method is implied so you can shorten this a bit:
 
-$ curl http://127.0.0.1:5000/ -H "Content-Type: application/json" -d '{"name": "sue"}'
-$ curl http://127.0.0.1:5000/ -H "Content-Type: application/json" -d @input/message.json
+  curl http://127.0.0.1:5000/ -H "Content-Type: application/json" -d '{"name": "sue"}'
+  curl http://127.0.0.1:5000/ -H "Content-Type: application/json" -d @input/message.json
 
 We can send something that is not JSON:
 
-$ curl http://127.0.0.1:5000/bounce -H "Content-Type: application/json" -d @input/message.json
-$ curl http://127.0.0.1:5000/bounce -H "Content-Type: text/plain" -d @input/message.txt
-$ curl http://127.0.0.1:5000/bounce -H "Content-Type: text/xml" -d @input/message.xml
+  curl http://127.0.0.1:5000/bounce -H "Content-Type: application/json" -d @input/message.json
+  curl http://127.0.0.1:5000/bounce -H "Content-Type: text/plain" -d @input/message.txt
+  curl http://127.0.0.1:5000/bounce -H "Content-Type: text/xml" -d @input/message.xml
 
 '''

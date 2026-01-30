@@ -1,15 +1,10 @@
 # Flask examples
 
-You need to install Flask and the Flask extension that supports building REST APIs.
+To run these examples install Flask and the Flask extension that supports building REST APIs.
 
 ```bash
-$ pip install Flask
-$ pip install Flask-RESTful
+$ pip install flask flask-restful
 ```
-
-Suggested viewing for a simple introduction to Flask RESTful APIs:
-
-[https://www.youtube.com/watch?v=s_ht4AKnWZg](https://www.youtube.com/watch?v=s_ht4AKnWZg)
 
 The code for all examples below are in this repository under the path mentioned.
 
@@ -31,7 +26,7 @@ if __name__ == '__main__':
     app.run(debug=True)
 ```
 
-This code is in [examples/minimal.py](examples/minimal.py), which has a few comments added. You run this by typing the following on the command line:
+This code is in [examples/minimal.py](examples/minimal.py), which has a few comments added. Run this by typing the following on the command line:
 
 ```bash
 $ python minimal.py
@@ -43,12 +38,77 @@ This will give you some message which includes a note that the server is running
 $ curl http://127.0.0.1:5000
 ```
 
-When you add the `-v` flag to curl you will notice that the content type return is text/html, which shows you that Flask's default is to serve a webpage and not the JSON that you would typically expect from a RESTful service.
+When you add the `-v` flag to curl you will notice that the content type returned is text/html, which shows you that Flask's default is to serve a webpage and not the JSON that you would typically expect from a RESTful service.
 
 
-## Returning JSON and adding POST requests
+## Less minimal API
 
-See [examples/minimal\_get_and\_post.py](examples/minimal_get_and_post.py) for commented code.
+There is a slightly less trivial site in [examples/api\_simple.py](examples/api_simple.py). It uses the same boilerplate at the top as the previous example and starts the site in the same way. But it has two resources where one responds to both GET and POST requests.
+
+```python
+@app.get("/")
+def get_string():
+    return {'result': 'Howdy'} 
+
+@app.post("/")
+def bounce_string():
+    some_json = request.get_json()
+    return {'returning': some_json}, 200
+
+@app.get('/multiply/<int:num>')
+def multiply(num):
+    return { 'result': num * 10 }
+```
+
+
+## Same, but using Flask's RESTful API
+
+The above example mixes a couple of things together, in particular, the location of the resource is closely associated with the function that does the work. Using the Flask RESTful API separates these concerns and this is what is done in [examples/api\_restful.py](examples/api_restful.py).
+
+First, you do an extra import and you wrap an API around the application:
+
+```python
+from flask import Flask, request
+from flask_restful import Resource, Api
+
+app = Flask(__name__)
+api = Api(app)
+```
+
+Then you define the resources, where each resource can have a GET and a POST method:
+
+```python
+class Howdy(Resource):
+    def get(self):
+        return {'result': 'Howdy'}
+    def post(self):
+        some_json = request.get_json()
+        return {'returning': some_json}, 201
+
+class Multiply(Resource):
+    def get(self, num):
+        return { 'result': num * 10 }
+```
+
+Note how the resources themselves have no idea where they live, that is determined later, when you tell the API to add the resource at a partucular path:
+
+```python
+api.add_resource(Howdy, '/')
+api.add_resource(Multiply, '/multiply/<int:num>')
+```
+
+And finally you start the applicatin, just as before:
+
+```python
+if __name__ == '__main__':
+    app.run(debug=True)
+```
+
+
+
+## More examples
+
+See [examples/get_and\_post.py](examples/get_and_post.py) for commented code.
 
 When you import `request` from the Flask package you have access to all goodies associated with the request. For example, you can (1) get the HTTP verb from the request and use it to determine what action to follow, and (2) retrieve the JSON that was associated with a POST request:
 
@@ -114,47 +174,19 @@ Finally, you can send any kind of data, not just JSON:
 ```python
 @app.route('/bounce', methods=['POST'])
 def bounce():
-    answer = '\nContent-Type: %s\n\n' % request.headers['Content-Type']
-    answer += str(request.data) + '\n\n'
-    return answer
+    content_type = request.headers['Content-Type']
+    if content_type == 'application/json':
+        response = make_response(jsonify(request.get_json()), 200)
+    else:
+        response = make_response(request.data, 200)
+    response.headers['Content-Type'] = content_type
+    return response
 ```
-
-
-## Using the RESTful API
-
-The above example mix a couple of things together, in particular, the location of the resource is closely associated with the function that does the work. Using the Flask RESTful API decouples these. This is shown in file [examples/minimal\_restful\_api.py](examples/minimal_restful_api.py).
-
-```python
-from flask import Flask, request
-from flask_restful import Resource, Api
-
-app = Flask(__name__)
-api = Api(app)
-
-class Howdy(Resource):
-    def get(self):
-        return {'result': 'Howdy'}
-    def post(self):
-        some_json = request.get_json()
-        return {'returning': some_json}, 201
-
-class Multiply(Resource):
-    def get(self, num):
-        return { 'result': num * 10 }
-
-api.add_resource(Howdy, '/')
-api.add_resource(Multiply, '/multiply/<int:num>')
-
-if __name__ == '__main__':
-    app.run(debug=True)
-```
-
-Note how the resources themselves have no idea where they live, that is determined later, when they are added to the API.
 
 
 ## Rendering HTML
 
-You can return an HTML string from the method that is attached to a resource, but that gets unwieldy quickly. It is better to use the `render_template()` method. See [examples/minimal\_render\_template.py](examples/minimal_render_template.py) for the main code, [templates/result.html](templates/result.html) for the Jinja template and [static/css/main.css](static/css/main.css) for the style sheet.
+You can return an HTML string from the method that is attached to a resource, but that gets unwieldy quickly. It is better to use the `render_template()` method. See [examples/form.py](examples/form.py) for the main code, [examples/templates/result.html](examples/templates/result.html) for the Jinja template and [static/css/main.css](static/css/main.css) for the style sheet.
 
 ```python
 from flask import Flask, request, render_template

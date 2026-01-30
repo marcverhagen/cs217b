@@ -2,6 +2,7 @@ from flask import Flask, request, render_template, Response
 
 app = Flask(__name__)
 
+
 @app.get('/')
 def index():
     return ('<html>\n'
@@ -13,7 +14,8 @@ def index():
             '  </body>\n'
             '</html>\n')
 
-@app.route('/multiply', methods=['POST'])
+
+@app.post('/multiply')
 def multiply():
     num = request.form.get('number', type=int)
     result = num * 10

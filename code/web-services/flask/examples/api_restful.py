@@ -12,7 +12,7 @@ class Howdy(Resource):
 
     def post(self):
         some_json = request.get_json()
-        return {'returning': some_json}, 201
+        return {'returning': some_json}, 200
 
 
 class Multiply(Resource):

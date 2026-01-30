@@ -1,6 +1,6 @@
 # Metaclasses
 
-Notes on how metaclasses work and what yu can use them for.
+Notes on how metaclasses work and what you can use them for.
 
 In order to explain this we start from the beginning with explaining simple class and instance creation in a little bit more detail.
 
