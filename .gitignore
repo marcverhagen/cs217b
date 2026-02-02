@@ -12,6 +12,6 @@ code/databases/sqlite/people/*.sqlite
 code/databases/sqlite/flights/flights.db
 code/databases/alchemy/instance
 code/databases/alchemy/circular/instance
+docs/assignments/2026/repos
 docker/getting-started
 backup.sh
-assignments.bak
