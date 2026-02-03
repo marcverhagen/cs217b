@@ -1,0 +1,13 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="/static/css/main.css"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/mainXXX.css') }}"/>
+  </head>
+  <body>
+    <h2>Result</h2>
+    <div>
+       {{ x }} {{ op }} {{ y }} = {{ result }}
+    </div>
+    <p><a href="/">back</a></p>
+  </body>
+</html>
