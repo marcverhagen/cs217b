@@ -10,7 +10,7 @@ from pathlib import Path
 
 class TodoList:
 
-	"""Class that stores the items and actis as an interface to the items stored
+	"""Class that stores the items and acts as an interface to the items stored
 	on disk."""
 
 	# This variable stores the current number of items in the list. It's used when
@@ -36,11 +36,11 @@ class TodoList:
 	def __str__(self):
 		return f'<TodoList with {TodoList.count} items>'
 
-	def add(self, note: str, priority: int = 0, due: str = None):
+	def add(self, note: str, priority: int = 0, due: str = None, done: bool = False):
 		"""Add an item by handing in the description, the priority and the due
 		date. Note that no identifier is needed here. Also, this only changes the
-		in-memory items list.""" 
-		item = TodoItem(note=note, priority=priority, due=due)
+		in-memory items list."""
+		item = TodoItem(note=note, priority=priority, due=due, done=done)
 		self.items.append(item)
 		return item
 
@@ -50,6 +50,9 @@ class TodoList:
 		with open(self.db) as fh:
 			for line in fh:
 				identifier, priority, done, created, due, note = line.strip().split('\t')
+				done = True if done == 'True' else False
+				identifier = int(identifier)
+				priority = int(priority)
 				item = TodoItem(identifier, note, priority, created, due, done)
 				self.items.append(item)
 		TodoList.count = len(self)
@@ -80,12 +83,14 @@ class TodoItem:
 		today = date.today()
 		if identifier is None:
 			identifier = TodoList.new_id()
+		if created is None:
+			created = today
 		if due is None:
 			due = date(today.year + 1, today.month, today.day)
 		self.identifier = identifier
 		self.priority = priority
 		self.done = done
-		self.created = today
+		self.created = created
 		self.due = due
 		self.note = note
 
@@ -94,7 +99,7 @@ class TodoItem:
 
 	def update(self, field: str, value):
 		"""Update the item, does not change the item saved on disk."""
-		setatr(self, field, value)
+		setattr(self, field, value)
 
 	def matches(self, term: str):
 		return term in self.note
