@@ -1,0 +1,14 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}"/>
+  </head>
+  <body>
+    <h2>Result</h2>
+    {% if result %}
+    <div>
+      {{ result }}
+    </div>
+    {% endif %}
+    <p><a href="/">back</a></p>
+  </body>
+</html>
