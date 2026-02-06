@@ -1,10 +1,11 @@
 import time
 import asyncio
 
+task1 = True
+task2 = False
 
-### One simple task:
 
-print('\n### One task\n')
+### Running one task:
 
 async def fun():
     print("Hello")
@@ -12,14 +13,8 @@ async def fun():
     print("World")
     print(result)
 
-# start the event loop, running and waiting for the task to complete
-asyncio.run(fun())
-
-exit()
 
 ### Running two tasks
-
-print('\n### Two tasks\n')
 
 async def task_1():
     print("Task 1 started")
@@ -35,6 +30,15 @@ async def main():
     # run both tasks concurrently with asyncio.gather()
     await asyncio.gather(task_1(), task_2())
 
-# start the event loop, running and waiting for both tasks to complete
-asyncio.run(main())
+
+if __name__ == '__main__':
+    
+    if task1:
+        # start the event loop, running and waiting for the task to complete
+        print('\n### One task\n')
+        asyncio.run(fun())
+    if task2:
+        # start the event loop, running and waiting for both tasks to complete
+        print('\n### Two tasks\n')
+        asyncio.run(main())
 

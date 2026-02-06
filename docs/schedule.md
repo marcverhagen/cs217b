@@ -51,7 +51,7 @@
 
 <tr>
   <td>Feb 6</td>
-  <td>Web services (SOAP, REST), Python topics & Javascript</td>
+  <td>✔︎ Web services (SOAP, REST, Javascript) & Python topics</td>
   <td></td>
 </tr>
 
@@ -117,14 +117,14 @@
 
 <tr>
   <td>Mar 17</td>
-  <td>Industry point of view</td>
-  <td></td>
+  <td>Using AWS</td>
+  <td>by Richard Brutti</td>
 </tr>
 
 <tr>
   <td>Mar 20</td>
-  <td>Industry point of view</td>
-  <td></td>
+  <td>Using AWS</td>
+  <td>by Richard Brutti</td>
 </tr>
 
 <tr>
@@ -159,7 +159,7 @@
 
 <tr>
   <td>Apr 10</td>
-  <td>Industry point of view (AWS)</td>
+  <td>TBD</td>
   <td></td>
 </tr>
 
