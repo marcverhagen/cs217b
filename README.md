@@ -3,11 +3,12 @@
 **Current**:
 
 - [Current projected schedule](docs/schedule.md)
-- [Link to FastAPI example](code/web-services/fastapi/get.py)
 - [Assignment 1a](docs/assignments/2026/assignment1a.md)
 - [Assignment 1b](docs/assignments/2026/assignment1b.md)
+- [Link to FastAPI example](code/web-services/fastapi/get.py)
 - [In-class Flask exercise](code/lecture_notes/2-web-services/flask/README.md)
 - [Flask calculator example](code/web-services/flask/examples/calculator)
+- [Decorator examples, including the Jupyter Notebook](code/python-examples/decorators)
 
 ---
 
@@ -35,6 +36,6 @@ Code examples:
 - [Code fragements from lecture notes](code/lecture_notes/)
 - [Closures](code/python-examples/closures/)
 - [Functional programming](code/python-examples/functional/)
-- [Decorators](code/python-examples/functional/)
+- [Decorators](code/python-examples/decorators/)
 - [Context Managers](code/python-examples/contextmanagers/)
 - [Circular imports](code/python-examples/imports/)
