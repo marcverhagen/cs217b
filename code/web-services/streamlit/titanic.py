@@ -3,7 +3,7 @@ import pandas as pd
 
 st.set_page_config(layout='wide')
 
-@st.cache(allow_output_mutation=True)
+@st.cache_data
 def load_data():
     return pd.read_csv(file)
 

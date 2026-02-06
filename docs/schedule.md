@@ -45,13 +45,13 @@
 
 <tr>
   <td>Feb 3</td>
-  <td>Web services (RPC, SOAP, REST), Flask & assignment work</td>
+  <td>✔︎ Web services (RPC), Flask & assignment work</td>
   <td>assignment 1a due, assignment 1b</td>
 </tr>
 
 <tr>
   <td>Feb 6</td>
-  <td>Python topics (async, circular imports) & Javascript</td>
+  <td>Web services (SOAP, REST), Python topics & Javascript</td>
   <td></td>
 </tr>
 
