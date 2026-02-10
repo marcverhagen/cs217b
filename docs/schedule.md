@@ -63,7 +63,7 @@
 
 <tr>
   <td>Feb 13</td>
-  <td>Cancelation?</td>
+  <td>Cancellation?</td>
   <td></td>
 </tr>
 
