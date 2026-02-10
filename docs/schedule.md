@@ -57,13 +57,13 @@
 
 <tr>
   <td>Feb 10</td>
-  <td>Introduction to Streamlit & Databases</td>
-  <td>assignment 1b due, assignment 1c</td>
+  <td>Introduction to Databases</td>
+  <td>assignment 1b due</td>
 </tr>
 
 <tr>
   <td>Feb 13</td>
-  <td>Databases for FastAPI and Flask</td>
+  <td>Cancelation?</td>
   <td></td>
 </tr>
 
@@ -81,13 +81,13 @@
 
 <tr>
   <td>Feb 24</td>
-  <td>Flask-SQLAlchemy & GraphQL</td>
-  <td>assignment 1c due, assignment 2</td>
+  <td>Databases for FastAPI and Flask</td>
+  <td>assignment 2</td>
 </tr>
 
 <tr>
   <td>Feb 27</td>
-  <td>Docker</td>
+  <td>Flask-SQLAlchemy & GraphQL</td>
   <td></td>
 </tr>
 
@@ -99,20 +99,20 @@
 
 <tr>
   <td>Mar 6</td>
+  <td>Docker</td>
+  <td></td>
+</tr>
+
+<tr>
+  <td>Mar 10</td>
   <td>Docker, Unix & Git</td>
   <td>assignment 2 due</td>
 </tr>
 
 <tr>
-  <td>Mar 10</td>
-  <td>Python packages</td>
-  <td>assignment 3</td>
-</tr>
-
-<tr>
   <td>Mar 13</td>
-  <td>Python topics</td>
-  <td></td>
+  <td>Using AWS</td>
+  <td>by Richard Brutti</td>
 </tr>
 
 <tr>
@@ -123,26 +123,26 @@
 
 <tr>
   <td>Mar 20</td>
-  <td>Using AWS</td>
-  <td>by Richard Brutti</td>
+  <td>Python packages</td>
+  <td>assignment 3</td>
 </tr>
 
 <tr>
   <td>Mar 24</td>
+  <td>Streamlit & Python topics</td>
+  <td></td>
+</tr>
+
+<tr>
+  <td>Mar 27</td>
   <td>Multimodal processing</td>
   <td>assignment 3 due</td>
 </tr>
 
 <tr>
-  <td>Mar 27</td>
+  <td>Mar 31</td>
   <td>Final project & Git merging</td>
   <td>start final project</td>
-</tr>
-
-<tr>
-  <td>Mar 31</td>
-  <td>Python Video</td>
-  <td></td>
 </tr>
 
 <tr>
@@ -159,7 +159,7 @@
 
 <tr>
   <td>Apr 10</td>
-  <td>TBD</td>
+  <td>Python Video</td>
   <td></td>
 </tr>
 
