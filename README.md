@@ -9,6 +9,7 @@
 - [In-class Flask exercise](code/lecture_notes/2-web-services/flask/README.md)
 - [Flask calculator example](code/web-services/flask/examples/calculator)
 - [Decorator examples, including the Jupyter Notebook](code/python-examples/decorators)
+- [SQLite exercises](code/lecture_notes/3-databases/sqlite/README.md)
 
 ---
 
