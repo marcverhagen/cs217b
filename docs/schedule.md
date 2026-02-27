@@ -57,13 +57,13 @@
 
 <tr>
   <td>Feb 10</td>
-  <td>Introduction to Databases</td>
+  <td>✔︎ Introduction to Databases</td>
   <td>assignment 1b due</td>
 </tr>
 
 <tr>
   <td>Feb 13</td>
-  <td>Cancellation?</td>
+  <td>✔︎ Cancellation</td>
   <td></td>
 </tr>
 
@@ -81,20 +81,20 @@
 
 <tr>
   <td>Feb 24</td>
-  <td>Databases for FastAPI and Flask</td>
-  <td>assignment 2</td>
+  <td>✔︎ Executive time (snow shoveling)</td>
+  <td></td>
 </tr>
 
 <tr>
   <td>Feb 27</td>
-  <td>Flask-SQLAlchemy & GraphQL</td>
+  <td>SQLite/Flask practice & Context Managers</td>
   <td></td>
 </tr>
 
 <tr>
   <td>Mar 3</td>
-  <td>Docker</td>
-  <td></td>
+  <td>SQLAlchemy, Flask-SQLAlchemy & SQLModel</td>
+  <td>assignment 2, due March 17th</td>
 </tr>
 
 <tr>
@@ -106,7 +106,7 @@
 <tr>
   <td>Mar 10</td>
   <td>Docker, Unix & Git</td>
-  <td>assignment 2 due</td>
+  <td></td>
 </tr>
 
 <tr>
@@ -124,25 +124,25 @@
 <tr>
   <td>Mar 20</td>
   <td>Python packages</td>
-  <td>assignment 3</td>
+  <td>assignment 3, due March 31st</td>
 </tr>
 
 <tr>
   <td>Mar 24</td>
-  <td>Streamlit & Python topics</td>
+  <td>GraphQL, Streamlit & Python topics</td>
   <td></td>
 </tr>
 
 <tr>
   <td>Mar 27</td>
-  <td>Multimodal processing</td>
-  <td>assignment 3 due</td>
+  <td>NoSQL, ElasticSearch and MongoDB</td>
+  <td></td>
 </tr>
 
 <tr>
   <td>Mar 31</td>
-  <td>Final project & Git merging</td>
-  <td>start final project</td>
+  <td>Multimodal processing</td>
+  <td></td>
 </tr>
 
 <tr>
@@ -159,13 +159,13 @@
 
 <tr>
   <td>Apr 10</td>
-  <td>Python Video</td>
-  <td></td>
+  <td>Final project & Git merging</td>
+  <td>start final project, due May 4th</td>
 </tr>
 
 <tr>
   <td>Apr 14</td>
-  <td>TBD</td>
+  <td>Python Video</td>
   <td></td>
 </tr>
 
