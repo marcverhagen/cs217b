@@ -1,0 +1,25 @@
+<html>
+  <body>
+  <p>List:</p>
+  <blockquote>
+    <table cellspacing="0" cellpadding="5" border="1">
+    {% for row in rows %}
+    <tr>
+      <td>{{ row[0] }}</td>
+      <td>{{ row[1] }}</td>
+      <td>{{ row[2] }}</td>
+    {% endfor %}
+    </tr>
+    </table>
+  </blockquote>
+  <p>Add:</p>
+  <blockquote>
+    <form action="/" method="post">
+      <input type="text" name="name" required />
+        <input type="text" name="address" />
+        <input type="submit" value="Submit">
+      </form>
+  </blockquote>
+  </body>
+</html>
+
