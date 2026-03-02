@@ -1,3 +1,11 @@
+"""
+
+This does not have the same vulnerability as the code in user_select1.py because
+what you type in as the identifier is going to be understood as just the value of 
+the identifier instead of as a disjunction.
+
+"""
+
 import sqlite3
 
 connection = sqlite3.connect('db-names.sqlite')

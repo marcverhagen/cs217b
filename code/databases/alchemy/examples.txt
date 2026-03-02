@@ -1,4 +1,7 @@
 
+NOTE: Not working, needs to be fixed.
+
+
 === 1
 
 from blog1 import User, app, db
@@ -28,13 +31,7 @@ with app.app_context():
     print(User.query.filter_by(username='admin').first())
 
     None
-
-with app.app_context():
-    db.session.commit()
-    print(User.query.filter_by(username='admin').first())
-
-    None
-
+    
 with app.app_context():
     db.session.add(admin)
     db.session.commit()

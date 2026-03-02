@@ -1,16 +1,19 @@
 # Databases in Flask - Flask SQLAlchemy
 
+> These notes were last updated March 2026 and all code was checked for 
+> version 3.1.2 of Flask and version 3.1.1 of Flask-SQLAlchemy.
 
 Flask SQLAlchemy is a Flask version of the SQLAlchemy Python toolkit [https://www.sqlalchemy.org/](https://www.sqlalchemy.org/). Rather than messing around directly with SQLite or another database you should strongly consider using SQLAlchemy. One advantage is that you can experiment with an SQLite database and then update to PostgreSQL without major code changes.
 
-The following pip command install Flask, SQLAlchemy and Flask SQLAlchemy.
+The following pip commands installs Flask, SQLAlchemy and Flask SQLAlchemy, 
+
 
 ```bash
 $ pip install Flask==3.0.1
 $ pip install Flask-SQLAlchemy==3.1.1
 ```
 
-The blog examples below are partially based on [https://flask-sqlalchemy.palletsprojects.com/en/2.x/quickstart/#a-minimal-application](https://flask-sqlalchemy.palletsprojects.com/en/2.x/quickstart/#a-minimal-application), but mostly on tutorials from [Corey Shafer's channel](https://www.youtube.com/c/Coreyms/videos) on Youtube, which has excellent tutorials on Flask and other Python topics. In particular, check out [Part 4](https://www.youtube.com/watch?v=cYWiDiIUxQc) and [Part 5](https://www.youtube.com/watch?v=44PvX0Yv368) of the Flask series. However, these use older version of Flask and some things just don't work as they used to anymore. A more recent tutorial is at [https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world](https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world), which also uses a couple of Flask extensions.
+The blog examples below are partially based on [https://flask-sqlalchemy.palletsprojects.com/en/2.x/quickstart/#a-minimal-application](https://flask-sqlalchemy.palletsprojects.com/en/2.x/quickstart/#a-minimal-application), but mostly on materials from [Corey Shafer's channel](https://www.youtube.com/c/Coreyms/videos) on Youtube, which has good tutorials on Flask and other Python topics. In particular, check out [Part 4](https://www.youtube.com/watch?v=cYWiDiIUxQc) and [Part 5](https://www.youtube.com/watch?v=44PvX0Yv368) of the Flask series. However, those tutorials use older version of Flask and some things just don't work as they used to anymore. A more recent tutorial is at [https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world](https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world), which also uses a couple of Flask extensions.
 
 This turorial assumes some basic knowledge of Flask.
 
@@ -78,7 +81,7 @@ Handing in the name of the current module makes sure that the application can fi
 'fc3bb2a43ff1103895a4ee315ee27740'
 ```
 
-The second configuration setting defines a local path for the database. The prefix `sqlite:` specifies we use an SQLite database and the three slashes indicate a relative path so `db_users.sqlite` is assumed to be in a directory named `instances`, but at this point the database does not yet exist. The third setting is added because without it you get a depreciation warning, set it to True if you want to use the Flask-SQLAlchemy event system, which is unlikely. The last line creates a database object, but still does not create anything on disk.
+The second configuration setting defines a local path for the database. The prefix `sqlite:` specifies we use an SQLite database and the three slashes indicate a relative path so `db_users.sqlite` is assumed to be in a directory named `instances`, but at this point the database does not yet exist. The third setting is added because without it you may get a depreciation warning for slightly older versions of Flask, set it to True if you want to use the Flask-SQLAlchemy event system, which is unlikely. The last line creates a database object, but still does not create anything on disk.
 
 When you print the `db` variable you will see something like:
 
@@ -113,9 +116,9 @@ if __name__ == '__main__':
     app.run(debug=True)
 ```
 
-The `db.create_all()` method creates the schema if they don't exist. This needs to be done before you start the application the first time. Note that creating the database is done inside an application context. The fine points of this are not quite clear to me, what is clear is that there is a lot of documentation out there where the context is not used, which used to work but not anymore.
+The `db.create_all()` method creates the schema if they don't exist. This needs to be done before you start the application the first time. Note that creating the database is done inside of an application context, which keeps track of the application-level data during a request or CLI command (see [https://flask.palletsprojects.com/en/stable/appcontext/](https://flask.palletsprojects.com/en/stable/appcontext/)).
 
-We now do have a database on disk and you can access it from a terminal with the `sqlite3 db_users.sqlite` command and then print the schema.
+We now do have a database on disk inside of the `instance` folder and you can access it from a terminal with the `sqlite3 instance/db_users.sqlite` command and then print the schema.
 
 ```sql
 sqlite> .schema
@@ -130,9 +133,9 @@ CREATE TABLE user (
 ```
 
 
-### Database access and manippulation
+### Database access and manipulation
 
-The database is still empty. To add records you use the `/name/email` endpoint:
+The database table is still empty. To add records you use the `/<name>/<email>` endpoint:
 
 ```python
 @app.post('/<string:name>/<string:email>')
@@ -189,7 +192,7 @@ These URLs are all connected to routes defined in the application. In the first 
 
 ## Second blog: adding posts
 
-In this section we create another mini-blog application in `blog2.py`, which is the same as `blog`.py` except that it adds posts to the blog. This application has a lot of overlap with the previous one and here we only look at the differences. The biggest change is in the definition of the databse model.
+In this section we create another mini-blog application in `blog2.py`, which is the same as `blog1.py` except that it adds posts to the blog. This application has a lot of overlap with the previous one and here we only look at the differences. The biggest change is in the definition of the database model.
 
 ```python
 class User(db.Model):
@@ -266,7 +269,7 @@ Using a package is your best option, here is its structure:
 └── run.py
 ```
 
-We now have two modules in the package that are really focused on their main charge. In `blog/model.py` all we do is defining the database model. Since this is a user-defined class we can add methods that take care of all database-related issues.
+We now have two modules in the package that are really focused on their main charge. In `blog/model.py` all we do is defining the database model. Since this is a user-defined class we can add methods that take care of database-related issues.
 
 ```python
 from blog import db
