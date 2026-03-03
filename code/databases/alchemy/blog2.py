@@ -18,11 +18,9 @@ class User(db.Model):
     posts = db.relationship('Post', backref='author', lazy=True)
 
     def __repr__(self):
-        return f"User(id={self.id} name={self.username} email={self.email} posts={self.posts})"
-
-    def pp(self):
-        posts = '\n    '.join([str(p) for p in self.posts])
-        return f"User(id={self.id} name={self.username} email={self.email})\n    {posts})"
+        return (
+            f"User(id={self.id} name={self.username} email={self.email}"
+            f" posts={self.posts})")
 
 
 class Post(db.Model):
@@ -43,7 +41,7 @@ def index():
 @app.get('/<string:name>')
 def get_user(name):
     user = User.query.filter_by(username=name).first()
-    return f'{user.pp()}\n'
+    return f'{user}\n'
 
 @app.post('/<string:name>/<string:email>')
 def add_user(name, email):
@@ -56,12 +54,11 @@ def add_user(name, email):
 def add_post(name, post_title, post_content):
     user = User.query.filter_by(username=name).first()
     post = Post(title=post_title, content=post_content, user_id=user.id)
-    print('>>>', post.author)
     db.session.add(post)
-    print('>>>', post.author)
+    # The post will not be in the database and will not have an author until
+    # it is committed.
     db.session.commit()
-    print('>>>', post.author)
-    return f'{user.pp()}\n'
+    return f'Added {post} to user {user.id}\n'
 
 
 if __name__ == '__main__':

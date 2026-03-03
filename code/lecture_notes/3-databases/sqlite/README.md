@@ -63,7 +63,7 @@ in that same thread. The object was created in thread id 4454245888 and this
 is thread id 123145493499904.
 ```
 
-This is because by default SQLite looks for the database in the same thread, but when you embed this in a Flask application then you access the databse from another thread, which is verboten. All you need to change is how to open the databse:
+This is because by default SQLite looks for the database in the same thread, but when you embed this in a Flask application you access the database from another thread, which is verboten. All you need to change is how to open the databse:
 
 ```python
 connection = sqlite3.connect('db-names.sqlite', check_same_thread=False)
