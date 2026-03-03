@@ -87,25 +87,25 @@
 
 <tr>
   <td>Feb 27</td>
-  <td>SQLite/Flask practice & Context Managers</td>
+  <td>✔︎ SQLite practice</td>
   <td></td>
 </tr>
 
 <tr>
   <td>Mar 3</td>
-  <td>SQLAlchemy, Flask-SQLAlchemy & SQLModel</td>
+  <td>✔︎ SQLite/Flask practice & Flask-SQLAlchemy</td>
   <td>assignment 2, due March 17th</td>
 </tr>
 
 <tr>
   <td>Mar 6</td>
-  <td>Docker</td>
+  <td>Flask-SQLAlchemy & Context Managers</td>
   <td></td>
 </tr>
 
 <tr>
   <td>Mar 10</td>
-  <td>Docker, Unix & Git</td>
+  <td>Docker</td>
   <td></td>
 </tr>
 

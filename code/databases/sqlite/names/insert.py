@@ -13,4 +13,5 @@ cursor = connection.cursor()
 for insert in inserts:
 	cursor.execute(insert)
 
+# In Python you need an explicit commit
 connection.commit()
