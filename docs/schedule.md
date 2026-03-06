@@ -111,20 +111,20 @@
 
 <tr>
   <td>Mar 13</td>
-  <td>Using AWS</td>
-  <td>by Richard Brutti</td>
+  <td>Python packages</td>
+  <td>assignment 3, due March 31st</td>
 </tr>
 
 <tr>
   <td>Mar 17</td>
-  <td>Using AWS</td>
+  <td>Cloud Services</td>
   <td>by Richard Brutti</td>
 </tr>
 
 <tr>
   <td>Mar 20</td>
-  <td>Python packages</td>
-  <td>assignment 3, due March 31st</td>
+  <td>Cloud Services</td>
+  <td>by Richard Brutti</td>
 </tr>
 
 <tr>
