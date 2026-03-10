@@ -1,4 +1,4 @@
-from blog import app, db
+from blog import app, db, User
 
 
 @app.get('/')
