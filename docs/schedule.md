@@ -99,19 +99,19 @@
 
 <tr>
   <td>Mar 6</td>
-  <td>Flask-SQLAlchemy & Context Managers</td>
+  <td>✔︎ Flask-SQLAlchemy & Context Managers</td>
   <td></td>
 </tr>
 
 <tr>
   <td>Mar 10</td>
-  <td>Docker</td>
+  <td>Flask-SQLAlchemy, circular imports & Docker</td>
   <td></td>
 </tr>
 
 <tr>
   <td>Mar 13</td>
-  <td>Python packages</td>
+  <td>Docker & Python packages</td>
   <td>assignment 3, due March 31st</td>
 </tr>
 

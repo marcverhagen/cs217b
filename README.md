@@ -13,12 +13,17 @@ Assignments:
 Code examples:
 
 - [FastAPI example](code/web-services/fastapi/get.py).
-- [Decorator examples, including the Jupyter Notebook](code/python-examples/decorators).
+- [Decorator examples, including a Jupyter notebook](code/python-examples/decorators).
+- [Contex manager examples, including a Jupyter notebook](code/python-examples/contextmanagers).
 
 Exercises:
 
 - [Flask calculator exercise](code/lecture_notes/2-web-services/flask/README.md) with   [example answer](code/web-services/flask/examples/calculator).
 - [SQLite exercises](code/lecture_notes/3-databases/sqlite/README.md) with [example answers](code/databases/sqlite/names/) (refer to names.sql for part 1, create.py, insert.py, select\_all.py, user\_select1.py and user\_select2.py for part 2, and app.py for part 3).
+
+Other:
+
+- [The mysterious slash error](code/web-services/flask/slash-error.md)
 
 ---
 
