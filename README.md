@@ -9,6 +9,7 @@ Assignments:
 - [Assignment 1a](docs/assignments/2026/assignment1a.md).
 - [Assignment 1b](docs/assignments/2026/assignment1b.md).
 - [Assignment 2](docs/assignments/2026/assignment2.md).
+- [Assignment 3](docs/assignments/2026/assignment3.md).
 
 Code examples:
 
