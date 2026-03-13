@@ -105,7 +105,7 @@
 
 <tr>
   <td>Mar 10</td>
-  <td>Flask-SQLAlchemy, circular imports & Docker</td>
+  <td>✔︎ Flask-SQLAlchemy, circular imports & Docker</td>
   <td></td>
 </tr>
 
