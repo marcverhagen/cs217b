@@ -1,0 +1,33 @@
+Go to docker hub hub.docker.com
+
+Find a Python image you like.
+
+count1
+├── Dockerfile
+├── count.py
+└── data
+    └── count.txt
+
+Create a count script to increment a count
+
+Test it locally
+
+Create a Dockerfile
+
+Build image and run it
+
+	docker build -t count1 .
+	docker run --rm count1
+	docker run --rm count1
+
+docker run --rm -it count1 bash
+$ python count
+
+docker run -it count1 bash
+$ python count.py
+$ python count.py
+
+docker run -it count1 bash
+$ python count.py
+
+Now make sure you make the results persistent.

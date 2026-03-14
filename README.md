@@ -21,6 +21,7 @@ Exercises:
 
 - [Flask calculator exercise](code/lecture_notes/2-web-services/flask/README.md) with   [example answer](code/web-services/flask/examples/calculator).
 - [SQLite exercises](code/lecture_notes/3-databases/sqlite/README.md) with [example answers](code/databases/sqlite/names/) (refer to names.sql for part 1, create.py, insert.py, select\_all.py, user\_select1.py and user\_select2.py for part 2, and app.py for part 3).
+- [Docker exercise](docs/count-exercise.txt)
 
 Other:
 
