@@ -1,0 +1,2 @@
+azure-ai-textanalytics==5.3.0
+azure-data-tables==12.4.4
