@@ -111,37 +111,37 @@
 
 <tr>
   <td>Mar 13</td>
-  <td>Docker & Python packages</td>
-  <td>assignment 3, due March 31st</td>
+  <td>✔︎ Circular imports & Docker</td>
+  <td>assignment 3, due TBD</td>
 </tr>
 
 <tr>
   <td>Mar 17</td>
-  <td>Cloud Services</td>
+  <td>✔︎ Cloud Services</td>
   <td>by Richard Brutti</td>
 </tr>
 
 <tr>
   <td>Mar 20</td>
-  <td>Cloud Services</td>
+  <td>✔︎ Cloud Services</td>
   <td>by Richard Brutti</td>
 </tr>
 
 <tr>
   <td>Mar 24</td>
-  <td>GraphQL, Streamlit & Python topics</td>
+  <td>Docker, virtual environments & Python packaging</td>
   <td></td>
 </tr>
 
 <tr>
   <td>Mar 27</td>
-  <td>NoSQL, ElasticSearch and MongoDB</td>
-  <td></td>
+  <td>GraphQL, Streamlit & Python topics</td>
+  <td>Rosenstiel 118</td>
 </tr>
 
 <tr>
   <td>Mar 31</td>
-  <td>Multimodal processing</td>
+  <td>NoSQL, ElasticSearch and MongoDB</td>
   <td></td>
 </tr>
 
