@@ -1,31 +1,40 @@
 """
-Query and analyze sentiment data from Azure Table Storage
-Run this after process_reviews.py to explore the data
+
+Query and analyze sentiment data from Azure Table Storage.
+
+Run this after process_reviews.py to explore the data.
+
 """
 
-from azure.data.tables import TableServiceClient
+import os, sys
 from collections import Counter
 
-# TODO: Replace with your actual connection string
-ENDPOINT = "YOUR_ENDPOINT_HERE"  # For consistency, though not used in this file
-KEY = "YOUR_KEY_HERE"  # For consistency, though not used in this file
-STORAGE_CONNECTION_STRING = "YOUR_CONNECTION_STRING_HERE"
+from dotenv import load_dotenv
+
+from azure.data.tables import TableServiceClient, TableClient, TableEntity
+from azure.core.exceptions import ResourceExistsError
+
+
+load_dotenv()
+
+ENDPOINT = os.environ['AZURE_ENDPOINT']
+KEY = os.environ['AZURE_KEY']
+CONNECTION = os.environ['AZURE_CONNECTION']
 TABLE_NAME = "reviews"
 
-def get_all_reviews():
+
+def get_all_reviews() -> list[TableEntity]:
     """
     Retrieve all reviews from the database
     
     Returns:
         List of review entities
     """
-    table_service = TableServiceClient.from_connection_string(STORAGE_CONNECTION_STRING)
+    table_service = TableServiceClient.from_connection_string(CONNECTION)
     table_client = table_service.get_table_client(TABLE_NAME)
-    
-    # Query all entities
     entities = list(table_client.list_entities())
-    
     return entities
+
 
 def query_by_sentiment(sentiment):
     """
@@ -37,7 +46,7 @@ def query_by_sentiment(sentiment):
     Returns:
         List of matching entities
     """
-    table_service = TableServiceClient.from_connection_string(STORAGE_CONNECTION_STRING)
+    table_service = TableServiceClient.from_connection_string(CONNECTION)
     table_client = table_service.get_table_client(TABLE_NAME)
     
     # Query with filter
@@ -45,6 +54,7 @@ def query_by_sentiment(sentiment):
     entities = list(table_client.query_entities(query))
     
     return entities
+
 
 def query_high_confidence(min_confidence=0.90):
     """
@@ -56,7 +66,7 @@ def query_high_confidence(min_confidence=0.90):
     Returns:
         List of high-confidence entities
     """
-    table_service = TableServiceClient.from_connection_string(STORAGE_CONNECTION_STRING)
+    table_service = TableServiceClient.from_connection_string(CONNECTION)
     table_client = table_service.get_table_client(TABLE_NAME)
     
     # Query with filter
@@ -64,6 +74,7 @@ def query_high_confidence(min_confidence=0.90):
     entities = list(table_client.query_entities(query))
     
     return entities
+
 
 def analyze_data():
     """
@@ -76,6 +87,9 @@ def analyze_data():
         # Get all reviews
         print("\n1. Loading all reviews from database...")
         all_reviews = get_all_reviews()
+        print(type(all_reviews[0]))
+        print(all_reviews[0])
+
         print(f"   Found {len(all_reviews)} reviews")
         
         if len(all_reviews) == 0:
@@ -140,27 +154,124 @@ def analyze_data():
         
     except Exception as e:
         print(f"\nError: {e}")
-        print("Make sure STORAGE_CONNECTION_STRING is set correctly!")
+        print("Make sure CONNECTION is set correctly!")
         return
     
     print("\n" + "=" * 80)
     print("Analysis complete! ✓")
 
-def interactive_query():
-    """
-    Let user run custom queries
-    """
-    print("\nInteractive Query Mode")
-    print("Try these examples:")
-    print("  - Get all negative reviews: query_by_sentiment('negative')")
-    print("  - Get high confidence: query_high_confidence(0.90)")
-    print()
+
+class AzureTableService:
+
+    """An Azure table service set up for a particular account. It is a wrapper
+    around a TableServiceClient instance in which you can create a TableClient
+    for a particular table (only one table at the time)."""
+
+    def __init__(self, connection_string: str):
+        """Initialize the table service from the Azure connection string."""
+        self.table_service = \
+            TableServiceClient.from_connection_string(connection_string)
+        self.table : TableClient = None
+
+    def get_table_client(self, table_name: str) -> TableClient:
+        """Set a TableClient given a table name, which is assumed to exist."""
+        self.table = self.table_service.get_table_client(table_name)
+        return self.table
+
+    @property
+    def tables(self) -> list:
+        return self.table_service.list_tables()
+
+    @property
+    def table_names(self) -> list[str]:
+        return [t.name for t in self.tables]
+
+    @property
+    def url(self):
+        return self.table_service.url
+
+    @property
+    def account_name(self):
+        return self.table_service.account_name
+    
+    def create_table(self, table_name: str):
+        try:
+            table_item = self.table_service.create_table(table_name)
+            print(f'>>> created table {table_item.table_name}')
+            print(type(table_item), table_item)
+        except ResourceExistsError as e:
+            print(f'>>> table {table_name} already exists')
+
+    def delete_table(self, table_name: str):
+        self.table_service.delete_table(table_name)
+
+    def create_entity(self, entity: dict):
+        try:
+            self.table.create_entity(entity)
+        except ResourceExistsError as e:
+            print('\n>>> Could no create entity')
+            print('>>>', type(e))
+            print(e)
+
+
+def test():
+
+    # Get the table service client, which lets you print some info
+    ts = AzureTableService(CONNECTION)
+    print(f'>>> service client url:     {ts.url}')
+    print(f'>>> service client account: {ts.account_name}')
+    print('>>> tables:', ' '.join(ts.table_names))
+    
+    #ts.create_table('test3')
+    
+    # Get the table client (an instance of TableClient) for TABLE_NAME
+    table_client = ts.get_table_client(TABLE_NAME)
+    print(f'>>> table name:        {table_client.table_name}')
+    print(f'>>> table client url:  {table_client.url}')
+
+    # Getting all entities
+    entities = table_client.list_entities()
+    print(f'>>> table has {len(list(entities))} entities')
+
+    # Getting one row
+    rowkey = '012d8104-3e62-47cb-8a89-b3c3c1f4e2cb'
+    my_filter = f"RowKey eq '{rowkey}'"
+    result = table_client.query_entities(query_filter=my_filter)
+    for e in result:
+        print(e)
+
+    # Using both keys. Note that the above may have given you more rows if
+    # there were multiple partitions. Here we use both keys and we use a
+    # parameter dictionary.
+    parameters = {"pk": "movies", "rk": rowkey}
+    query_filter = "PartitionKey eq @pk and RowKey eq @rk"
+    result = table_client.query_entities(query_filter, parameters=parameters)
+    for e in result:
+        print(e)
+
+    # Using get_entity()
+    entity = table_client.get_entity(partition_key='movies', row_key=rowkey)
+    print(entity)
+
+    # Adding an entity to the new test table
+    entity = {
+        'PartitionKey': 'movies',
+        'RowKey': 'm001',
+        'title': 'Thelma and Louise' }
+    test_table = ts.get_table_client('test')
+    #test_table.create_entity(entity)
+    #print(f'>>> added {entity}')
+    ts.create_entity(entity)
+
 
 def main():
-    analyze_data()
-    
-    # Uncomment to enable interactive mode
-    # interactive_query()
+    test()
+    #analyze_data()
+    #query_by_sentiment()
+    #uery_high_confidence()
+
+
 
 if __name__ == "__main__":
+
     main()

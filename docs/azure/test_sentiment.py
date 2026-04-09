@@ -3,13 +3,17 @@ Test the Azure AI Language sentiment analysis API
 Run this first to verify your API key and endpoint are working
 """
 
+from dotenv import load_dotenv
+
 from azure.ai.textanalytics import TextAnalyticsClient
 from azure.core.credentials import AzureKeyCredential
 
-# TODO: Replace with your actual values from Azure Portal
-ENDPOINT = "YOUR_ENDPOINT_HERE"  # Example: https://your-resource.cognitiveservices.azure.com/
-KEY = "YOUR_KEY_HERE"
-STORAGE_CONNECTION_STRING = "YOUR_CONNECTION_STRING_HERE"  # For consistency across files
+
+load_dotenv()
+ENDPOINT = os.environ['AZURE_ENDPOINT']
+KEY = os.environ['AZURE_KEY']
+TABLE_NAME = "reviews"
+
 
 def analyze_sentiment(text):
     """
@@ -36,7 +40,8 @@ def main():
     test_reviews = [
         "This movie was absolutely amazing! Best film I've seen all year.",
         "Terrible waste of time. The plot made no sense.",
-        "It was okay, nothing special but not bad either."
+        "It was okay, nothing special but not bad either.",
+        "This sucked so much and I hated it and then it was soooo boring and it was the best day of my life and I just kept laughing."
     ]
     
     print("Testing Azure AI Language - Sentiment Analysis\n")
