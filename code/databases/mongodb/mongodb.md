@@ -1,20 +1,34 @@
 # MongoDB
 
-Some minimal notes on installing and using MongoDB.
+Notes on installing and using MongoDB.
+
+This is for simple local single server use, just including the database and the shell. That is, the focus is on the MongoDB community edition, the open source database, and not on MongoDB Atlas, the cloud-based service that provides managed MongoDB clusters.
+
 
 ## Installation and startup
 
-This is for simplistic local single server use, just including the databse and the shell.
+The community edition is at [https://www.mongodb.com/try/download/community](https://www.mongodb.com/try/download/community) (version 8.2.6 as of April 2026) and the MongoDB Shell is at [https://www.mongodb.com/try/download/shell](https://www.mongodb.com/try/download/shell) (version 2.8.2).
 
-The community edition is at [https://www.mongodb.com/try/download/community](https://www.mongodb.com/try/download/community) (version 8.0.4 as of February 2025) and the MongoDB Shell is at [https://www.mongodb.com/try/download/shell](https://www.mongodb.com/try/download/shell) (version 2.3.9).
-The README file of the community edition has some basic information that may work in some cases, but on my Mac I needed a bit more which I found at [https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-os-x-tarball/](https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-os-x-tarball/). This was partially to avoid using my screwed up brew environment.
+If you want the MongoDB Compass GUI you can get it from [https://www.mongodb.com/try/download/compass](https://www.mongodb.com/try/download/compass).
+
+These notes are for MacOS. The pages linked to below also have pointers to installation on Linux and Windows as well as notes on using Docker.
+
+
+### Using Homebrew
+
+This is the recommended way, which I avoided initially due to my screwed up brew environment.
+
+
+### Manual install
+
+There are general installation notes at [https://www.mongodb.com/docs/manual/installation/](https://www.mongodb.com/docs/manual/installation/), but I found the tutorial at [https://www.mongodb.com/docs/v8.0/tutorial/install-mongodb-on-os-x-tarball/](https://www.mongodb.com/docs/v8.0/tutorial/install-mongodb-on-os-x-tarball/) more useful.
 
 Installation is a matter of unpacking the archive, creating directories for the database and the log files, and starting the server. For that do the following (assuming you are in the unpacked MongoDB archive):
 
 ```bash
-$ sudo mkdir -p data/db
-$ sudo mkdir data/log
-$ bin/mongod --dbpath data/db --logpath data/log/mongo.log --fork
+sudo mkdir -p data/db
+sudo mkdir data/log
+bin/mongod --dbpath data/db --logpath data/log/mongo.log --fork
 ```
 ```
 about to fork child process, waiting until server is ready for connections.
@@ -24,13 +38,30 @@ child process started successfully, parent exiting
 
 You can put the data and logs elsewhere if you like. 
 
+With an older operating system you may get the following error:
+
+```
+BadValue: Server fork+exec via `--fork` or `processManagement.fork` is incompatible with macOS
+```
+
+This happend on MacOS Sonoma 14.7.5, reverting to MongoDB version 8.0.19 solved that issue.
+
 Now you need to run a mongo database shell named mongosh ([https://www.mongodb.com/docs/mongodb-shell/](https://www.mongodb.com/docs/mongodb-shell/)). Install and start by unpacking the archive and running mongosh (from the unpacked archive):
 
 ```bash
 $ bin/mongosh
 ```
 
-If MongoDB had been installed as a service or via Brew, then you would something like `service mongodb stop`, but since this is a simplistic basic install you either use `kill -9 PROCESS_ID` or you stop it from the shell:
+You will get some warnings about access control, user and host, which you should take seriously when building a production server, but for local experimenting we are fine.
+
+Older operating system versions may not work with the most recent shell, which you will notice at startup. For one of my machines I had to revert to version 2.3.9 of the shell.
+
+To install Compass just click the dmg file that was downloaded.
+
+ 
+#### Exiting Mongo DB and the shell
+
+If MongoDB had been installed as a service or via Brew, then you would get something like `service mongodb stop`, but since this is a simplistic basic install you either use `kill -9 PROCESS_ID` or you stop it from the shell:
 
 ```json
 test> db.adminCommand({ "shutdown" : 1 })
@@ -182,12 +213,6 @@ db.movies.find({"x.y":1});
 
 ```
 
-To empty a collection:
-
-```
-db.movies.deleteMany({})
-```
-
 Updating:
 
 ```json
@@ -226,4 +251,10 @@ db.movies.find( {genres:"Comedy"} )
     plot: 'One month every year, five highly competitive friends hit the ground running for a no-holds-barred game of tag'
   }
 ]
+```
+
+To empty a collection:
+
+```
+db.movies.deleteMany({})
 ```

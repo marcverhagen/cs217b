@@ -112,7 +112,7 @@
 <tr>
   <td>Mar 13</td>
   <td>✔︎ Circular imports & Docker</td>
-  <td>assignment 3, due TBD</td>
+  <td></td>
 </tr>
 
 <tr>
@@ -129,19 +129,19 @@
 
 <tr>
   <td>Mar 24</td>
-  <td>Docker, virtual environments & Python packaging</td>
-  <td></td>
+  <td>✔︎ Docker</td>
+  <td>assignment 3, due April 10th</td>
 </tr>
 
 <tr>
   <td>Mar 27</td>
-  <td>GraphQL, Streamlit & Python topics</td>
+  <td>✔︎ Virtual environments & Python packaging</td>
   <td>Rosenstiel 118</td>
 </tr>
 
 <tr>
   <td>Mar 31</td>
-  <td>NoSQL, ElasticSearch and MongoDB</td>
+  <td>✔︎ Python packaging & Git</td>
   <td></td>
 </tr>
 
@@ -159,25 +159,25 @@
 
 <tr>
   <td>Apr 10</td>
-  <td>Final project & Git merging</td>
-  <td>start final project, due May 4th</td>
+  <td>NoSQL & Final project</td>
+  <td>start final project, due May 7th</td>
 </tr>
 
 <tr>
   <td>Apr 14</td>
-  <td>Python Video</td>
+  <td>GraphQL, Big Data & MapReduce</td>
   <td></td>
 </tr>
 
 <tr>
   <td>Apr 17</td>
-  <td>TBD</td>
+  <td>Multi-Modal processing & Python</td>
   <td></td>
 </tr>
 
 <tr>
   <td>Apr 21</td>
-  <td>Project presentations</td>
+  <td>CI/CD & Ethics in NLP</td>
   <td></td>
 </tr>
 
