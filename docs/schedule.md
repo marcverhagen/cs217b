@@ -159,25 +159,25 @@
 
 <tr>
   <td>Apr 10</td>
-  <td>NoSQL & Final project</td>
+  <td>✔︎ NoSQL & Final project</td>
   <td>start final project, due May 7th</td>
 </tr>
 
 <tr>
   <td>Apr 14</td>
-  <td>GraphQL, Big Data & MapReduce</td>
+  <td>MongoDB, GraphQL, Big Data & MapReduce</td>
   <td></td>
 </tr>
 
 <tr>
   <td>Apr 17</td>
-  <td>Multi-Modal processing & Python</td>
+  <td>CI/CD & Ethics in NLP</td>
   <td></td>
 </tr>
 
 <tr>
   <td>Apr 21</td>
-  <td>CI/CD & Ethics in NLP</td>
+  <td>Multi-Modal processing & Python clip</td>
   <td></td>
 </tr>
 
