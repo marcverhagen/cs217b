@@ -1,5 +1,8 @@
 # the sqlite databases
-example1/instance
+example2/instance
+example2/uv.lock
+example2/main.py
+example2/.python-version
 
 # the repository with a Flask GrapQL example
 flask-graphql
