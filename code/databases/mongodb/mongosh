@@ -1,0 +1,12 @@
+# Start the MongoDB Shell
+#
+# Any options you give will be options for the mongosh command.
+#
+# Examples:
+#
+#    mongosh              "start the shell"
+#    mongosh --nodb       "start the shell but do not connect to mongod"
+
+MONGO=/Applications/ADDED/search/mongosh-2.3.9-darwin-x64
+
+$MONGO/bin/mongosh $@

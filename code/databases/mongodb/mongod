@@ -1,0 +1,11 @@
+#!/bin/bash
+
+MONGO=/Applications/ADDED/search/mongodb-macos-x86_64-8.0.4
+
+DATA=$1
+
+shift
+
+echo $MONGO/bin/mongod --dbpath $DATA/db --logpath $DATA/log/mongo.log $@
+
+$MONGO/bin/mongod --dbpath $DATA/db --logpath $DATA/log/mongo.log $@
