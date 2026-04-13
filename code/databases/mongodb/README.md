@@ -40,9 +40,7 @@ You can put the data and logs elsewhere if you like. In a production system you 
 
 > With an older operating system you may get the following error:
 >
->```
-BadValue: Server fork+exec via `--fork` or `processManagement.fork` is incompatible with macOS
-```
+> ```BadValue: Server fork+exec via `--fork` or `processManagement.fork` is incompatible with macOS```
 >
 > This happened on MacOS Sonoma 14.7.5, reverting to MongoDB version 8.0.19 solved that issue.
 
@@ -74,7 +72,7 @@ Use `ctrl-d` to exit the shell.
 
 All examples are from the shell. When you enter a shell you get the prompt of the test database, which is empty. One of the commands you can do from any prompt is to show the databases in the mongod client: 
 
-```json
+```javascript
 test> show dbs
 admin   40.00 KiB
 config  96.00 KiB
@@ -85,17 +83,18 @@ Note that it does not show the empty test database.
 
 We add a database:
 
-```json
+```javascript
 test> use reviews
 switched to db reviews
 reviews> 
 ```
 
+
 ### Adding some movie reviews
 
-A MongoDB database consists of a set of collections just lke a SQL database consists of a set of tables. You can add a new document to a collection in the database:
+A MongoDB database consists of a set of collections just like a SQL database consists of a set of tables. You can add a new document to a collection in the database:
 
-```json
+```javascript
 reviews> db.movies.insertOne(
   {
     title: "The Favourite",
@@ -124,7 +123,7 @@ There are several things of note:
 
 There are now four databases in the MongoDB server: the one we just created and three system databases (admin, config and local). The one we created has one collection.
 
-```json
+```javascript
 reviews> show dbs
 admin    40.00 KiB
 config  108.00 KiB
@@ -136,21 +135,21 @@ movies
 
 At this point you also have access to the object for the movies collection:
 
-```json
+```javascript
 reviews> db.movies
 reviews.movies
 ```
 
 You can create an object for the collection if you want and use it for later inserts:
 
-```json
+```javascript
 reviews> movies = db.movies
 reviews.movies
 ```
 
 Inserting multiple documents:
 
-```json
+```javascript
 reviews> db.movies.insertMany([
    {
       title: "Jurassic World: Fallen Kingdom",
@@ -185,7 +184,7 @@ reviews> db.movies.insertMany([
 
 You can decide to add a document again but now with the "directors" property set to a string, MongoDB will allow that:
 
-```json
+```javascript
 reviews> db.movies.insertOne(
   {
     title: "The Favourite",
@@ -207,7 +206,7 @@ reviews> db.movies.insertOne(
 
 You query with the find function which runs on a collection:
 
-```json
+```javascript
 reviews> db.movies.find( {genres:"Comedy"} )
 [
   {
@@ -227,7 +226,7 @@ reviews> db.movies.find( {genres:"Comedy"} )
 Look what happens when you look up "Yorgos Lanthimos":
 
 ```javascript
-db.movies.find({"directors": "Yorgos Lanthimos"}, {"title": 1, "directors": 1})
+reviews> db.movies.find({"directors": "Yorgos Lanthimos"}, {"title": 1, "directors": 1})
 [
   {
     _id: ObjectId('69d95c424a14372699fe4233'),
@@ -251,18 +250,15 @@ To get all documents do `db.movies.find({})` or even `db.movies.find()`.
 
 Let's now try:
 
-```json
-reviews> db.movies.insertOne( { x: 1 } );
+```javascript
+reviews> db.movies.insertMany([ { x: 1 }, { x: {y: 1, z: 2 } } ])
 
 {
   acknowledged: true,
-  insertedId: ObjectId('67aff3bbc5c750f260fe423b')
-}
-reviews> db.movies.insertOne( { x: {y: 1, z: 2 } } );
-
-{
-  acknowledged: true,
-  insertedId: ObjectId('67aff3dac5c750f260fe423c')
+  insertedIds: {
+    '0': ObjectId('69dd047621b7143a64fe4237'),
+    '1': ObjectId('69dd047621b7143a64fe4238')
+  }
 }
 ```
 
@@ -270,8 +266,8 @@ This inserts totally different kinds of documents, but again MongoDB allows that
 
 With the second insert you can search for a path:
 
-```json
-db.movies.find({"x.y":1});
+```javascript
+reviews> db.movies.find({"x.y":1})
 [ { _id: ObjectId('67aff3dac5c750f260fe423c'), x: { y: 1, z: 2 } } ]
 ```
 
@@ -282,8 +278,8 @@ db.movies.find({"x.y":1});
 
 An update on an existing document works like this:
 
-```json
-db.movies.updateOne( 
+```javascript
+reviews> db.movies.updateOne( 
   { title: "Tag" }, 
   { $set: { plot: "One month every year, five highly competitive friends hit the ground running for a no-holds-barred game of tag" },
     $currentDate: { lastUpdated: true } }
@@ -300,20 +296,12 @@ db.movies.updateOne(
 
 And you will see the result when you search for it:
 
-```json
-reviews> db.movies.find( {genres:"Comedy"} )
+```javascript
+reviews> db.movies.find( {genres:"Comedy"}, { "title": 1, "plot": 1 })
 [
   {
-    _id: ObjectId('67aff4a8c5c750f260fe423f'),
+    _id: ObjectId('69dd039f21b7143a64fe4235'),
     title: 'Tag',
-    genres: [ 'Comedy', 'Action' ],
-    runtime: 105,
-    rated: 'R',
-    year: 2018,
-    directors: [ 'Jeff Tomsic' ],
-    cast: [ 'Annabelle Wallis', 'Jeremy Renner', 'Jon Hamm' ],
-    type: 'movie',
-    lastUpdated: ISODate('2025-02-15T02:05:01.086Z'),
     plot: 'One month every year, five highly competitive friends hit the ground running for a no-holds-barred game of tag'
   }
 ]
@@ -321,7 +309,7 @@ reviews> db.movies.find( {genres:"Comedy"} )
 
 Say you have two document inserted like this:
 
-```json
+```javascript
 reviews> db.movies.insertMany([
   { "title": "Thelma and Louise", "director": "Ridley Scot" },
   { "title": "Thelma and Louise", "director": "Ridley Scot" }
@@ -330,12 +318,36 @@ reviews> db.movies.insertMany([
 
 You can change both of them with
 
-```json
+```javascript
 reviews> db.movies.updateMany( 
   { title: "Thelma and Louise" }, 
   { $set: { director: "Ridley Scott" },
     $currentDate: { lastUpdated: true } }
 )
+
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 2,
+  modifiedCount: 2,
+  upsertedCount: 0
+}
+```
+
+```javascript
+reviews> db.movies.find({"title": "Thelma and Louise"}, { "_id": 0 })
+[
+  {
+    title: 'Thelma and Louise',
+    director: 'Ridley Scott',
+    lastUpdated: ISODate('2026-04-13T15:02:16.504Z')
+  },
+  {
+    title: 'Thelma and Louise',
+    director: 'Ridley Scott',
+    lastUpdated: ISODate('2026-04-13T15:02:16.504Z')
+  }
+]
 ```
 
 
@@ -362,14 +374,14 @@ db.movies.deleteMany({})
 
 Let's start a new collection for this
 
-```json
+```javascript
 reviews> db.createCollection('books')
 { ok: 1 }
 ```
 
-First, we add to identical book reviews:
+First, we add two identical book reviews:
 
-```json
+```javascript
 reviews> db.books.insertMany(
   [{"title": "The unbearable lightness of being", "rating": 5},
    {"title": "The unbearable lightness of being", "rating": 5}])
@@ -385,7 +397,7 @@ reviews> db.books.insertMany(
 
 You see that MongoDB has no problem with that. To ensure uniqueness you have to grab control of the identifiers. If you do this
 
-```json
+```javascript
 reviews> db.books.insertMany(
   [{"_id": 1, "title": "The unbearable lightness of being", "rating": 5},
    {"_id": 1, "title": "The unbearable lightness of being", "rating": 5}])
@@ -401,7 +413,7 @@ reviews> db.books.insertMany(
 
 The only index for a collection that you get out of the box is the index on the identifier. If you want to add one on the title you do:
 
-```json
+```javascript
 reviews> db.books.createIndex({"title": 1})
 title_1
 reviews> db.books.getIndexes()
@@ -421,7 +433,7 @@ The "v" is the version and the key maps the field to be indexed to a direction w
 
 MongoDB uses BSON, an exptension of JSON. MongoDB will infer a datatype for you, but there are cases where you want to control the type and avoid the default. For those case you can use 
 
-```json
-db.books.insertOne(
+```javascript
+reviews> db.books.insertOne(
   {"_id": Long(3), "title": "Every thing is illuminated", "rating": 5})
 ```

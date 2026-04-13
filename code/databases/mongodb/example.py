@@ -11,10 +11,10 @@ restaurants = database.get_collection("restaurants")
 movies.delete_many({})
 restaurants.delete_many({})
 
-# This is the database that was created by hand using some of the commands
-# in the readme file.
-movies_db = client.get_database("movies")
-for m in movies_db.movies.find({}):
+# This copies the documents in the movies colelction from the database that was
+# created by hand using some of the commands in the readme file.
+reviews_db = client.get_database("reviews")
+for m in reviews_db.movies.find({}):
     movies.insert_one(m)
 
 restaurant_list = [
