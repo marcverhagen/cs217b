@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# Example shell script to start MongoDB, edit the MONGO variable as needed
+#
+# Usage:
+#
+#     ./mongodb PATH_TO_DATABASE --fork
+
 MONGO=/Applications/ADDED/search/mongodb-macos-x86_64-8.0.4
 
 DATA=$1

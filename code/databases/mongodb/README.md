@@ -11,15 +11,24 @@ The community edition is at [https://www.mongodb.com/try/download/community](htt
 
 If you want the MongoDB Compass GUI you can get it from [https://www.mongodb.com/try/download/compass](https://www.mongodb.com/try/download/compass). I suggest you play with Compass, but these notes will not refer to it.
 
-These notes are for MacOS. The pages linked to below also have pointers to installation on Linux and Windows as well as notes on using Docker.
+Most of these notes are for MacOS. The pages linked to below do have pointers to installation on Linux and Windows as well as notes on using Docker.
 
 
-### Using Homebrew
+### Installation using Docker
 
-This is the recommended way, which I avoided initially due to my screwed up brew environment.
+This is probably the easiest if you have Docker installed. To pull an image and run a container:
+
+```bash
+docker pull mongodb/mongodb-community-server:latest
+docker run --rm --name mongo -p 27017:27017 -d mongodb/mongodb-community-server:latest
+```
+
+For more notes, including on how to make sure any database edits survive outside the container see [docker.md](docker.md).
 
 
-### Manual install
+### Manual install on Mac OSX
+
+Using Homebrew is the recommended way, but I avoided initially due to a screwed up brew environment.
 
 There are general installation notes at [https://www.mongodb.com/docs/manual/installation/](https://www.mongodb.com/docs/manual/installation/), but I found the tutorial at [https://www.mongodb.com/docs/v8.0/tutorial/install-mongodb-on-os-x-tarball/](https://www.mongodb.com/docs/v8.0/tutorial/install-mongodb-on-os-x-tarball/) more useful.
 
@@ -47,7 +56,7 @@ You can put the data and logs elsewhere if you like. In a production system you 
 Now you need to run a mongo database shell named mongosh ([https://www.mongodb.com/docs/mongodb-shell/](https://www.mongodb.com/docs/mongodb-shell/)). Install and start by unpacking the archive and running mongosh from the unpacked archive:
 
 ```bash
-$ bin/mongosh
+bin/mongosh
 ```
 
 You will get some warnings about access control, user and host, which you should take seriously when building a production server, but for local experimenting we are fine.
@@ -61,7 +70,7 @@ To install Compass just double click the dmg file that was downloaded.
 
 If MongoDB had been installed as a service or via Brew, then you would get something like `service mongodb stop`, but since this is a simplistic basic install you either use `kill -9 PROCESS_ID` or you stop it from the shell:
 
-```
+```javascript
 db.adminCommand({ "shutdown" : 1 })
 ```
 
@@ -72,7 +81,7 @@ Use `ctrl-d` to exit the shell.
 
 All examples are from the shell. When you enter a shell you get the prompt of the test database, which is empty. One of the commands you can do from any prompt is to show the databases in the mongod client: 
 
-```javascript
+```
 test> show dbs
 admin   40.00 KiB
 config  96.00 KiB
@@ -83,11 +92,13 @@ Note that it does not show the empty test database.
 
 We add a database:
 
-```javascript
+```
 test> use reviews
 switched to db reviews
 reviews> 
 ```
+
+From here on we will not include the prompt in the examples and just type the command that is entered in the shell.
 
 
 ### Adding some movie reviews
@@ -95,7 +106,7 @@ reviews>
 A MongoDB database consists of a set of collections just like a SQL database consists of a set of tables. You can add a new document to a collection in the database:
 
 ```javascript
-reviews> db.movies.insertOne(
+db.movies.insertOne(
   {
     title: "The Favourite",
     genres: [ "Drama", "History" ],
@@ -107,7 +118,8 @@ reviews> db.movies.insertOne(
     type: "movie"
   }
 )
-
+```
+```javascript
 {
   acknowledged: true,
   insertedId: ObjectId('67aff4f9c5c750f260fe4240')
@@ -121,36 +133,14 @@ There are several things of note:
 3. No schemas were needed, we just inserted what we felt like.
 4. MongoDB acknowledges it did something and adds an identifier for you.
 
-There are now four databases in the MongoDB server: the one we just created and three system databases (admin, config and local). The one we created has one collection.
+There are now four databases in the MongoDB server: the one we just created and three system databases (admin, config and local). The one we created has one collection, which you can see when you type `show collections`.
 
-```javascript
-reviews> show dbs
-admin    40.00 KiB
-config  108.00 KiB
-local    72.00 KiB
-movies   72.00 KiB
-reviews> show collections
-movies
-```
-
-At this point you also have access to the object for the movies collection:
-
-```javascript
-reviews> db.movies
-reviews.movies
-```
-
-You can create an object for the collection if you want and use it for later inserts:
-
-```javascript
-reviews> movies = db.movies
-reviews.movies
-```
+At this point you also have access to the object for the movies collection so you can use `db.movies` from the shell, you can even assign it to another object/variable with `m = db.movies` and use it as a shorthand for later inserts:
 
 Inserting multiple documents:
 
 ```javascript
-reviews> db.movies.insertMany([
+db.movies.insertMany([
    {
       title: "Jurassic World: Fallen Kingdom",
       genres: [ "Action", "Sci-Fi" ],
@@ -172,7 +162,8 @@ reviews> db.movies.insertMany([
       type: "movie"
     }
 ])
-
+```
+```javascript
 {
   acknowledged: true,
   insertedIds: {
@@ -185,7 +176,7 @@ reviews> db.movies.insertMany([
 You can decide to add a document again but now with the "directors" property set to a string, MongoDB will allow that:
 
 ```javascript
-reviews> db.movies.insertOne(
+db.movies.insertOne(
   {
     title: "The Favourite",
     genres: [ "Drama", "History" ],
@@ -197,7 +188,8 @@ reviews> db.movies.insertOne(
     type: "movie"
   }
 )
-
+```
+```javascript
 {
   acknowledged: true,
   insertedId: ObjectId('69d965cce493fc3b8efe4236')
@@ -207,7 +199,9 @@ reviews> db.movies.insertOne(
 You query with the find function which runs on a collection:
 
 ```javascript
-reviews> db.movies.find( {genres:"Comedy"} )
+db.movies.find( {genres:"Comedy"} )
+```
+```javascript
 [
   {
     _id: ObjectId('67aff1c3c5c750f260fe4239'),
@@ -226,7 +220,9 @@ reviews> db.movies.find( {genres:"Comedy"} )
 Look what happens when you look up "Yorgos Lanthimos":
 
 ```javascript
-reviews> db.movies.find({"directors": "Yorgos Lanthimos"}, {"title": 1, "directors": 1})
+db.movies.find({"directors": "Yorgos Lanthimos"}, {"title": 1, "directors": 1})
+```
+```javascript
 [
   {
     _id: ObjectId('69d95c424a14372699fe4233'),
@@ -251,8 +247,9 @@ To get all documents do `db.movies.find({})` or even `db.movies.find()`.
 Let's now try:
 
 ```javascript
-reviews> db.movies.insertMany([ { x: 1 }, { x: {y: 1, z: 2 } } ])
-
+db.movies.insertMany([ { x: 1 }, { x: {y: 1, z: 2 } } ])
+```
+```javascript
 {
   acknowledged: true,
   insertedIds: {
@@ -267,7 +264,9 @@ This inserts totally different kinds of documents, but again MongoDB allows that
 With the second insert you can search for a path:
 
 ```javascript
-reviews> db.movies.find({"x.y":1})
+db.movies.find({"x.y":1})
+```
+```javascript
 [ { _id: ObjectId('67aff3dac5c750f260fe423c'), x: { y: 1, z: 2 } } ]
 ```
 
@@ -279,12 +278,13 @@ reviews> db.movies.find({"x.y":1})
 An update on an existing document works like this:
 
 ```javascript
-reviews> db.movies.updateOne( 
+db.movies.updateOne( 
   { title: "Tag" }, 
   { $set: { plot: "One month every year, five highly competitive friends hit the ground running for a no-holds-barred game of tag" },
     $currentDate: { lastUpdated: true } }
 )
-
+```
+```javascript
 {
   acknowledged: true,
   insertedId: null,
@@ -297,7 +297,9 @@ reviews> db.movies.updateOne(
 And you will see the result when you search for it:
 
 ```javascript
-reviews> db.movies.find( {genres:"Comedy"}, { "title": 1, "plot": 1 })
+db.movies.find( {genres:"Comedy"}, { "title": 1, "plot": 1 })
+```
+```javascript
 [
   {
     _id: ObjectId('69dd039f21b7143a64fe4235'),
@@ -310,7 +312,7 @@ reviews> db.movies.find( {genres:"Comedy"}, { "title": 1, "plot": 1 })
 Say you have two document inserted like this:
 
 ```javascript
-reviews> db.movies.insertMany([
+db.movies.insertMany([
   { "title": "Thelma and Louise", "director": "Ridley Scot" },
   { "title": "Thelma and Louise", "director": "Ridley Scot" }
 ])
@@ -319,12 +321,13 @@ reviews> db.movies.insertMany([
 You can change both of them with
 
 ```javascript
-reviews> db.movies.updateMany( 
+db.movies.updateMany( 
   { title: "Thelma and Louise" }, 
   { $set: { director: "Ridley Scott" },
     $currentDate: { lastUpdated: true } }
 )
-
+```
+```javascript
 {
   acknowledged: true,
   insertedId: null,
@@ -335,7 +338,9 @@ reviews> db.movies.updateMany(
 ```
 
 ```javascript
-reviews> db.movies.find({"title": "Thelma and Louise"}, { "_id": 0 })
+db.movies.find({"title": "Thelma and Louise"}, { "_id": 0 })
+```
+```javascript
 [
   {
     title: 'Thelma and Louise',
@@ -359,13 +364,13 @@ To delete you can use `deleteOne()` and `delete(Many()`, both take criteria of w
 
 This will remove the first document of some list of documents, it is unspecified which one is deleted:
 
-```
+```javascript
 db.movies.deleteOne({ "title": "Thelma and Louise" })
 ```
 
 To empty a collection:
 
-```
+```javascript
 db.movies.deleteMany({})
 ```
 
@@ -375,17 +380,20 @@ db.movies.deleteMany({})
 Let's start a new collection for this
 
 ```javascript
-reviews> db.createCollection('books')
+db.createCollection('books')
+```
+```javascript
 { ok: 1 }
 ```
 
 First, we add two identical book reviews:
 
 ```javascript
-reviews> db.books.insertMany(
+db.books.insertMany(
   [{"title": "The unbearable lightness of being", "rating": 5},
    {"title": "The unbearable lightness of being", "rating": 5}])
-
+```
+```javascript
 {
   acknowledged: true,
   insertedIds: {
@@ -398,7 +406,7 @@ reviews> db.books.insertMany(
 You see that MongoDB has no problem with that. To ensure uniqueness you have to grab control of the identifiers. If you do this
 
 ```javascript
-reviews> db.books.insertMany(
+db.books.insertMany(
   [{"_id": 1, "title": "The unbearable lightness of being", "rating": 5},
    {"_id": 1, "title": "The unbearable lightness of being", "rating": 5}])
 ```
@@ -414,9 +422,15 @@ reviews> db.books.insertMany(
 The only index for a collection that you get out of the box is the index on the identifier. If you want to add one on the title you do:
 
 ```javascript
-reviews> db.books.createIndex({"title": 1})
+db.books.createIndex({"title": 1})
+```
+```javascript
 title_1
-reviews> db.books.getIndexes()
+```
+```javascript
+db.books.getIndexes()
+```
+```javascript
 [
   { v: 2, key: { _id: 1 }, name: '_id_' },
   { v: 2, key: { title: 1 }, name: 'title_1' }
@@ -434,6 +448,6 @@ The "v" is the version and the key maps the field to be indexed to a direction w
 MongoDB uses BSON, an exptension of JSON. MongoDB will infer a datatype for you, but there are cases where you want to control the type and avoid the default. For those case you can use 
 
 ```javascript
-reviews> db.books.insertOne(
+db.books.insertOne(
   {"_id": Long(3), "title": "Every thing is illuminated", "rating": 5})
 ```
