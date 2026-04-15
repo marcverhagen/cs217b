@@ -19,9 +19,16 @@ docker run --rm --name mongo -p 27017:27017 -v /Users/Shared/data/mongodb/db:/da
 
 Now all changes will be preserved locally at `/Users/Shared/data/mongodb/db`.
 
-
 Docker MongoDB writes log data to stdout, which makes them available via docker logs:
 
 ```bash
 docker logs mongo
 ```
+
+If you want you can exec into a running Docker MongoDB container and start the Mongo Shell from there:
+
+```bash
+docker exec -it mongo /bin/mongosh
+```
+
+This assumes a container named 'mongo'.

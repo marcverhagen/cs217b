@@ -76,7 +76,7 @@ The *db* variable was generated in the API's initialization file and contains a 
 GrapQL schema are written in the schema definition language (SDL, see
 [https://graphql.org/learn/schema/](https://graphql.org/learn/schema/)). Some GraphQL libraries let you construct schema types, fields, and resolver functions together using the same programming language that was used to write the GraphQL implementation, but here we use SDL.
 
-The schema definitions are in [schema.graphql](schema.graphql). This first fragment with "schema" determines what type of operations clients can perform. In this case, clients can perform Query operations and Mutation operations. The names are not fixed to be "Query" and "Mutation" (but if you change them you also need to change tham in the application).
+The schema definitions are in [schema.graphql](schema.graphql). This first fragment with "schema" determines what type of operations clients can perform. In this case, clients can perform Query operations and Mutation operations. The names are not fixed to be "Query" and "Mutation" (but if you change them you also need to change them in the application).
 
 ```
 schema {
