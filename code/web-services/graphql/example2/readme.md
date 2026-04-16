@@ -262,6 +262,30 @@ You can now access the server in several ways, here we describe (1) using the ex
 The explorer runs on [http://127.0.0.1:5000/graphql](http://127.0.0.1:5000/graphql):
 <img src="images/graphiql.png">
 
+Here are some other queries you can use
+
+```javascript
+query SelectPost {
+  getPost (id: 1) {
+    post { id title description }
+  }
+}
+```
+
+```javascript
+mutation CreateNewPost { 
+  createPost(
+    title: "New Blog Post",
+    description: "Some Description") 
+    { post { id title description created_at } success errors }
+}
+```
+
+```javascript
+mutation DeletePosts {
+  deletePosts ( title: "New Blog Post" ) { success message errors }
+}
+```
 
 ### GQL
 
@@ -298,12 +322,8 @@ When you run the above you get something like this:
   "listPosts": {
     "errors": null,
     "posts": [
-      {
-        "title": "A new morning"
-      },
-      {
-        "title": "Another one"
-      }
+      { "title": "A new morning" },
+      { "title": "Another one" }
     ],
     "success": true
   }
@@ -352,7 +372,7 @@ curl 127.0.0.1:5000/graphql -H 'content-type: application/json' -X POST -d@query
 
 Which will have the same result as above.
 
-This works for mutations as well, but with longer queries it gets a bit cumbersome so you are better off with doing this programatically.
+This works for mutations as well, but with longer queries it gets a bit cumbersome so you are better off doing this programatically.
 
 ```bash
 curl 127.0.0.1:5000/graphql -H 'content-type: application/json' -X POST -d '

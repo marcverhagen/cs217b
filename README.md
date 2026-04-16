@@ -17,6 +17,7 @@ Code examples:
 - [Decorator examples, including a Jupyter notebook](code/python-examples/decorators).
 - [Contex manager examples, including a Jupyter notebook](code/python-examples/contextmanagers).
 - [MongoDB examples](code/databases/mongodb/README.md)
+- [GraphQL examples](code/web-services/graphql/README.md).
 
 Exercises:
 

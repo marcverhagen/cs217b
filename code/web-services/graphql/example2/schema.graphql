@@ -12,14 +12,22 @@ type Post {
 
 type PostResult {
     success: Boolean!
+    message: String!
     errors: [String]
     post: Post
 }
 
 type PostsResult {
     success: Boolean!
+    message: String
     errors: [String]
     posts: [Post]
+}
+
+type DeletePostsResult {
+    success: Boolean!
+    message: String!
+    errors: [String]
 }
 
 type Query {
@@ -31,4 +39,5 @@ type Mutation {
     createPost(title: String!, description: String!, created_at: String): PostResult!
     updatePost(id: ID!, title: String, description: String): PostResult!
     deletePost(id: ID): PostResult!
+    deletePosts(title: String): DeletePostsResult!
 }

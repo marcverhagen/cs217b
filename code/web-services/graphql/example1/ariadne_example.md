@@ -14,10 +14,10 @@ Start the server
 uvicorn ariadne_example:app
 ```
 
-And in the GraphiQL widonw you can put in a query like this:
+And in the GraphiQL window you can put in a query like this:
 
 ```javascript
-query { people { fullName }}
+query GetPeople { people { fullName }}
 ```
 ```json
 {
@@ -29,7 +29,9 @@ query { people { fullName }}
 }
 ```
 
-Or ask for more fields to be returned:
+The GetPeople part is really nothing more but a name that you give the query, which is useful when you do this in GraphiQL since it saves your query in a separate tab.
+
+You can ask for more fields to be returned:
 
 ```javascript
 { people { firstName, lastName, age }}
@@ -43,22 +45,20 @@ You can even do this, which will expand to using all fields:
 { people }
 ```
 
-Why can I not do the following?
+<!--
+TODO: Explain why we cannot do the following
 
-```javascript
 { person(firstName : "John") { fullName} } 
-```
 
 This is even though it seems to be exactly what is suggested at the GraphQL homepage at [https://graphql.org](https://graphql.org).
-
-> Insert the answer here, probably along the lines that there is no resolver set up for this.
+-->
 
 
 ### Notes on the code
 
 Define types using the Schema Definition Language [https://graphql.org/learn/schema/](https://graphql.org/learn/schema/)
 
-Resolvers are functions mediating between API consumers and the application's domain logic. Here we have
+Resolvers are functions mediating between API consumers and the application's domain logic. Here we have an extremely simple one that just returns a list:
 
 ```python
 @query.field("people")
@@ -66,8 +66,6 @@ def resolve_people(*_):
     return [
         {"firstName": "John", "lastName": "Doe", "age": 21},
         {"firstName": "Bob", "lastName": "Boberson", "age": 24} ]
-
 ```
 
-Typically, resolvers take at least two arguments, the query's parent object and the query's execution info, which usually has a context attribute. Above we do not use the two arguments and blindly return a list of people. 
-
+Typically, resolvers take at least two arguments, the query's parent object and the query's execution info, which usually has a context attribute. Above we do not use the two arguments and blindly return the list of people. 
