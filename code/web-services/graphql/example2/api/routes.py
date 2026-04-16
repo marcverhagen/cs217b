@@ -16,6 +16,7 @@ query.set_field("getPost", queries.getPost_resolver)
 mutation.set_field("createPost", mutations.create_post_resolver)
 mutation.set_field("updatePost", mutations.update_post_resolver)
 mutation.set_field("deletePost", mutations.delete_post_resolver)
+mutation.set_field("deletePosts", mutations.delete_posts_resolver)
 
 type_defs = load_schema_from_path("schema.graphql")
 schema = make_executable_schema(type_defs, query, mutation)

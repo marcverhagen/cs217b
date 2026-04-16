@@ -16,6 +16,7 @@ Code examples:
 - [FastAPI example](code/web-services/fastapi/get.py).
 - [Decorator examples, including a Jupyter notebook](code/python-examples/decorators).
 - [Contex manager examples, including a Jupyter notebook](code/python-examples/contextmanagers).
+- [GraphQL examples](code/web-services/graphql/README.md).
 
 Exercises:
 

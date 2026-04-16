@@ -1,3 +1,14 @@
+"""
+
+This is a Python client to access a GraphQL endpoint.
+
+Requires an extra install:
+
+	pip install gql[all]
+
+
+"""
+
 import json
 
 from gql import gql, Client
